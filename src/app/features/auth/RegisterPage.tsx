@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { DevTool } from "@hookform/devtools"
 import { z } from "zod"
+import { useRegisterMutation } from "../../api"
 
 const registerSchema = z.object({
     firstName: z.string().nonempty("First name is required").min(3, "Name cannot be less than 3 characters"),
@@ -12,7 +13,7 @@ const registerSchema = z.object({
     password: z.string().nonempty("Password is required")
 })
 
-type registerFormValues = {
+export type registerFormValues = {
     firstName: string;
     lastName: string;
     email: string;
@@ -31,12 +32,16 @@ export const RegisterPage = () => {
 
         }, resolver: zodResolver(registerSchema)
     });
+
     const { register, handleSubmit, control, formState } = form;
 
     const { errors } = formState;
 
+    const [createRegisterMutation, { isLoading }] = useRegisterMutation();
+
     const submitHandler = (data: registerFormValues) => {
         console.log(data)
+        createRegisterMutation(data)
     }
 
     return (
@@ -49,7 +54,7 @@ export const RegisterPage = () => {
                     <TextField label="Email" type="email" {...register("email")} error={!!errors.email} helperText={errors.email?.message} />
                     <TextField label="DOB" type="date" {...register("DOB", { valueAsDate: true })} error={!!errors.DOB} helperText={errors.DOB?.message} />
                     <TextField label="Password" type="password" {...register("password")} error={!!errors.password} helperText={errors.password?.message} />
-                    <Button type="submit" variant="contained" color="primary">Register</Button>
+                    <Button type="submit" variant="contained" color="primary" disabled={isLoading}>{isLoading ? "Loading..." : "Register"}</Button>
                 </Stack>
                 <DevTool control={control} />
             </form>

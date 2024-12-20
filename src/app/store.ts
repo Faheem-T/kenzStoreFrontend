@@ -1,12 +1,17 @@
 import { configureStore } from "@reduxjs/toolkit";
 import userReducer from "./features/user/userSlice";
 import authReducer from "./features/auth/authSlice";
+import { apiSlice } from "./api";
 
 export const store = configureStore({
   reducer: {
     auth: authReducer,
     user: userReducer,
+    [apiSlice.reducerPath]: apiSlice.reducer
   },
+  middleware: (getDefaultMiddleware) => {
+    return getDefaultMiddleware().concat(apiSlice.middleware)
+  }
 });
 
 // Infer type of store

@@ -7,6 +7,8 @@ import theme from "./theme"
 import { createBrowserRouter, RouterProvider } from "react-router";
 import { RegisterPage } from "./app/features/auth/RegisterPage.tsx";
 import { CssBaseline } from "@mui/material";
+import { Provider } from "react-redux";
+import { store } from "./app/store.ts";
 const router = createBrowserRouter([
     {
         path: ""
@@ -20,10 +22,12 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById("root")!).render(
     <StrictMode>
+        <Provider store={store}>
         <ThemeProvider theme={theme}>
             <CssBaseline />
             <RouterProvider router={router} />
             {/* <App /> */}
         </ThemeProvider>
+        </Provider>
     </StrictMode>
 );
