@@ -6,7 +6,8 @@ import { z } from "zod"
 import { useRegisterMutation } from "../../api"
 
 const registerSchema = z.object({
-    firstName: z.string().nonempty("First name is required").min(3, "Name cannot be less than 3 characters"),
+    /* firstName: z.string().nonempty("First name is required").min(3, "Name cannot be less than 3 characters"), */
+    firstName: z.string(),
     lastName: z.string().nonempty("Last name is required"),
     email: z.string().nonempty("Email is required").email("Email format is not valid"),
     DOB: z.date(),
