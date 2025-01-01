@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { UserType } from "../../types/user";
+import { SafeUserType, UserType } from "../../types/user";
 import { RootState } from "../../store";
 
 interface initialStateType {
@@ -20,18 +20,21 @@ const authSlice = createSlice({
       state,
       action: PayloadAction<{
         accessToken: string;
-        user: Omit<UserType, "password">;
+        user: SafeUserType;
       }>
     ) => {
       state.accessToken = action.payload.accessToken;
       state.user = action.payload.user;
     },
+    tokenRefreshed: (state, action: PayloadAction<{ accessToken: string }>) => {
+      state.accessToken = action.payload.accessToken
+    }
   },
 });
 
 export default authSlice.reducer;
 
-export const { userLoggedIn } = authSlice.actions;
+export const { userLoggedIn, tokenRefreshed } = authSlice.actions;
 
 // selectors
 export const selectUser = (state: RootState) => state.auth.user;

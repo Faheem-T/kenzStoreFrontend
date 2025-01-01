@@ -1,10 +1,17 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { registerFormValues } from "./features/auth/RegisterPage";
 import { loginFormValues } from "./features/auth/LoginPage";
-import { loginResponse } from "./types/loginResponse";
+import {
+  loginResponse,
+  meResponse,
+  refreshResponse,
+} from "./types/apiResponseTypes";
 
 export const apiSlice = createApi({
-  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:3001/api/" }),
+  baseQuery: fetchBaseQuery({
+    baseUrl: "http://localhost:3001/api/",
+    credentials: "include",
+  }),
   endpoints: (builder) => ({
     register: builder.mutation({
       query: (data: registerFormValues) => ({
@@ -20,7 +27,18 @@ export const apiSlice = createApi({
         body: data,
       }),
     }),
+    refresh: builder.query<refreshResponse, void>({
+      query: () => "v1/auth/refresh",
+    }),
+    me: builder.query<meResponse, void>({
+      query: () => "v1/auth/me",
+    }),
   }),
 });
 
-export const { useRegisterMutation, useLoginMutation } = apiSlice;
+export const {
+  useRegisterMutation,
+  useLoginMutation,
+  useRefreshQuery,
+  useMeQuery,
+} = apiSlice;

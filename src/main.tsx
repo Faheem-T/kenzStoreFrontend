@@ -12,22 +12,34 @@ import { store } from "./app/store.ts";
 import { Toaster } from "react-hot-toast";
 import { LoginPage } from "./app/features/auth/LoginPage.tsx";
 import { Homepage } from "./app/features/user/Homepage.tsx";
+
 const router = createBrowserRouter([
   {
-    path: "/register",
-    element: <RegisterPage />,
-  },
-  {
-    path: "/login",
-    element: <LoginPage />,
-  },
-  {
-    path: "/test",
-    element: <LoginPage />,
-  },
-  {
-    path: "/home",
-    element: <Homepage />,
+    path: "/",
+    element: <App />,
+    children: [
+      {
+        element: <div />,
+        children: [
+          {
+            path: "/register",
+            element: <RegisterPage />,
+          },
+          {
+            path: "/login",
+            element: <LoginPage />,
+          },
+        ],
+      },
+      {
+        path: "/test",
+        element: <LoginPage />,
+      },
+      {
+        path: "/home",
+        element: <Homepage />,
+      },
+    ],
   },
 ]);
 
