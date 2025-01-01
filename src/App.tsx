@@ -35,7 +35,7 @@ const App = () => {
 
   return (
     <>
-      <Outlet />;
+      <Outlet />
     </>
   );
 };

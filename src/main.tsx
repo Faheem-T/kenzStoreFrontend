@@ -12,6 +12,8 @@ import { store } from "./app/store.ts";
 import { Toaster } from "react-hot-toast";
 import { LoginPage } from "./app/features/auth/LoginPage.tsx";
 import { Homepage } from "./app/features/user/Homepage.tsx";
+import { UnprotectedRoutes } from "./app/components/UnprotectedRoutes.tsx";
+import { ProtectedRoutes } from "./app/components/ProtectedRoutes.tsx";
 
 const router = createBrowserRouter([
   {
@@ -19,7 +21,7 @@ const router = createBrowserRouter([
     element: <App />,
     children: [
       {
-        element: <div />,
+        element: <UnprotectedRoutes />,
         children: [
           {
             path: "/register",
@@ -32,12 +34,17 @@ const router = createBrowserRouter([
         ],
       },
       {
-        path: "/test",
-        element: <LoginPage />,
+        element: <ProtectedRoutes />,
+        children: [
+          {
+            path: "/home",
+            element: <Homepage />,
+          },
+        ],
       },
       {
-        path: "/home",
-        element: <Homepage />,
+        path: "/test",
+        element: <LoginPage />,
       },
     ],
   },
