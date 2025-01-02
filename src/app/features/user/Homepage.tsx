@@ -3,6 +3,7 @@ import { useAppSelector } from "../../hooks";
 import { selectUser } from "../auth/authSlice";
 import { useNavigate } from "react-router";
 import { Box } from "@mui/material";
+import { LogoutButton } from "../../components/logoutButton";
 
 export const Homepage = () => {
   const user = useAppSelector(selectUser);
@@ -18,6 +19,7 @@ export const Homepage = () => {
   return (
     <>
       <Box>Hello there</Box>
+    <LogoutButton />
     </>
   );
 };

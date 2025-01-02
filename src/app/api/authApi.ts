@@ -1,4 +1,5 @@
 import { apiSlice } from "../api";
+import { loggedOut } from "../features/auth/authSlice";
 import { loginFormValues } from "../features/auth/LoginPage";
 import { registerFormValues } from "../features/auth/RegisterPage";
 import { loginResponse, meResponse, refreshResponse } from "../types/apiResponseTypes";
@@ -25,7 +26,16 @@ const authApi = apiSlice.injectEndpoints({
         me: builder.query<meResponse, void>({
             query: () => "v1/auth/me",
         }),
-
+        logout: builder.mutation<void, void>({
+            query: () => ({
+                url: "v1/auth/logout",
+                method: "POST"
+            }),
+            onQueryStarted: async (_, { dispatch }) => {
+                dispatch(authApi.util.resetApiState())
+                dispatch(loggedOut())
+            }
+        }),
     })
 })
 
@@ -34,4 +44,5 @@ export const {
     useLoginMutation,
     useRefreshQuery,
     useMeQuery,
+    useLogoutMutation
 } = authApi;
