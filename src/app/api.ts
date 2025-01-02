@@ -1,44 +1,41 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { registerFormValues } from "./features/auth/RegisterPage";
-import { loginFormValues } from "./features/auth/LoginPage";
-import {
-  loginResponse,
-  meResponse,
-  refreshResponse,
-} from "./types/apiResponseTypes";
+import { BaseQueryFn, createApi, FetchArgs, fetchBaseQuery, FetchBaseQueryError} from "@reduxjs/toolkit/query/react";
+import { RootState } from "./store";
+import { loggedOut, tokenRefreshed } from "./features/auth/authSlice";
+
+const baseQuery = fetchBaseQuery({
+  baseUrl: "http://localhost:3001/api/",
+  credentials: "include",
+  prepareHeaders: async (headers, { getState }) => {
+    headers.set("Accept", "application/json");
+    const accessToken = (getState() as RootState).auth.accessToken;
+    if (accessToken) {
+      headers.set("authorization", `Bearer ${accessToken}`)
+    }
+    return headers
+  }
+})
+
+const baseQueryWithReauth: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError> = async (args, api, extraOptions) => {
+  let result = await baseQuery(args, api, extraOptions);
+
+  // If "Forbidden" (401) request the refresh route
+  if (result.error?.status === 401) {
+    const refreshResult = await baseQuery("v1/auth/refresh", api, extraOptions)
+    if (refreshResult.data) {
+      const refreshData = refreshResult.data as { accessToken: string }
+      // store new token
+      api.dispatch(tokenRefreshed(refreshData))
+      // retry initial query
+      result = await baseQuery(args, api, extraOptions)
+    } else {
+      api.dispatch(loggedOut())
+    }
+  }
+  return result
+}
 
 export const apiSlice = createApi({
-  baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:3001/api/",
-    credentials: "include",
-  }),
-  endpoints: (builder) => ({
-    register: builder.mutation({
-      query: (data: registerFormValues) => ({
-        url: "v1/auth/register",
-        method: "POST",
-        body: data,
-      }),
-    }),
-    login: builder.mutation<loginResponse, loginFormValues>({
-      query: (data) => ({
-        url: "v1/auth/login",
-        method: "POST",
-        body: data,
-      }),
-    }),
-    refresh: builder.query<refreshResponse, void>({
-      query: () => "v1/auth/refresh",
-    }),
-    me: builder.query<meResponse, void>({
-      query: () => "v1/auth/me",
-    }),
-  }),
+  baseQuery: baseQueryWithReauth,
+  endpoints: () => ({}),
 });
 
-export const {
-  useRegisterMutation,
-  useLoginMutation,
-  useRefreshQuery,
-  useMeQuery,
-} = apiSlice;
