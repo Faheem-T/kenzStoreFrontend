@@ -16,7 +16,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { DevTool } from "@hookform/devtools";
 import { z } from "zod";
-import { useLoginMutation } from "../../api";
+import { useLoginMutation } from "../../api/authApi";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router";
 import toast from "react-hot-toast";
