@@ -6,20 +6,20 @@ import { Box } from "@mui/material";
 import { LogoutButton } from "../../components/logoutButton";
 
 export const Homepage = () => {
-  const user = useAppSelector(selectUser);
-  const navigate = useNavigate();
+    const user = useAppSelector(selectUser);
+    const navigate = useNavigate();
 
-  // redirecting if user does not exist
-  useEffect(() => {
-    if (!user) {
-      navigate("/login");
-    }
-  }, [user]);
+    // redirecting if user does not exist
+    useEffect(() => {
+        if (!user) {
+            navigate("/login");
+        }
+    }, [user]);
 
-  return (
-    <>
-      <Box>Hello there</Box>
-    <LogoutButton />
-    </>
-  );
+    return (
+        <>
+            <Box>Hello there</Box>
+            <LogoutButton />
+        </>
+    );
 };

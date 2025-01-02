@@ -4,7 +4,7 @@ import { RootState } from "../../store";
 
 interface initialStateType {
   accessToken: null | string;
-  user: null | Omit<UserType, "password">;
+  user: null | SafeUserType;
 }
 
 const initialState: initialStateType = {

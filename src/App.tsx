@@ -6,6 +6,7 @@ import {
 } from "./app/features/auth/authSlice";
 import { useEffect } from "react";
 import { useMeQuery, useRefreshQuery } from "./app/api/authApi";
+import { Navbar } from "./app/components/Navbar";
 
 const App = () => {
     const user = useAppSelector(selectUser);
@@ -28,6 +29,7 @@ const App = () => {
 
     return (
         <>
+      <Navbar />
             <Outlet />
         </>
     );
