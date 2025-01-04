@@ -2,16 +2,24 @@ import { createTheme, responsiveFontSizes, alpha } from "@mui/material";
 declare module "@mui/material/styles" {
     interface Palette {
         buttonBlue?: Palette["primary"];
+        accent: Palette["primary"];
     }
     interface PaletteOptions {
         buttonBlue?: PaletteOptions["primary"];
+        accent?: PaletteOptions["primary"]
     }
 }
 
 let theme = createTheme({
     typography: {
         fontFamily: "Onest Variable",
-        h1: { fontWeight: 800 }
+        allVariants: {
+            color: "#F7E0E0"
+        },
+        h1: { fontWeight: 800 },
+        h2: { fontWeight: 800 },
+        h3: { fontWeight: 800 },
+        h4: { fontWeight: 800 },
     },
     palette: {
         mode: "dark",
@@ -35,6 +43,9 @@ let theme = createTheme({
         buttonBlue: {
             main: "#15178B",
         },
+        accent: {
+            main: "#CE8B37",
+        }
     },
 });
 

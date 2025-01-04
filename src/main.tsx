@@ -49,6 +49,10 @@ const router = createBrowserRouter([
                 path: "/test",
                 element: <HeroSection />,
             },
+            {
+                path: "/products/:id",
+                element: <ProductDetailsPage />
+            }
         ],
     },
 ]);
