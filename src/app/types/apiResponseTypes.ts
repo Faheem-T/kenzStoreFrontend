@@ -1,3 +1,4 @@
+import { ProductType } from "./product";
 import { SafeUserType } from "./user";
 
 export interface loginResponse {
@@ -21,4 +22,14 @@ export interface meResponse {
     accessToken: string;
     user: SafeUserType;
   };
+}
+
+export interface getProductResponse {
+  success: boolean;
+  data: ProductType;
+}
+
+export interface getHeroProductsResponse {
+  success: boolean;
+  data: ProductType[];
 }

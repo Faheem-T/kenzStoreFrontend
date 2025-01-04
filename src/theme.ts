@@ -11,6 +11,7 @@ declare module "@mui/material/styles" {
 let theme = createTheme({
     typography: {
         fontFamily: "Onest Variable",
+        h1: { fontWeight: 800 }
     },
     palette: {
         mode: "dark",

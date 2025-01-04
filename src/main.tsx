@@ -15,6 +15,8 @@ import { Homepage } from "./app/features/user/Homepage.tsx";
 import { UnprotectedRoutes } from "./app/components/UnprotectedRoutes.tsx";
 import { ProtectedRoutes } from "./app/components/ProtectedRoutes.tsx";
 import { Navlink } from "./app/components/Navlink.tsx";
+import { ProductDetailsPage } from "./app/features/products/ProductDetailsPage.tsx";
+import { HeroSection } from "./app/components/HeroSection.tsx";
 
 const router = createBrowserRouter([
     {
@@ -45,7 +47,7 @@ const router = createBrowserRouter([
             },
             {
                 path: "/test",
-                element: <Navlink label="Cables" link="/cables" />,
+                element: <HeroSection />,
             },
         ],
     },
