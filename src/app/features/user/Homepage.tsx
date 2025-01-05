@@ -4,22 +4,24 @@ import { selectUser } from "../auth/authSlice";
 import { useNavigate } from "react-router";
 import { Box } from "@mui/material";
 import { LogoutButton } from "../../components/logoutButton";
+import { HeroSection } from "../../components/HeroSection";
 
 export const Homepage = () => {
-    const user = useAppSelector(selectUser);
-    const navigate = useNavigate();
+    /* const user = useAppSelector(selectUser);
+* const navigate = useNavigate();
 
-    // redirecting if user does not exist
-    useEffect(() => {
-        if (!user) {
-            navigate("/login");
-        }
-    }, [user]);
+* // redirecting if user does not exist
+* useEffect(() => {
+*     if (!user) {
+*         navigate("/login");
+*     }
+* }, [user]); */
 
     return (
         <>
-            <Box>Hello there</Box>
-            <LogoutButton />
+            {/* <Box>Hello there</Box>
+            <LogoutButton /> */}
+        <HeroSection />
         </>
     );
 };

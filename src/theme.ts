@@ -20,6 +20,7 @@ let theme = createTheme({
         h2: { fontWeight: 800 },
         h3: { fontWeight: 800 },
         h4: { fontWeight: 800 },
+        button: { fontWeight: 700 }
     },
     palette: {
         mode: "dark",

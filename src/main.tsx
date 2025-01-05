@@ -14,9 +14,9 @@ import { LoginPage } from "./app/features/auth/LoginPage.tsx";
 import { Homepage } from "./app/features/user/Homepage.tsx";
 import { UnprotectedRoutes } from "./app/components/UnprotectedRoutes.tsx";
 import { ProtectedRoutes } from "./app/components/ProtectedRoutes.tsx";
-import { Navlink } from "./app/components/Navlink.tsx";
 import { ProductDetailsPage } from "./app/features/products/ProductDetailsPage.tsx";
 import { HeroSection } from "./app/components/HeroSection.tsx";
+import { LoadingComponent } from "./app/components/LoadingComponent.tsx";
 
 const router = createBrowserRouter([
     {
@@ -40,14 +40,18 @@ const router = createBrowserRouter([
                 element: <ProtectedRoutes />,
                 children: [
                     {
-                        path: "/home",
-                        element: <Homepage />,
+                        path: "/protected",
+                        element: <div>You can't see this unless you are logged in 😮 </div>,
                     },
                 ],
             },
             {
+                path: "/home",
+                element: <Homepage />,
+            },
+            {
                 path: "/test",
-                element: <HeroSection />,
+                element: <LoadingComponent fullScreen/>,
             },
             {
                 path: "/products/:id",

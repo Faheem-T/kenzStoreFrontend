@@ -1,4 +1,4 @@
-import { BaseQueryFn, createApi, FetchArgs, fetchBaseQuery, FetchBaseQueryError} from "@reduxjs/toolkit/query/react";
+import { BaseQueryFn, createApi, FetchArgs, fetchBaseQuery, FetchBaseQueryError } from "@reduxjs/toolkit/query/react";
 import { RootState } from "./store";
 import { loggedOut, tokenRefreshed } from "./features/auth/authSlice";
 
@@ -36,6 +36,8 @@ const baseQueryWithReauth: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQue
 
 export const apiSlice = createApi({
   baseQuery: baseQueryWithReauth,
+  tagTypes: ["Product", "Auth"],
+  // keepUnusedDataFor: 60,
   endpoints: () => ({}),
 });
 

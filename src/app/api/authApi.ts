@@ -25,6 +25,7 @@ const authApi = apiSlice.injectEndpoints({
         }),
         me: builder.query<meResponse, void>({
             query: () => "v1/auth/me",
+            providesTags: ["Auth"]
         }),
         logout: builder.mutation<void, void>({
             query: () => ({
