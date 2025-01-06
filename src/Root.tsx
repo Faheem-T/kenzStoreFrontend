@@ -8,7 +8,7 @@ import { useEffect } from "react";
 import { useMeQuery, useRefreshQuery } from "./app/api/authApi";
 import { Navbar } from "./app/components/Navbar";
 
-const App = () => {
+const Root = () => {
     const user = useAppSelector(selectUser);
     const dispatch = useAppDispatch();
 
@@ -35,4 +35,4 @@ const App = () => {
     );
 };
 
-export default App;
+export default Root;

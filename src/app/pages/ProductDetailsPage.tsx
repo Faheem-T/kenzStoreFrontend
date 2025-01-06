@@ -24,6 +24,7 @@ export const ProductDetailsPage = () => {
                 <ImageViewComponent images={product.images} />
                 <Box sx={{ width: 1 / 2, padding: 4, display: "flex", flexDirection: "column", gap: 2 }}>
                     <Typography variant="h4">{product.name}</Typography>
+                    <Typography variant="h5">QR {product.price}/-</Typography>
                     <Typography>{product.description}</Typography>
                     <AddToCartButton />
                 </Box>

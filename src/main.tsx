@@ -1,7 +1,7 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
-import App from "./App.tsx";
+import Root from "./Root.tsx";
 import { ThemeProvider } from "@emotion/react";
 import theme from "./theme";
 import { createBrowserRouter, RouterProvider } from "react-router";
@@ -14,14 +14,13 @@ import { LoginPage } from "./app/features/auth/LoginPage.tsx";
 import { Homepage } from "./app/features/user/Homepage.tsx";
 import { UnprotectedRoutes } from "./app/components/UnprotectedRoutes.tsx";
 import { ProtectedRoutes } from "./app/components/ProtectedRoutes.tsx";
-import { ProductDetailsPage } from "./app/features/products/ProductDetailsPage.tsx";
-import { HeroSection } from "./app/components/HeroSection.tsx";
+import { ProductDetailsPage } from "./app/pages/ProductDetailsPage.tsx";
 import { LoadingComponent } from "./app/components/LoadingComponent.tsx";
 
 const router = createBrowserRouter([
     {
         path: "/",
-        element: <App />,
+        element: <Root />,
         children: [
             {
                 element: <UnprotectedRoutes />,
@@ -51,7 +50,7 @@ const router = createBrowserRouter([
             },
             {
                 path: "/test",
-                element: <LoadingComponent fullScreen/>,
+                element: <LoadingComponent fullScreen />,
             },
             {
                 path: "/products/:id",
@@ -74,7 +73,7 @@ createRoot(document.getElementById("root")!).render(
                             border: "",
                             padding: "8px",
                             color: theme.palette.text.primary,
-                            backgroundColor: theme.palette.secondary.main,
+                            backgroundColor: theme.palette.background.paper,
                             fontFamily: theme.typography.fontFamily,
                             textTransform: "uppercase",
                             fontWeight: "500",
@@ -83,7 +82,6 @@ createRoot(document.getElementById("root")!).render(
                     }}
                 />
                 <RouterProvider router={router} />
-                {/* <App /> */}
             </ThemeProvider>
         </Provider>
     </StrictMode>

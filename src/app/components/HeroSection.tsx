@@ -3,6 +3,7 @@ import { useGetHeroProductsQuery } from "../api/productsApi"
 import { useState } from "react"
 import { HeroProductComponent } from "./HeroProductComponent"
 import { ChevronRight, ChevronLeft } from "@mui/icons-material"
+import { LoadingComponent } from "./LoadingComponent"
 
 export const HeroSection = () => {
     const { data, isLoading } = useGetHeroProductsQuery()
@@ -10,7 +11,7 @@ export const HeroSection = () => {
 
     const heroProducts = data?.data
 
-    if (isLoading) return <Box>Loading...</Box>
+    if (isLoading) return <LoadingComponent fullScreen />
     if (!heroProducts) return <Box>Products not found!</Box>
 
     const heroProductComponents = heroProducts.map(product => <HeroProductComponent product={product} />)
