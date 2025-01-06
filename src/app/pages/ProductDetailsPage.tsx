@@ -5,6 +5,7 @@ import { useGetProductQuery } from "../api/productsApi";
 import { LoadingComponent } from "../components/LoadingComponent";
 import { ImageViewComponent } from "../components/ImageViewComponent";
 import { CategoryBreadCrumb } from "../components/CategoryBreadcrumb";
+import { ReviewSection } from "../components/ReviewSection";
 
 export const ProductDetailsPage = () => {
     const productId = useParams().id?.trim()
@@ -23,6 +24,7 @@ export const ProductDetailsPage = () => {
         <>
             {/* Category Breadcrumb */}
             <CategoryBreadCrumb categories={product.categories} />
+            {/* Main Section */}
             <Box sx={{ display: "flex", gap: 4, padding: 4 }}>
                 <ImageViewComponent images={product.images} />
                 <Box sx={{ width: 1 / 2, padding: 4, display: "flex", flexDirection: "column", gap: 2 }}>
@@ -32,6 +34,8 @@ export const ProductDetailsPage = () => {
                     <AddToCartButton />
                 </Box>
             </Box>
+        {/* Reviews Section */}
+            <ReviewSection productId={productId} />
         </>
     )
 }

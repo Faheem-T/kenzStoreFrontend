@@ -1,5 +1,11 @@
 import { ProductType } from "./product";
+import { ReviewType, UserPopulatedReviewType } from "./reviews";
 import { SafeUserType } from "./user";
+
+interface baseResponse<T> {
+  success: boolean;
+  data: T
+}
 
 export interface loginResponse {
   success: boolean;
@@ -24,12 +30,17 @@ export interface meResponse {
   };
 }
 
-export interface getProductResponse {
-  success: boolean;
-  data: ProductType;
-}
+export type getProductResponse = baseResponse<ProductType>
 
-export interface getHeroProductsResponse {
+export type getHeroProductsResponse = baseResponse<ProductType[]>
+
+export type getReviewResponse = baseResponse<ReviewType>
+
+export interface getProductReviewsResponse {
   success: boolean;
-  data: ProductType[];
+  data: {
+    ratingsCount: number,
+    averageRating: number,
+    productReviews: UserPopulatedReviewType[],
+  }
 }

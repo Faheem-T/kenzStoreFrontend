@@ -10,18 +10,20 @@ declare module "@mui/material/styles" {
     }
 }
 
+const headingStyle = { fontWeight: 600 }
+
 let theme = createTheme({
     typography: {
         fontFamily: "Onest Variable",
         allVariants: {
             color: "#F7E0E0"
         },
-        h1: { fontWeight: 800 },
-        h2: { fontWeight: 800 },
-        h3: { fontWeight: 800 },
-        h4: { fontWeight: 800 },
-        h5: { fontWeight: 800 },
-        h6: { fontWeight: 800 },
+        h1: headingStyle,
+        h2: headingStyle,
+        h3: headingStyle,
+        h4: headingStyle,
+        h5: headingStyle,
+        h6: headingStyle,
         button: { fontWeight: 700 }
     },
     palette: {
@@ -38,7 +40,7 @@ let theme = createTheme({
         },
         text: {
             primary: "#F7E0E0",
-            secondary: alpha("#A9A9A9", 0.6), // Faded text
+            // secondary: alpha("#A9A9A9", 0.6), // Faded text
         },
         success: {
             main: "#18AC2A",

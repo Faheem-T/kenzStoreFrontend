@@ -7,6 +7,7 @@ import {
 import { useEffect } from "react";
 import { useMeQuery, useRefreshQuery } from "./app/api/authApi";
 import { Navbar } from "./app/components/Navbar";
+import { Box } from "@mui/material";
 
 const Root = () => {
     const user = useAppSelector(selectUser);
@@ -29,8 +30,10 @@ const Root = () => {
 
     return (
         <>
-      <Navbar />
-            <Outlet />
+            <Navbar />
+            <Box sx={{ paddingX: 12 }}>
+                <Outlet />
+            </Box>
         </>
     );
 };

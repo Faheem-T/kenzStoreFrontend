@@ -17,7 +17,7 @@ export const Navbar = () => {
             </Box>
             <Box sx={{ display: "flex", gap: "4px" }}>
                 {user ?
-                    `Hello ${user.firstName}`
+                    <Typography sx={{ fontVariantCaps: "all-petite-caps" }}>{`Hello ${user.firstName}`}</Typography>
                     :
                     <Navlink link="/login" label="Login" />
                 }

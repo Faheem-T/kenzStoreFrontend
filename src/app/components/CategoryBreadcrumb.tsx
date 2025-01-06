@@ -16,7 +16,6 @@ export const CategoryBreadCrumb = ({ categories }: CategoryBreadCrumbProps) => {
     let currentCategory = category
     while (true) {
         categoryArray.unshift({ name: currentCategory.name, _id: currentCategory._id })
-        console.log(currentCategory.name)
         if (currentCategory.parentCategory) {
             currentCategory = currentCategory.parentCategory
         } else {
@@ -28,16 +27,17 @@ export const CategoryBreadCrumb = ({ categories }: CategoryBreadCrumbProps) => {
     return (
         <Box sx={{ padding: 4, display: "flex", gap: 1 }}>
             {categoryArray.map((category, i) => (
-                <Link to={`category/${category._id}`}>
+                <Link to={`category/${category._id}`} key={category.name}>
                     <Box sx={{ display: "inline-flex", gap: 1 }}>
                         <Typography
-                            variant="subtitle1"
+                            variant="subtitle"
+                            color="textDisabled"
                             sx={theme => ({
                                 "&:hover": {
                                     textDecoration: "underline",
                                     color: theme.palette.text.primary
                                 },
-                                color: (i !== categoryArray.length - 1) && theme.palette.text.secondary
+                                color: (i === categoryArray.length - 1) && theme.palette.text.primary
                             })}
                         >
                             {`${category.name}`}
