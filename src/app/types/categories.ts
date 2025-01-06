@@ -4,7 +4,8 @@ export interface CategoryType {
   name: string;
   slug: string; // URL friendly category name
   description?: string;
-  parentCategory?: string; // ObjectId of parent category
+  // parentCategory?: string; // ObjectId of parent category
+  parentCategory?: CategoryType;
   image?: string;
   isActive: boolean;
   createdAt?: Date;
