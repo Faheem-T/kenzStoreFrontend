@@ -1,4 +1,4 @@
-import { Box, Typography } from "@mui/material"
+import { Box, Rating, Typography } from "@mui/material"
 import { UserPopulatedReviewType } from "../types/reviews"
 
 interface ReviewCardProps {
@@ -14,6 +14,7 @@ export const ReviewCard = ({ review }: ReviewCardProps) => {
     return (
         <Box sx={theme => ({ background: theme.palette.background.paper, padding: 4 })}>
             <Typography color="textDisabled">{review.userId.firstName}</Typography>
+            <Rating value={review.rating} precision={0.5} readOnly />
             <Typography variant="body1" sx={{ margin: 2 }}>{review.comment}</Typography>
             {review.helpfulCount ?
                 <Typography variant="caption" color="textDisabled">

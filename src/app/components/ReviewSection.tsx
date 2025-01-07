@@ -1,4 +1,4 @@
-import { Box, Typography } from "@mui/material"
+import { Box, Rating, Typography } from "@mui/material"
 import { useGetProductReviewsQuery } from "../api/reviewsApi"
 import { LoadingComponent } from "./LoadingComponent"
 import { ReviewCard } from "./ReviewCard"
@@ -9,7 +9,6 @@ interface ReviewSectionProps {
 
 export const ReviewSection = ({ productId }: ReviewSectionProps) => {
     const { data, isLoading } = useGetProductReviewsQuery(productId)
-    console.log(data, isLoading)
 
     if (isLoading) return <LoadingComponent />
 
@@ -19,12 +18,15 @@ export const ReviewSection = ({ productId }: ReviewSectionProps) => {
     return (
         <>
             <Box sx={{ padding: 4 }}>
-                <Typography sx={{ textTransform: "uppercase" }} variant="h4">Reviews</Typography>
-                <Typography sx={{ textTransform: "uppercase" }} variant="h6">
-                    Average Rating: {averageRating} <Box sx={theme => ({ display: "inline", color: theme.palette.text.secondary })}>({ratingsCount})</Box>
-                </Typography>
+                <Typography sx={{ textTransform: "uppercase" }} variant="h6">Reviews <Box sx={theme => ({ display: "inline", color: theme.palette.text.secondary })}>({ratingsCount})</Box></Typography>
+                <Box sx={{ display: "flex", gap: 1, alignItems: "center", justifyContents: "center", marginY: 1 }}>
+                    <Typography sx={{ textTransform: "uppercase" }} variant="h3">
+                        {averageRating}
+                    </Typography>
+                    <Rating value={averageRating} precision={0.5} readOnly />
+                </Box>
                 <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
-                    {reviews.map((review) => <ReviewCard review={review} />)}
+                    {reviews.map((review) => <ReviewCard review={review} key={review._id}/>)}
                 </Box>
             </Box>
         </>
