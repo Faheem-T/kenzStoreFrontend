@@ -32,7 +32,7 @@ export interface meResponse {
 
 export type getProductResponse = baseResponse<ProductType>
 
-export type getHeroProductsResponse = baseResponse<ProductType[]>
+export type getMultipleProductsResponse = baseResponse<ProductType[]>
 
 export type getReviewResponse = baseResponse<ReviewType>
 

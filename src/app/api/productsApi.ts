@@ -1,5 +1,5 @@
 import { apiSlice } from "../api";
-import { getHeroProductsResponse, getProductResponse } from "../types/apiResponseTypes";
+import { getMultipleProductsResponse, getProductResponse } from "../types/apiResponseTypes";
 
 const productsApi = apiSlice.injectEndpoints(({
     endpoints: (builder) => ({
@@ -11,7 +11,7 @@ const productsApi = apiSlice.injectEndpoints(({
                 return tag
             }
         }),
-        getHeroProducts: builder.query<getHeroProductsResponse, void>({
+        getHeroProducts: builder.query<getMultipleProductsResponse, void>({
             query: () => "v1/products/hero",
             providesTags: (result = { data: [], success: false }, error, arg) => {
                 const tags = [
@@ -20,8 +20,17 @@ const productsApi = apiSlice.injectEndpoints(({
                 console.log("Hero tags:", tags)
                 return tags
             }
+        }),
+        getRelatedProducts: builder.query<getMultipleProductsResponse, string>({
+            query: (productId) => `v1/products/${productId}/related`,
+            providesTags: (result = { data: [], success: false }, error, arg) => [
+                ...result.data.map(({ _id }) => ({ type: "Product", id: _id }) as const),
+                { type: "Product", relatedTo: arg }
+
+            ]
+
         })
     }),
 }))
 
-export const { useGetProductQuery, useGetHeroProductsQuery } = productsApi
+export const { useGetProductQuery, useGetHeroProductsQuery, useGetRelatedProductsQuery } = productsApi

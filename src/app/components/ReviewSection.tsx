@@ -8,17 +8,20 @@ interface ReviewSectionProps {
 }
 
 export const ReviewSection = ({ productId }: ReviewSectionProps) => {
-    const { data, isLoading } = useGetProductReviewsQuery(productId)
+    const { data, isLoading, isError } = useGetProductReviewsQuery(productId)
 
-    if (isLoading) return <LoadingComponent />
+    let content;
+    let ratingsCount = 0;
 
-    if (!data) return <Box>Reviews Not Found!</Box>
+    if (isLoading) content = <LoadingComponent />
+    else if (!data || isError) content = <Typography variant="caption" color="textDisabled">No Reviews yet</Typography>
+    else {
+        const { ratingsCount: count, averageRating, productReviews: reviews } = data.data
 
-    const { ratingsCount, averageRating, productReviews: reviews } = data.data
-    return (
-        <>
-            <Box sx={{ padding: 4 }}>
-                <Typography sx={{ textTransform: "uppercase" }} variant="h6">Reviews <Box sx={theme => ({ display: "inline", color: theme.palette.text.secondary })}>({ratingsCount})</Box></Typography>
+        ratingsCount = count
+
+        content = (
+            <>
                 <Box sx={{ display: "flex", gap: 1, alignItems: "center", justifyContents: "center", marginY: 1 }}>
                     <Typography sx={{ textTransform: "uppercase" }} variant="h3">
                         {averageRating}
@@ -26,9 +29,17 @@ export const ReviewSection = ({ productId }: ReviewSectionProps) => {
                     <Rating value={averageRating} precision={0.5} readOnly />
                 </Box>
                 <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
-                    {reviews.map((review) => <ReviewCard review={review} key={review._id}/>)}
+                    {reviews.map((review) => <ReviewCard review={review} key={review._id} />)}
                 </Box>
-            </Box>
+            </>
+        )
+    }
+    return (
+        <>
+            <Box>
+                <Typography sx={{ textTransform: "uppercase" }} variant="h6">Reviews <Box sx={theme => ({ display: "inline", color: theme.palette.text.secondary })}>({ratingsCount})</Box></Typography>
+                {content}
+            </Box >
         </>
     )
 }
