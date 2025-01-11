@@ -1,7 +1,7 @@
 import { apiSlice } from "../api";
 import { loggedOut } from "../features/auth/authSlice";
-import { loginFormValues } from "../features/auth/LoginPage";
-import { registerFormValues } from "../features/auth/RegisterPage";
+import { loginFormValues } from "../pages/LoginPage";
+import { registerFormValues } from "../pages/RegisterPage";
 import { loginResponse, meResponse, refreshResponse } from "../types/apiResponseTypes";
 
 const authApi = apiSlice.injectEndpoints({

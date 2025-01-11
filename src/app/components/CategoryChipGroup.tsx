@@ -1,0 +1,25 @@
+import { Box, Chip } from "@mui/material";
+import { CategoryType } from "../types/categories";
+
+interface CategoryChipGroupProps {
+  categories: CategoryType[];
+  chipSize?: "small" | "medium";
+  maxChips?: number;
+}
+
+export const CategoryChipGroup = ({
+  categories,
+  chipSize = "small",
+  maxChips = 2,
+}: CategoryChipGroupProps) => {
+  return (
+    <Box sx={{ display: "flex", gap: 1, flexWrap: "wrap" }}>
+      {categories.slice(0, maxChips).map((category) => (
+        <Chip size={chipSize} label={category.name} key={category._id} />
+      ))}
+      {categories.length > maxChips && (
+        <Chip size={chipSize} label={`+${categories.length - maxChips}`} />
+      )}
+    </Box>
+  );
+};

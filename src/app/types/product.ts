@@ -11,9 +11,9 @@ export interface ProductType {
   images: string[];
   categories: CategoryType[];
   listed: boolean;
-  isHero: boolean;
+  isHero?: boolean;
 
-  specifications: ProductSpecificationType[],
+  specifications: ProductSpecificationType[];
 
   // discount related fields
   discountType?: "percentage" | "fixed";
@@ -35,4 +35,27 @@ export interface ProductSpecificationType {
   value: string;
   category: "technical" | "physical" | "feature";
   isHighlight?: boolean;
+}
+
+// SHARED TYPE: Sync with backend
+export interface CreateProductType
+  extends Omit<
+    ProductType,
+    | "_id"
+    | "createdAt"
+    | "updatedAt"
+    | "discountPrice"
+    | "isDiscountActive"
+    | "finalPrice"
+    | "listed"
+    | "isHero"
+    | "categories" // changing from populated to id
+  > {
+  categories: string[];
+}
+
+// SHARED TYPE: Sync with backend
+export interface UpdateProductType
+  extends Partial<Omit<CreateProductType, "categories">> {
+  categories: string[];
 }

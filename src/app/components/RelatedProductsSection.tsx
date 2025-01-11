@@ -13,7 +13,7 @@ export const RelatedProductsSection = ({ productId }: RelatedProductsSectionProp
     if (!data) return <Box>No Related Products...</Box>
 
     const relatedProducts = data.data
-    const productCards = relatedProducts.map((product) => <ProductCard product={product} />)
+    const productCards = relatedProducts.map((product) => <ProductCard product={product} key={product._id} />)
 
     return (
         <Box >

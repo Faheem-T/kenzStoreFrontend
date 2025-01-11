@@ -1,6 +1,7 @@
 import { Box, Chip, Typography } from "@mui/material";
 import { ProductType } from "../types/product";
 import { Link } from "react-router";
+import { CategoryChipGroup } from "./CategoryChipGroup";
 
 interface ProductCardProps {
     product: ProductType
@@ -30,9 +31,7 @@ export const ProductCard = ({ product }: ProductCardProps) => {
                         <Typography variant="body1" >{product.name}</Typography>
                     </Link>
                     <Box sx={{ mt: "auto", py: 1, display: "flex", gap: .5, flexWrap: "wrap" }}>
-                        {/* Displaying first two categories then a `+2/+3...` icon */}
-                        {product.categories.slice(0, 2).map((category, i) => <Chip size="small" label={category.name} />)}
-                        {(product.categories.length > 2) && <Chip size="small" label={`+${product.categories.length - 2}`} />}
+                        <CategoryChipGroup categories={product.categories} maxChips={2} chipSize="small" />
                     </Box>
                 </Box>
             </Box >
