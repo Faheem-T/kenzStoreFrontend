@@ -1,11 +1,7 @@
 import { useCreateProductMutation } from "@/app/api/productsApi";
 import { ProductDetailsSection } from "@/app/components/adminComponents/ProductDetailsSection";
 import { ImageViewComponent } from "@/app/components/ImageViewComponent";
-import {
-  selectCreateProduct,
-  selectCreateProductDetails,
-  selectCreateProductImages,
-} from "@/app/features/admin/adminCreateProductSlice";
+import { selectCreateProduct } from "@/app/features/admin/adminCreateProductSlice";
 import { useAppSelector } from "@/app/hooks";
 import { ProductSpecificationType, ProductType } from "@/app/types/product";
 import { uploadToCloudinary } from "@/app/uploadToCloudinary";
@@ -68,6 +64,7 @@ export const AdminCreateProductPreviewSection = ({
     const images: string[] = [];
     for (let i = 0; i < imagePreviews.length; i++) {
       let url = await uploadToCloudinary(imagePreviews[i].file);
+      setUploadProgressCount((prev) => prev + 1);
       images.push(url);
     }
     setIsUploadLoading(false);
@@ -112,7 +109,8 @@ export const AdminCreateProductPreviewSection = ({
         {isLoading
           ? "Loading..."
           : isUploadLoading
-          ? "Uploading Images..."
+          ? "Uploading Images..." +
+            `${uploadProgressCount} / ${imagePreviews.length}`
           : "Confirm"}
       </Button>
     </Stack>

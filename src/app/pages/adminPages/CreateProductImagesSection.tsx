@@ -2,8 +2,7 @@ import { AddImageFileInputButton } from "@/app/components/AddImageFileInputButto
 import { ImageCardComponent } from "@/app/components/ImageCardComponent";
 import { savedNewProductImages } from "@/app/features/admin/adminCreateProductSlice";
 import { useAppDispatch } from "@/app/hooks";
-import { Add, Delete } from "@mui/icons-material";
-import { Box, Button, IconButton, Tooltip } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import { useState } from "react";
 import toast from "react-hot-toast";
 

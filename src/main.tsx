@@ -24,6 +24,7 @@ import { AdminProductPage } from "./app/pages/adminPages/AdminProductPage.tsx";
 import { AdminUpdateProductPage } from "./app/pages/adminPages/AdminUpdateProductPage.tsx";
 import { AdminCreateProductPage } from "./app/pages/adminPages/AdminCreateProductPage.tsx";
 import { AdminUpdateImagePage } from "./app/pages/adminPages/AdminUpdateImagePage.tsx";
+import { UserRoutes } from "./app/components/UserRoutes.tsx";
 
 const router = createBrowserRouter([
   {
@@ -31,39 +32,47 @@ const router = createBrowserRouter([
     element: <Root />,
     children: [
       {
-        element: <UnprotectedRoutes />,
+        element: <UserRoutes />,
         children: [
           {
-            path: "/register",
-            element: <RegisterPage />,
+            element: <UnprotectedRoutes />,
+            children: [
+              {
+                path: "/register",
+                element: <RegisterPage />,
+              },
+              {
+                path: "/login",
+                element: <LoginPage />,
+              },
+            ],
           },
           {
-            path: "/login",
-            element: <LoginPage />,
+            element: <ProtectedRoutes />,
+            children: [
+              {
+                path: "/protected",
+                element: (
+                  <div>You can't see this unless you are logged in 😮 </div>
+                ),
+              },
+            ],
+          },
+          {
+            path: "/home",
+            element: <Homepage />,
+          },
+          {
+            path: "/test",
+            element: <LoadingComponent fullScreen />,
+          },
+          {
+            path: "/products/:id",
+            element: <ProductDetailsPage />,
           },
         ],
       },
-      {
-        element: <ProtectedRoutes />,
-        children: [
-          {
-            path: "/protected",
-            element: <div>You can't see this unless you are logged in 😮 </div>,
-          },
-        ],
-      },
-      {
-        path: "/home",
-        element: <Homepage />,
-      },
-      {
-        path: "/test",
-        element: <LoadingComponent fullScreen />,
-      },
-      {
-        path: "/products/:id",
-        element: <ProductDetailsPage />,
-      },
+
       // Admin Related Routes
       {
         path: "/admin/login",

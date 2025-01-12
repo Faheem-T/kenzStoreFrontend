@@ -1,11 +1,9 @@
 import { useGetProductQuery } from "@/app/api/productsApi";
 import { ProductDetailsSection } from "@/app/components/adminComponents/ProductDetailsSection";
-import { CategoryChipGroup } from "@/app/components/CategoryChipGroup";
 import { ImageViewComponent } from "@/app/components/ImageViewComponent";
 import { LoadingComponent } from "@/app/components/LoadingComponent";
 import { ReviewSection } from "@/app/components/ReviewSection";
-import { SpecificationSection } from "@/app/components/SpecificationSection";
-import { Box, Button, Chip, Divider, Stack, Typography } from "@mui/material";
+import { Box, Button, Divider, Stack, Typography } from "@mui/material";
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router";
 
