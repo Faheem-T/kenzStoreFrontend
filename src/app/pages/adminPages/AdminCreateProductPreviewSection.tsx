@@ -66,9 +66,6 @@ export const AdminCreateProductPreviewSection = ({
     // save the generated urls
     setIsUploadLoading(true);
     const images: string[] = [];
-    // imagePreviews.forEach((image) => {
-    //   uploadToCloudinary(image.file).then((url) => images.push(url));
-    // });
     for (let i = 0; i < imagePreviews.length; i++) {
       let url = await uploadToCloudinary(imagePreviews[i].file);
       images.push(url);

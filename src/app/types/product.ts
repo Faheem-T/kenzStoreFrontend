@@ -57,5 +57,5 @@ export interface CreateProductType
 // SHARED TYPE: Sync with backend
 export interface UpdateProductType
   extends Partial<Omit<CreateProductType, "categories">> {
-  categories: string[];
+  categories?: string[];
 }

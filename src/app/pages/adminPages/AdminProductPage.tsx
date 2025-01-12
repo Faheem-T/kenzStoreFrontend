@@ -30,10 +30,7 @@ export const AdminProductPage = () => {
           <Typography variant="h5" sx={{ textTransform: "uppercase" }}>
             Product Details
           </Typography>
-          <Button
-            variant="contained"
-            onClick={() => navigate(`/admin/products/${productId}/update`)}
-          >
+          <Button variant="contained" onClick={() => navigate("update")}>
             Update Details
           </Button>
         </Box>
@@ -42,14 +39,20 @@ export const AdminProductPage = () => {
         <ProductDetailsSection product={product} />
 
         {/* Images Section */}
-        <Typography variant="h5" sx={{ textTransform: "uppercase" }}>
-          Images
-        </Typography>
+        <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+          <Typography variant="h5" sx={{ textTransform: "uppercase" }}>
+            Images
+          </Typography>
+          <Button variant="contained" onClick={() => navigate("update/images")}>
+            Update Images
+          </Button>
+        </Box>
         <Box
           sx={{
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
+            p: 10,
           }}
         >
           <ImageViewComponent images={product.images} />

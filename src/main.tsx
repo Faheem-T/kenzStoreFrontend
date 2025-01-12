@@ -23,6 +23,7 @@ import { ProductOverviewPage } from "./app/pages/adminPages/ProductOverviewPage.
 import { AdminProductPage } from "./app/pages/adminPages/AdminProductPage.tsx";
 import { AdminUpdateProductPage } from "./app/pages/adminPages/AdminUpdateProductPage.tsx";
 import { AdminCreateProductPage } from "./app/pages/adminPages/AdminCreateProductPage.tsx";
+import { AdminUpdateImagePage } from "./app/pages/adminPages/AdminUpdateImagePage.tsx";
 
 const router = createBrowserRouter([
   {
@@ -87,6 +88,10 @@ const router = createBrowserRouter([
           {
             path: "products/:productId/update",
             element: <AdminUpdateProductPage />,
+          },
+          {
+            path: "products/:productId/update/images",
+            element: <AdminUpdateImagePage />,
           },
           {
             path: "products/create",
