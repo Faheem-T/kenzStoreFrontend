@@ -12,6 +12,7 @@ const createCategorySchema = z.object({
   name: z.string().trim().nonempty("Category Name is required"),
   description: z.string().trim().nonempty("Category Description is required"),
   parentCategory: z.string().optional(),
+  // TODO: Add images
   //   image: z.object({
   //     url: z.string().url("Url is not valid"),
   //     file: z.any(),

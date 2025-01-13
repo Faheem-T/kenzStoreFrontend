@@ -13,6 +13,7 @@ import {
 import { DeleteProductButton } from "@/app/components/adminComponents/DeleteProductButton";
 import { useNavigate } from "react-router";
 import { cn } from "@/lib/utils";
+import { DeleteCategoryButton } from "@/app/components/adminComponents/DeleteCategoryButton";
 
 export const CategoryOverviewPage = () => {
   const { data, isLoading } = useGetCategoriesQuery();
@@ -64,9 +65,9 @@ export const CategoryOverviewPage = () => {
                 <TableCell>{category.name}</TableCell>
                 <TableCell>{category?.parentCategory?.name || null}</TableCell>
                 <TableCell>
-                  <DeleteProductButton
-                    productId={category._id}
-                    productName={category.name}
+                  <DeleteCategoryButton
+                    categoryId={category._id}
+                    categoryName={category.name}
                   />
                 </TableCell>
               </TableRow>
