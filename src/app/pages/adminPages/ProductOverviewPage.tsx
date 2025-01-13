@@ -1,6 +1,13 @@
 import { useGetProductsQuery } from "@/app/api/productsApi";
 import { LoadingComponent } from "@/app/components/LoadingComponent";
-import { Box, Button, Chip, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Chip,
+  IconButton,
+  Tooltip,
+  Typography,
+} from "@mui/material";
 import { useState } from "react";
 import {
   Table,
@@ -12,8 +19,10 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { CategoryChipGroup } from "@/app/components/CategoryChipGroup";
-import { Link, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 import { cn } from "@/lib/utils";
+import { Delete } from "@mui/icons-material";
+import { DeleteProductButton } from "@/app/components/adminComponents/DeleteProductButton";
 
 export const ProductOverviewPage = () => {
   const [page, setPage] = useState(1);
@@ -50,10 +59,11 @@ export const ProductOverviewPage = () => {
           <TableHeader>
             <TableRow>
               <TableHead>Name</TableHead>
-              <TableHead>Price</TableHead>
+              <TableHead>Price (QR)</TableHead>
               <TableHead>Discount</TableHead>
-              <TableHead>Discounted Price</TableHead>
+              <TableHead>Discounted Price (QR)</TableHead>
               <TableHead>Categories</TableHead>
+              <TableHead hidden>Delete Button</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -78,6 +88,12 @@ export const ProductOverviewPage = () => {
                 <TableCell>{product.finalPrice}</TableCell>
                 <TableCell>
                   <CategoryChipGroup categories={product.categories} />
+                </TableCell>
+                <TableCell>
+                  <DeleteProductButton
+                    productId={product._id}
+                    productName={product.name}
+                  />
                 </TableCell>
               </TableRow>
             ))}
