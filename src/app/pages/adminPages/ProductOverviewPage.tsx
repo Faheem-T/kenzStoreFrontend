@@ -1,13 +1,6 @@
 import { useGetProductsQuery } from "@/app/api/productsApi";
 import { LoadingComponent } from "@/app/components/LoadingComponent";
-import {
-  Box,
-  Button,
-  Chip,
-  IconButton,
-  Tooltip,
-  Typography,
-} from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import { useState } from "react";
 import {
   Table,
@@ -21,7 +14,6 @@ import {
 import { CategoryChipGroup } from "@/app/components/CategoryChipGroup";
 import { useNavigate } from "react-router";
 import { cn } from "@/lib/utils";
-import { Delete } from "@mui/icons-material";
 import { DeleteProductButton } from "@/app/components/adminComponents/DeleteProductButton";
 
 export const ProductOverviewPage = () => {

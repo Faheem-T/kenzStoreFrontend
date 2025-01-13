@@ -9,7 +9,7 @@ interface CategoryAutoCompleteProps {
   isLoading: boolean;
 }
 
-export const CategoryAutocomplete = ({
+export const Old_CategoryAutocomplete = ({
   categories,
   control,
   defaultValue = [],

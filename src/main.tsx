@@ -27,6 +27,7 @@ import { AdminUpdateImagePage } from "./app/pages/adminPages/AdminUpdateImagePag
 import { UserRoutes } from "./app/components/UserRoutes.tsx";
 import { CategoryOverviewPage } from "./app/pages/adminPages/CategoryOverviewPage.tsx";
 import { AdminCreateCategoryPage } from "./app/pages/adminPages/AdminCreateCategoryPage.tsx";
+import { AdminUpdateCategoryPage } from "./app/pages/adminPages/AdminUpdateCategoryPage.tsx";
 
 const router = createBrowserRouter([
   {
@@ -113,6 +114,14 @@ const router = createBrowserRouter([
           {
             path: "categories",
             element: <CategoryOverviewPage />,
+          },
+          {
+            path: "categories/:categoryId",
+            element: <div>TODO</div>, // TODO: add category details page
+          },
+          {
+            path: "categories/:categoryId/update",
+            element: <AdminUpdateCategoryPage />,
           },
           {
             path: "categories/create",

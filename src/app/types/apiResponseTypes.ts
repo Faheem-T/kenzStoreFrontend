@@ -1,5 +1,5 @@
 import { SafeAdminType } from "./admin";
-import { CategoryType, PopulatedCategoryType } from "./categories";
+import { PopulatedCategoryType } from "./categories";
 import { ProductType } from "./product";
 import { ReviewType, UserPopulatedReviewType } from "./reviews";
 import { SafeUserType } from "./user";
@@ -52,5 +52,7 @@ export type AdminLoginResponse = baseResponse<{
   admin: SafeAdminType;
   accessToken: string;
 }>;
+
+export type getCategoryResponse = baseResponse<PopulatedCategoryType>;
 
 export type getCategoriesResponse = baseResponse<PopulatedCategoryType[]>;

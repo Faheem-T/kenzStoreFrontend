@@ -76,7 +76,7 @@ export const AdminUpdateProductPage = () => {
     resolver: zodResolver(updateProductSchema),
   });
 
-  const { register, handleSubmit, formState, reset, setValue, control } = form;
+  const { register, handleSubmit, formState, setValue, control } = form;
   const { errors } = formState;
 
   const [createUpdateProductMutation, { isLoading: updateLoading, isError }] =
@@ -112,7 +112,7 @@ export const AdminUpdateProductPage = () => {
         data.data.categories.map(({ _id }) => _id)
       );
     }
-  }, [data, reset]);
+  }, [data]);
 
   if (!productId) return <Box>No product ID found!</Box>;
   if (isLoading) return <LoadingComponent fullScreen />;
@@ -214,7 +214,6 @@ export const AdminUpdateProductPage = () => {
           <CategoryAutocomplete
             control={control}
             // defaultValue={productCategories || []}
-            
           />
           {/* Specifications */}
           <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>

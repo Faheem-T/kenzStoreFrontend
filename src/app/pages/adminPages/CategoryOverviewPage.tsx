@@ -10,7 +10,6 @@ import {
   TableCell,
   TableRow,
 } from "@/components/ui/table";
-import { DeleteProductButton } from "@/app/components/adminComponents/DeleteProductButton";
 import { useNavigate } from "react-router";
 import { cn } from "@/lib/utils";
 import { DeleteCategoryButton } from "@/app/components/adminComponents/DeleteCategoryButton";
@@ -60,7 +59,7 @@ export const CategoryOverviewPage = () => {
                   "hover:bg-accent cursor-pointer",
                   "border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted"
                 )}
-                onClick={() => navigate(`/admin/categories/${category._id}`)}
+                onClick={() => navigate(`${category._id}/update`)}
               >
                 <TableCell>{category.name}</TableCell>
                 <TableCell>{category?.parentCategory?.name || null}</TableCell>
