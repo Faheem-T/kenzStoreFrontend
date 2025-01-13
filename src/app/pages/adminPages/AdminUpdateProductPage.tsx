@@ -212,10 +212,9 @@ export const AdminUpdateProductPage = () => {
           </Box>
           {/* Categories */}
           <CategoryAutocomplete
-            categories={categories}
             control={control}
-            defaultValue={productCategories || []}
-            isLoading={categoriesLoading}
+            // defaultValue={productCategories || []}
+            
           />
           {/* Specifications */}
           <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>

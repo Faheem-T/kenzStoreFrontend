@@ -12,7 +12,7 @@ import {
   SidebarMenuButton,
   SidebarFooter,
 } from "@/components/ui/sidebar";
-import { Dashboard, Inventory } from "@mui/icons-material";
+import { Category, Dashboard, Inventory } from "@mui/icons-material";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -35,6 +35,11 @@ const items = [
     title: "Products",
     url: "/admin/products",
     icon: Inventory,
+  },
+  {
+    title: "Categories",
+    url: "/admin/categories",
+    icon: Category,
   },
 ];
 
@@ -77,7 +82,6 @@ export const AdminSidebar = () => {
               >
                 <DropdownMenuItem>
                   <LogoutButton />
-                  {/* <span>Logout</span> */}
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>

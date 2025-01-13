@@ -63,7 +63,7 @@ export const ProductOverviewPage = () => {
               <TableHead>Discount</TableHead>
               <TableHead>Discounted Price (QR)</TableHead>
               <TableHead>Categories</TableHead>
-              <TableHead hidden>Delete Button</TableHead>
+              <TableHead />
             </TableRow>
           </TableHeader>
           <TableBody>

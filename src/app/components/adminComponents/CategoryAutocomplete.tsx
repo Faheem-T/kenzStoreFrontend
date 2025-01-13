@@ -1,41 +1,69 @@
+import { useGetCategoriesQuery } from "@/app/api/categoriesApi";
 import { Autocomplete, TextField } from "@mui/material";
+import { useEffect, useState } from "react";
 import { Controller } from "react-hook-form";
 
 interface CategoryAutoCompleteProps {
-  categories: { _id: string; name: string }[];
   control: any;
-  onChange?: any;
-  defaultValue?: { _id: string; name: string }[];
-  isLoading: boolean;
+  name?: string;
+  label?: string;
+  multiple?: boolean;
 }
 
 export const CategoryAutocomplete = ({
-  categories,
   control,
-  onChange: ignored,
-  defaultValue = [],
-  isLoading,
+  name = "categories",
+  label = "Categories",
+  multiple = true,
 }: CategoryAutoCompleteProps) => {
+  const [options, setOptions] = useState<{ _id: string; name: string }[]>([]);
+  const { data: categoryData, isLoading } = useGetCategoriesQuery();
+
+  useEffect(() => {
+    if (categoryData) {
+      setOptions(
+        categoryData.data.map((category) => ({
+          _id: category._id,
+          name: category.name,
+        }))
+      );
+    }
+  }, [categoryData]);
+
   return (
     <Controller
-      render={({ field: { onChange }, formState, fieldState, ...props }) => (
+      name={name}
+      control={control}
+      render={({ field: { onChange, value } }) => (
         <Autocomplete
-          multiple
+          multiple={multiple}
           filterSelectedOptions
-          options={categories}
+          options={options}
           getOptionLabel={(option) => option.name}
-          defaultValue={[...defaultValue]}
+          value={
+            multiple
+              ? value
+                ? options.filter((option) => value.includes(option._id))
+                : []
+              : value
+              ? options.find((option) => option._id === value) || null
+              : null
+          }
           isOptionEqualToValue={(option, value) => option._id === value._id}
           renderInput={(params) => (
-            <TextField {...params} label="Categories" variant="standard" />
+            <TextField {...params} label={label} variant="standard" />
           )}
-          onChange={(_, data) => onChange(data.map((item) => item._id))}
-          {...props}
+          onChange={(_, data) => {
+            if (!data) return onChange(null);
+            if (Array.isArray(data)) {
+              onChange(data.map((item) => item._id));
+            } else {
+              onChange(data._id);
+            }
+          }}
           loading={isLoading}
         />
       )}
-      name="categories"
-      control={control}
     />
   );
 };

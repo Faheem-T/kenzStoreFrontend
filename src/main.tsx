@@ -25,6 +25,8 @@ import { AdminUpdateProductPage } from "./app/pages/adminPages/AdminUpdateProduc
 import { AdminCreateProductPage } from "./app/pages/adminPages/AdminCreateProductPage.tsx";
 import { AdminUpdateImagePage } from "./app/pages/adminPages/AdminUpdateImagePage.tsx";
 import { UserRoutes } from "./app/components/UserRoutes.tsx";
+import { CategoryOverviewPage } from "./app/pages/adminPages/CategoryOverviewPage.tsx";
+import { AdminCreateCategoryPage } from "./app/pages/adminPages/AdminCreateCategoryPage.tsx";
 
 const router = createBrowserRouter([
   {
@@ -86,6 +88,7 @@ const router = createBrowserRouter([
             path: "dashboard",
             element: <AdminDashboardPage />,
           },
+          // Product Paths
           {
             path: "products",
             element: <ProductOverviewPage />,
@@ -105,6 +108,15 @@ const router = createBrowserRouter([
           {
             path: "products/create",
             element: <AdminCreateProductPage />,
+          },
+          // Category paths
+          {
+            path: "categories",
+            element: <CategoryOverviewPage />,
+          },
+          {
+            path: "categories/create",
+            element: <AdminCreateCategoryPage />,
           },
         ],
       },

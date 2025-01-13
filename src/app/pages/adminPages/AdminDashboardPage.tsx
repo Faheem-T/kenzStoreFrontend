@@ -1,3 +1,5 @@
+import { Navigate } from "react-router";
+
 export const AdminDashboardPage = () => {
-    return <div>Hello there</div>
-}
+  return <Navigate to="/admin/products" />;
+};

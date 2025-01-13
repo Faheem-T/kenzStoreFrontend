@@ -166,11 +166,7 @@ export const CreateProductDetailsSection = ({
             />
           </Box>
           {/* Categories */}
-          <CategoryAutocomplete
-            categories={categories}
-            control={control}
-            isLoading={categoriesLoading}
-          />
+          <CategoryAutocomplete control={control} />
           {/* Specifications */}
           <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
             <FormLabel sx={{ fontSize: "16px", fontWeight: "bold", mt: 2 }}>
