@@ -5,10 +5,10 @@ import { useGetProductQuery } from "../api/productsApi";
 import { LoadingComponent } from "../components/LoadingComponent";
 import { ImageViewComponent } from "../components/ImageViewComponent";
 import { CategoryBreadCrumb } from "../components/CategoryBreadcrumb";
-import { ReviewSection } from "../components/ReviewSection";
+import { ReviewSection } from "./pageSections/ReviewSection";
 import { useGetProductReviewsQuery } from "../api/reviewsApi";
-import { RelatedProductsSection } from "../components/RelatedProductsSection";
-import { SpecificationSection } from "../components/SpecificationSection";
+import { RelatedProductsSection } from "./pageSections/RelatedProductsSection";
+import { SpecificationSection } from "./pageSections/SpecificationSection";
 
 export const ProductDetailsPage = () => {
   const productId = useParams().id?.trim();

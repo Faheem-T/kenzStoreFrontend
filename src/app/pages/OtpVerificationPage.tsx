@@ -83,7 +83,6 @@ export const OtpVerificationPage = () => {
   };
 
   const submitHandler = async (data: OtpFormType) => {
-    // OTP submission handler
     try {
       const { success, message } = await createVerifyOtpMutation(data).unwrap();
       if (success) {
@@ -150,7 +149,7 @@ export const OtpVerificationPage = () => {
           onClick={handleResendOtp}
           disabled={resendTimer > 0}
         >
-          {"Resend Otp"}
+          {isResendLoading ? "Sending..." : "Resend Otp"}
         </Button>
         {resendTimer ? (
           <Box

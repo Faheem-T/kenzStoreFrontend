@@ -1,7 +1,7 @@
 import { ProductType } from "@/app/types/product";
 import { Box, Chip, Typography } from "@mui/material";
-import { SpecificationSection } from "../SpecificationSection";
-import { CategoryChipGroup } from "../CategoryChipGroup";
+import { SpecificationSection } from "../../pageSections/SpecificationSection";
+import { CategoryChipGroup } from "../../../components/CategoryChipGroup";
 
 export const ProductDetailsSection = ({
   product,

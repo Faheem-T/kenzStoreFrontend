@@ -1,5 +1,5 @@
 import { Box, Typography } from "@mui/material";
-import { ProductSpecificationType } from "../types/product";
+import { ProductSpecificationType } from "../../types/product";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import {
   Accordion,

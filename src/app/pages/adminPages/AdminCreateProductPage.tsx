@@ -2,7 +2,7 @@ import { Box, Tab, Tabs, Typography } from "@mui/material";
 import { CreateProductDetailsSection } from "./CreateProductDetailsSection";
 import { useState } from "react";
 import { CreateProductImagesSection } from "./CreateProductImagesSection";
-import { AdminCreateProductPreviewSection } from "./AdminCreateProductPreviewSection";
+import { AdminCreateProductPreviewSection } from "./adminSections/AdminCreateProductPreviewSection";
 
 export const AdminCreateProductPage = () => {
   const [value, setValue] = useState(0);

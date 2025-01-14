@@ -1,5 +1,5 @@
 import { useCreateProductMutation } from "@/app/api/productsApi";
-import { ProductDetailsSection } from "@/app/components/adminComponents/ProductDetailsSection";
+import { ProductDetailsSection } from "@/app/pages/adminPages/adminPageSections/ProductDetailsSection";
 import { ImageViewComponent } from "@/app/components/ImageViewComponent";
 import { selectCreateProduct } from "@/app/features/admin/adminCreateProductSlice";
 import { useAppSelector } from "@/app/hooks";
