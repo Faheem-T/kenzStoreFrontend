@@ -11,7 +11,7 @@ import { Provider } from "react-redux";
 import { store } from "./app/store.ts";
 import { Toaster } from "react-hot-toast";
 import { LoginPage } from "./app/pages/LoginPage.tsx";
-import { Homepage } from "./app/features/user/Homepage.tsx";
+import { Homepage } from "./app/pages/Homepage.tsx";
 import { UnprotectedRoutes } from "./app/components/UnprotectedRoutes.tsx";
 import { ProtectedRoutes } from "./app/components/ProtectedRoutes.tsx";
 import { ProductDetailsPage } from "./app/pages/ProductDetailsPage.tsx";
