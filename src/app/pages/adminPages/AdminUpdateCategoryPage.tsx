@@ -23,7 +23,7 @@ import { useEffect } from "react";
 
 const updateCategorySchema = z.object({
   name: z.string().trim().nonempty("Category Name is required"),
-  description: z.string().trim().nonempty("Category Description is required"),
+  description: z.string().trim(),
   parentCategory: z.string().optional(),
   // TODO: Add images
 });
