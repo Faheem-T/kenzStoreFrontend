@@ -28,6 +28,7 @@ import { UserRoutes } from "./app/components/UserRoutes.tsx";
 import { CategoryOverviewPage } from "./app/pages/adminPages/CategoryOverviewPage.tsx";
 import { AdminCreateCategoryPage } from "./app/pages/adminPages/AdminCreateCategoryPage.tsx";
 import { AdminUpdateCategoryPage } from "./app/pages/adminPages/AdminUpdateCategoryPage.tsx";
+import { OtpVerificationPage } from "./app/pages/OtpVerificationPage.tsx";
 
 const router = createBrowserRouter([
   {
@@ -43,6 +44,10 @@ const router = createBrowserRouter([
               {
                 path: "/register",
                 element: <RegisterPage />,
+              },
+              {
+                path: "/register/otp",
+                element: <OtpVerificationPage />,
               },
               {
                 path: "/login",

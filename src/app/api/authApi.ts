@@ -3,6 +3,7 @@ import { loggedOut } from "../features/auth/authSlice";
 import { loginFormValues } from "../pages/LoginPage";
 import { registerFormValues } from "../pages/RegisterPage";
 import {
+  baseResponseWithMessage,
   loginResponse,
   meResponse,
   refreshResponse,
@@ -10,9 +11,16 @@ import {
 
 const authApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    register: builder.mutation({
+    register: builder.mutation<baseResponseWithMessage, any>({
       query: (data: registerFormValues) => ({
         url: "v1/auth/register",
+        method: "POST",
+        body: data,
+      }),
+    }),
+    verifyOtp: builder.mutation<baseResponseWithMessage, any>({
+      query: (data) => ({
+        url: "v1/auth/verify-otp",
         method: "POST",
         body: data,
       }),
@@ -46,6 +54,7 @@ const authApi = apiSlice.injectEndpoints({
 
 export const {
   useRegisterMutation,
+  useVerifyOtpMutation,
   useLoginMutation,
   useRefreshQuery,
   useMeQuery,

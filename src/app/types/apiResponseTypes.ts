@@ -9,6 +9,11 @@ interface baseResponse<T> {
   data: T;
 }
 
+export interface baseResponseWithMessage {
+  success: boolean;
+  message: string;
+}
+
 export interface loginResponse {
   success: boolean;
   data: {
