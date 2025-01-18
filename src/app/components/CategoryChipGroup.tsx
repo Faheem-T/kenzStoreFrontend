@@ -7,11 +7,11 @@ interface CategoryChipGroupProps {
   maxChips?: number;
 }
 
-export const CategoryChipGroup = ({
+export const CategoryChipGroup: React.FC<CategoryChipGroupProps> = ({
   categories,
   chipSize = "small",
   maxChips = 2,
-}: CategoryChipGroupProps) => {
+}) => {
   return (
     <Box sx={{ display: "flex", gap: 1, flexWrap: "wrap" }}>
       {categories.slice(0, maxChips).map((category) => (

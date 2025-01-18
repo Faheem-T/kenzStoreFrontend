@@ -45,7 +45,7 @@ export const AdminUpdateCategoryPage = () => {
     setValue,
   } = form;
 
-  const [updateCategoryMutation, { isLoading: updateLoading }] =
+  const [updateCategoryMutation, { isLoading: isUpdateLoading }] =
     useUpdateCategoryMutation();
 
   useEffect(() => {
@@ -106,7 +106,7 @@ export const AdminUpdateCategoryPage = () => {
           multiple={false}
         />
         <Button variant="contained" type="submit">
-          {isLoading ? "Loading..." : "Create"}
+          {isUpdateLoading ? "Updating..." : "Update"}
         </Button>
       </Stack>
       <DevTool control={control} />

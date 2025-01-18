@@ -37,6 +37,7 @@ let theme = createTheme({
     background: {
       default: "#1F0808",
       paper: "#120303",
+      // paper: "#000000",
     },
     primary: {
       main: "#910D0D", // red

@@ -32,14 +32,20 @@ const baseQueryWithReauth: BaseQueryFn<
   if (result.error?.status === 401) {
     // refresh route for "user" role
     let refreshRoute = "v1/auth/refresh";
-    if ((api.getState() as RootState).auth.role === "admin") {
+    if ((api.getState() as RootState).auth.isAdmin) {
       refreshRoute = "v1/admin/refresh";
     }
     const refreshResult = await baseQuery(refreshRoute, api, extraOptions);
     if (refreshResult.data) {
-      const refreshData = refreshResult.data as { accessToken: string };
+      const refreshData = refreshResult.data as {
+        success: boolean;
+        data: { accessToken: string };
+      };
+      // console.log("Refresh Result: ", refreshData);
       // store new token
-      api.dispatch(tokenRefreshed(refreshData));
+      api.dispatch(
+        tokenRefreshed({ accessToken: refreshData.data.accessToken })
+      );
       // retry initial query
       result = await baseQuery(args, api, extraOptions);
     } else {
@@ -51,7 +57,7 @@ const baseQueryWithReauth: BaseQueryFn<
 
 export const apiSlice = createApi({
   baseQuery: baseQueryWithReauth,
-  tagTypes: ["Product", "Auth", "Review", "Category"],
+  tagTypes: ["Product", "Auth", "Review", "Category", "Users"],
   // keepUnusedDataFor: 60,
   endpoints: () => ({}),
 });

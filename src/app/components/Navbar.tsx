@@ -5,9 +5,11 @@ import { useAppSelector } from "../hooks";
 import { selectUser } from "../features/auth/authSlice";
 import { Link } from "react-router";
 import { LogoutButton } from "./logoutButton";
+import { SafeUserType } from "../types/user";
+import { NavbarUserIcon } from "./NavbarUserIcon";
 
 export const Navbar = () => {
-  const user = useAppSelector(selectUser);
+  const user = useAppSelector(selectUser) as SafeUserType;
   return (
     <Box
       sx={{
@@ -28,12 +30,13 @@ export const Navbar = () => {
       </Box>
       <Box sx={{ display: "flex", gap: "4px" }}>
         {user ? (
-          <Stack direction="row" sx={{ display: "flex", alignItems: "center" }}>
-            <Typography sx={{ fontVariantCaps: "all-petite-caps" }}>{`Hello ${
-              user?.firstName || user?.username
-            }`}</Typography>
-            <LogoutButton />
-          </Stack>
+          // <Stack direction="row" sx={{ display: "flex", alignItems: "center" }}>
+          //   <Typography
+          //     sx={{ fontVariantCaps: "all-petite-caps" }}
+          //   >{`Hello ${user?.firstName}`}</Typography>
+          //   <LogoutButton />
+          // </Stack>
+          <NavbarUserIcon />
         ) : (
           <Navlink link="/login" label="Login" />
         )}

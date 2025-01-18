@@ -10,6 +10,7 @@ import {
   InputAdornment,
   IconButton,
   FormHelperText,
+  Input,
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useForm } from "react-hook-form";
@@ -22,6 +23,7 @@ import { Link, useNavigate } from "react-router";
 import toast from "react-hot-toast";
 import { selectUser, userLoggedIn } from "../features/auth/authSlice";
 import { useAppDispatch, useAppSelector } from "../hooks";
+import { GoogleLogin } from "@react-oauth/google";
 
 const loginSchema = z.object({
   email: z
@@ -101,10 +103,11 @@ export const LoginPage = () => {
               {...register("email")}
               error={!!errors.email}
               helperText={errors.email?.message}
+              variant="standard"
             />
-            <FormControl variant="outlined">
+            <FormControl variant="standard">
               <InputLabel htmlFor="password">Password</InputLabel>
-              <OutlinedInput
+              <Input
                 id="password"
                 {...register("password")}
                 type={showPassword ? "text" : "password"}
@@ -137,9 +140,19 @@ export const LoginPage = () => {
           <DevTool control={control} />
         </form>
         <Typography variant="caption">
-          Not registered? <Link to="/register">REGISTER</Link>
+          Not registered?{" "}
+          <Box
+            component="span"
+            sx={{
+              textDecoration: "underline",
+              "&:hover": { color: "primary.light" },
+            }}
+          >
+            <Link to="/register">Register</Link>
+          </Box>
         </Typography>
       </Box>
+      <GoogleLogin onSuccess={console.log} onError={console.log} />
     </>
   );
 };

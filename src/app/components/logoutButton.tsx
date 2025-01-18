@@ -1,4 +1,4 @@
-import { Button } from "@mui/material";
+import { Box, Button, Link } from "@mui/material";
 import { useLogoutMutation } from "../api/authApi";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router";
@@ -22,8 +22,12 @@ export const LogoutButton = () => {
   };
 
   return (
-    <Button onClick={clickHandler}>
-      {isLoading ? "Logging out..." : "LogOut"}
-    </Button>
+    <Link
+      onClick={clickHandler}
+      sx={{ width: 1, height: 1, cursor: "pointer" }}
+      color="textPrimary"
+    >
+      {isLoading ? "Logging out..." : "Log Out"}
+    </Link>
   );
 };

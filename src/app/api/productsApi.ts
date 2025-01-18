@@ -10,24 +10,16 @@ const productsApi = apiSlice.injectEndpoints({
     // get a product by its ID
     getProduct: builder.query<getProductResponse, string>({
       query: (id) => `v1/products/${id}`,
-      providesTags: (result, error, arg) => {
-        const tag = [{ type: "Product", id: arg } as const];
-        console.log("Product tag:", tag);
-        return tag;
-      },
+      providesTags: (result, error, arg) => [{ type: "Product", id: arg }],
     }),
     // Get products for the hero section
     getHeroProducts: builder.query<getMultipleProductsResponse, void>({
       query: () => "v1/products/hero",
-      providesTags: (result = { data: [], success: false }, error, arg) => {
-        const tags = [
-          ...result.data.map(
-            ({ _id }) => ({ type: "Product", id: _id } as const)
-          ),
-        ];
-        console.log("Hero tags:", tags);
-        return tags;
-      },
+      providesTags: (result = { data: [], success: false }, error, arg) => [
+        ...result.data.map(
+          ({ _id }) => ({ type: "Product", id: _id } as const)
+        ),
+      ],
     }),
     // fetch products related to a product
     getRelatedProducts: builder.query<getMultipleProductsResponse, string>({
@@ -46,6 +38,7 @@ const productsApi = apiSlice.injectEndpoints({
         ...result.data.map(
           ({ _id }) => ({ type: "Product", id: _id } as const)
         ),
+        "Product",
       ],
     }),
     // Update a product

@@ -14,6 +14,12 @@ export interface baseResponseWithMessage {
   message: string;
 }
 
+interface baseResponseWithMessageAndData<T> {
+  success: boolean;
+  message: string;
+  data: T;
+}
+
 export interface loginResponse {
   success: boolean;
   data: {
@@ -61,3 +67,13 @@ export type AdminLoginResponse = baseResponse<{
 export type getCategoryResponse = baseResponse<PopulatedCategoryType>;
 
 export type getCategoriesResponse = baseResponse<PopulatedCategoryType[]>;
+
+export type getUsersResponse = baseResponse<SafeUserType[]>;
+
+export type getUserResponse = baseResponse<SafeUserType>;
+
+export type blockUserResponse = baseResponseWithMessageAndData<SafeUserType>;
+
+export type updateUserProfileResponse = baseResponse<
+  Pick<SafeUserType, "firstName" | "lastName" | "email">
+>;

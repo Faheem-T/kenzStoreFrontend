@@ -28,7 +28,7 @@ export const ProductOverviewPage = () => {
 
   return (
     <>
-      <Box sx={{ width: "100%" }}>
+      <Box sx={{ width: "100%", px: 12 }}>
         <Box sx={{ display: "flex", justifyContent: "center", my: 5 }}>
           <Typography
             variant="h4"

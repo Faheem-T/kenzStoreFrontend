@@ -1,6 +1,5 @@
 import { selectUser } from "@/app/features/auth/authSlice";
 import { useAppSelector } from "@/app/hooks";
-import { SafeAdminType } from "@/app/types/admin";
 import {
   Sidebar,
   SidebarContent,
@@ -12,7 +11,6 @@ import {
   SidebarMenuButton,
   SidebarFooter,
 } from "@/components/ui/sidebar";
-import { Category, Dashboard, Inventory } from "@mui/icons-material";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -20,36 +18,32 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-import { ChevronUp, Users } from "lucide-react";
+import { ChevronUp, MapPin, Package, User } from "lucide-react";
 import { Link, useLocation } from "react-router";
-import { LogoutButton } from "../logoutButton";
+import { LogoutButton } from "./logoutButton";
+import { SafeUserType } from "../types/user";
 
 // Menu items
 const items = [
   {
-    title: "Dashboard",
-    url: "/admin/dashboard",
-    icon: Dashboard,
+    title: "Profile",
+    url: "/user/profile",
+    icon: User,
   },
   {
-    title: "Products",
-    url: "/admin/products",
-    icon: Inventory,
+    title: "Orders",
+    url: "/user/orders",
+    icon: Package,
   },
   {
-    title: "Categories",
-    url: "/admin/categories",
-    icon: Category,
-  },
-  {
-    title: "Users",
-    url: "/admin/users",
-    icon: Users,
+    title: "Addresses",
+    url: "/user/addresses",
+    icon: MapPin,
   },
 ];
 
-export const AdminSidebar = () => {
-  const admin = useAppSelector(selectUser) as SafeAdminType;
+export const UserSidebar = () => {
+  const user = useAppSelector(selectUser) as SafeUserType;
   const location = useLocation();
   return (
     <Sidebar collapsible="icon">
@@ -81,7 +75,7 @@ export const AdminSidebar = () => {
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <SidebarMenuButton>
-                  <span>@{admin.username}</span>
+                  <span>@{user.firstName}</span>
                   <ChevronUp className="ml-auto" />
                 </SidebarMenuButton>
               </DropdownMenuTrigger>

@@ -2,7 +2,7 @@ import { Navigate, Outlet } from "react-router";
 import { selectIsAdmin } from "../../features/auth/authSlice";
 import { useAppSelector } from "../../hooks";
 import toast from "react-hot-toast";
-import { SidebarProvider } from "@/components/ui/sidebar";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AdminSidebar } from "./AdminSidebar";
 
 export const AdminOnlyRoutes = () => {
@@ -15,6 +15,7 @@ export const AdminOnlyRoutes = () => {
   return (
     <SidebarProvider>
       <AdminSidebar />
+      <SidebarTrigger />
       <Outlet />
     </SidebarProvider>
   );

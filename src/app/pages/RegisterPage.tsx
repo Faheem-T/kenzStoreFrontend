@@ -10,6 +10,7 @@ import {
   InputAdornment,
   IconButton,
   FormHelperText,
+  Input,
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useForm } from "react-hook-form";
@@ -103,22 +104,23 @@ export const RegisterPage = () => {
         <form noValidate onSubmit={handleSubmit(submitHandler)}>
           <Stack spacing={2} paddingY={0} paddingX={8}>
             <TextField
+              variant="standard"
               label="First Name"
               {...register("firstName")}
               error={!!errors.firstName}
               helperText={errors.firstName?.message}
             />
             <TextField
+              variant="standard"
               label="Email"
               type="email"
               {...register("email")}
               error={!!errors.email}
               helperText={errors.email?.message}
             />
-            {/* <TextField label="Password" type="password" {...register("password")} error={!!errors.password} helperText={errors.password?.message} /> */}
-            <FormControl variant="outlined">
+            <FormControl variant="standard">
               <InputLabel htmlFor="password">Password</InputLabel>
-              <OutlinedInput
+              <Input
                 id="password"
                 {...register("password")}
                 type={showPassword ? "text" : "password"}
@@ -139,9 +141,9 @@ export const RegisterPage = () => {
                 </FormHelperText>
               )}
             </FormControl>
-            <FormControl variant="outlined">
+            <FormControl variant="standard">
               <InputLabel>Confirm Password</InputLabel>
-              <OutlinedInput
+              <Input
                 {...register("confirmPassword")}
                 type={showPassword ? "text" : "password"}
                 endAdornment={
@@ -173,7 +175,16 @@ export const RegisterPage = () => {
           <DevTool control={control} />
         </form>
         <Typography variant="caption">
-          Already registered? <Link to="/login">LOGIN</Link>
+          Already registered?{" "}
+          <Box
+            component="span"
+            sx={{
+              textDecoration: "underline",
+              "&:hover": { color: "primary.light" },
+            }}
+          >
+            <Link to="/login">LOGIN</Link>
+          </Box>
         </Typography>
       </Box>
     </>

@@ -9,6 +9,7 @@ import { ReviewSection } from "./pageSections/ReviewSection";
 import { useGetProductReviewsQuery } from "../api/reviewsApi";
 import { RelatedProductsSection } from "./pageSections/RelatedProductsSection";
 import { SpecificationSection } from "./pageSections/SpecificationSection";
+import { Navbar } from "../components/Navbar";
 
 export const ProductDetailsPage = () => {
   const productId = useParams().id?.trim();
@@ -45,63 +46,66 @@ export const ProductDetailsPage = () => {
     );
 
   return (
-    <Stack sx={{ px: 4 }} spacing={4} divider={<Divider />}>
-      <Box>
-        {/* Category Breadcrumb */}
-        <CategoryBreadCrumb categories={product.categories} />
-        {/* Main Section */}
-        <Box sx={{ display: "flex", gap: 4 }}>
-          <Box sx={{ width: 1 / 2 }}>
-            <ImageViewComponent images={product.images} />
-          </Box>
-          <Box
-            sx={{
-              width: 1 / 2,
-              padding: 4,
-              display: "flex",
-              flexDirection: "column",
-              gap: 2,
-            }}
-          >
-            <Typography variant="h4">{product.name}</Typography>
-            {averageReviewContent}
-            <Box sx={{ display: "flex", gap: 2 }}>
-              <Typography
-                variant={product.isDiscountActive ? "h6" : "h5"}
-                sx={{
-                  textDecoration: product.isDiscountActive
-                    ? "line-through"
-                    : "inital",
-                }}
-                color={
-                  product.isDiscountActive ? "textDisabled" : "textPrimary"
-                }
-              >
-                QR {product.price}/-
-              </Typography>
-              {product.isDiscountActive && (
-                <Typography variant="h5" color="accent.main">
-                  QR {product.finalPrice}/-
+    <>
+      <Navbar />
+      <Stack sx={{ px: 18 }} spacing={4} divider={<Divider />}>
+        <Box>
+          {/* Category Breadcrumb */}
+          <CategoryBreadCrumb categories={product.categories} />
+          {/* Main Section */}
+          <Box sx={{ display: "flex", gap: 4 }}>
+            <Box sx={{ width: 1 / 2 }}>
+              <ImageViewComponent images={product.images} />
+            </Box>
+            <Box
+              sx={{
+                width: 1 / 2,
+                padding: 4,
+                display: "flex",
+                flexDirection: "column",
+                gap: 2,
+              }}
+            >
+              <Typography variant="h4">{product.name}</Typography>
+              {averageReviewContent}
+              <Box sx={{ display: "flex", gap: 2 }}>
+                <Typography
+                  variant={product.isDiscountActive ? "h6" : "h5"}
+                  sx={{
+                    textDecoration: product.isDiscountActive
+                      ? "line-through"
+                      : "inital",
+                  }}
+                  color={
+                    product.isDiscountActive ? "textDisabled" : "textPrimary"
+                  }
+                >
+                  QR {product.price}/-
+                </Typography>
+                {product.isDiscountActive && (
+                  <Typography variant="h5" color="accent.main">
+                    QR {product.finalPrice}/-
+                  </Typography>
+                )}
+              </Box>
+              <Typography>{product.description}</Typography>
+              {product.stock ? (
+                <AddToCartButton />
+              ) : (
+                <Typography color="textDisabled">
+                  This product is currently out of stock
                 </Typography>
               )}
             </Box>
-            <Typography>{product.description}</Typography>
-            {product.stock ? (
-              <AddToCartButton />
-            ) : (
-              <Typography color="textDisabled">
-                This product is currently out of stock
-              </Typography>
-            )}
           </Box>
         </Box>
-      </Box>
-      {/* Product Specifications Section */}
-      <SpecificationSection specifications={product.specifications} />
-      {/* Reviews Section */}
-      <ReviewSection productId={productId} />
-      {/* Related Products Section */}
-      <RelatedProductsSection productId={productId} />
-    </Stack>
+        {/* Product Specifications Section */}
+        <SpecificationSection specifications={product.specifications} />
+        {/* Reviews Section */}
+        <ReviewSection productId={productId} />
+        {/* Related Products Section */}
+        <RelatedProductsSection productId={productId} />
+      </Stack>
+    </>
   );
 };
