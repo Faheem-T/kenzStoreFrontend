@@ -1,4 +1,4 @@
-import { createTheme, responsiveFontSizes, alpha } from "@mui/material";
+import { createTheme, responsiveFontSizes } from "@mui/material";
 declare module "@mui/material/styles" {
   interface Palette {
     buttonBlue?: Palette["primary"];

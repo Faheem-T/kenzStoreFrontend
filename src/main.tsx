@@ -27,7 +27,7 @@ createRoot(document.getElementById("root")!).render(
                 color: theme.palette.text.primary,
                 backgroundColor: theme.palette.background.paper,
                 fontFamily: theme.typography.fontFamily,
-                textTransform: "uppercase",
+                textTransform: "none",
                 fontWeight: "500",
                 fontSize: "12px",
               },

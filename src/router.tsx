@@ -24,6 +24,7 @@ import { ProtectedRoutes } from "./app/components/ProtectedRoutes";
 import { UserProfilePage } from "./app/pages/UserProfilePage";
 import { UserProfileRoot } from "./app/pages/UserProfileRoot";
 import { initialAuthLoader } from "./app/utils/initialAuthLoader";
+import { UserAddressesPage } from "./app/pages/UserAddressesPage";
 
 export const router = createBrowserRouter([
   {
@@ -62,12 +63,16 @@ export const router = createBrowserRouter([
                 ),
               },
               {
-                path: "/user/profile",
+                path: "/user",
                 element: <UserProfileRoot />,
                 children: [
                   {
-                    path: "",
+                    path: "profile",
                     element: <UserProfilePage />,
+                  },
+                  {
+                    path: "addresses",
+                    element: <UserAddressesPage />,
                   },
                 ],
               },

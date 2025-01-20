@@ -13,6 +13,7 @@ export interface CategoryType {
   updatedAt?: Date;
 }
 
+// SHARED TYPE: Sync with backend
 export interface PopulatedCategoryType
   extends Omit<CategoryType, "parentCategory"> {
   parentCategory: CategoryType | null;

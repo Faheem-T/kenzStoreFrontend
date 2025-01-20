@@ -4,7 +4,7 @@ import { ProductType } from "./product";
 import { ReviewType, UserPopulatedReviewType } from "./reviews";
 import { SafeUserType } from "./user";
 
-interface baseResponse<T> {
+export interface baseResponse<T> {
   success: boolean;
   data: T;
 }

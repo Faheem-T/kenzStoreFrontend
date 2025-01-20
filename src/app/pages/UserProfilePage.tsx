@@ -8,6 +8,7 @@ import { useForm } from "react-hook-form";
 import { useUpdateUserProfileMutation } from "../api/userProfileApi";
 import toast from "react-hot-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { EditableField } from "../components/EditableField";
 
 const ProfileSchema = z.object({
   firstName: z.string().nonempty("First name is required"),
@@ -47,39 +48,39 @@ export const UserProfilePage = () => {
   } = form;
 
   // reusable compontent
-  const ProfileField = ({
-    label,
-    value,
-    name,
-  }: {
-    label: string;
-    value: string;
-    name: keyof ProfileType;
-  }) => {
-    if (isEditing) {
-      return (
-        <Box>
-          <TextField
-            {...register(name)}
-            label={label}
-            variant="standard"
-            error={!!errors[name]}
-            helperText={errors[name]?.message}
-            // type={name === "DOB" ? "date" : "text"}
-          />
-        </Box>
-      );
-    }
-    if (!value) return null;
-    return (
-      <Box>
-        <Typography variant="caption" color="textDisabled">
-          {label}
-        </Typography>
-        <Typography>{value}</Typography>
-      </Box>
-    );
-  };
+  // const ProfileField = ({
+  //   label,
+  //   value,
+  //   name,
+  // }: {
+  //   label: string;
+  //   value: string;
+  //   name: keyof ProfileType;
+  // }) => {
+  //   if (isEditing) {
+  //     return (
+  //       <Box>
+  //         <TextField
+  //           {...register(name)}
+  //           label={label}
+  //           variant="standard"
+  //           error={!!errors[name]}
+  //           helperText={errors[name]?.message}
+  //           // type={name === "DOB" ? "date" : "text"}
+  //         />
+  //       </Box>
+  //     );
+  //   }
+  //   if (!value) return null;
+  //   return (
+  //     <Box>
+  //       <Typography variant="caption" color="textDisabled">
+  //         {label}
+  //       </Typography>
+  //       <Typography>{value}</Typography>
+  //     </Box>
+  //   );
+  // };
 
   const submitHandler = async (data: ProfileType) => {
     const { data: updateResponse, error } =
@@ -87,19 +88,12 @@ export const UserProfilePage = () => {
         body: data,
         userId: user._id,
       });
-    if (!updateResponse) {
+    if (!updateResponse?.data) {
       toast.error("Failed to update profile");
       return;
     }
     const { email, firstName, lastName } = updateResponse.data;
     dispatch(profileUpdated({ email, firstName, lastName }));
-    // if (updateResponse) {
-    //   dispatch(
-    //     profileUpdated({
-    //       ...updateResponse,
-    //     })
-    //   );
-    // }
     if (!error) {
       toast.success("Profile updated successfully");
       setIsEditing(false);
@@ -116,45 +110,81 @@ export const UserProfilePage = () => {
           bgcolor="background.paper"
           sx={{ p: 2, boxShadow: 24 }}
         >
-          <ProfileField
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              gap: 2,
+            }}
+          >
+            <Typography variant="h6">User Details</Typography>
+            <Box
+              sx={{
+                display: "flex",
+                gap: 2,
+                // mt: 2,
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              {/* Edit / Save / Cancel Buttons */}
+              {isEditing ? (
+                <>
+                  <Button size="small" variant="text" type="submit">
+                    Save
+                  </Button>
+                  <Button
+                    size="small"
+                    variant="text"
+                    onClick={() => setIsEditing(false)}
+                  >
+                    Cancel
+                  </Button>
+                </>
+              ) : (
+                <Button
+                  size="small"
+                  variant="text"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setIsEditing(true);
+                  }}
+                >
+                  Edit
+                </Button>
+              )}
+            </Box>
+          </Box>
+          <EditableField
             label="First Name"
             value={user.firstName}
             name="firstName"
+            errors={errors}
+            register={register}
+            isEditing={isEditing}
           />
-          <ProfileField
+          <EditableField
             label="Last Name"
             value={user.lastName || ""}
             name="lastName"
+            errors={errors}
+            register={register}
+            isEditing={isEditing}
           />
-          <ProfileField label="Email" value={user.email} name="email" />
+          <EditableField
+            label="Email"
+            value={user.email}
+            name="email"
+            errors={errors}
+            register={register}
+            isEditing={isEditing}
+          />
           {/* <ProfileField
             label="Date of Birth"
             value={user.DOB?.toDateString() ?? ""}
             name="DOB"
           /> */}
-          <Box
-            sx={{ display: "flex", gap: 2, mt: 2, justifyContent: "center" }}
-          >
-            {/* Edit / Save / Cancel Buttons */}
-            {isEditing ? (
-              <>
-                <Button variant="contained" type="submit">
-                  Save
-                </Button>
-                <Button onClick={() => setIsEditing(false)}>Cancel</Button>
-              </>
-            ) : (
-              <Button
-                variant="contained"
-                onClick={(e) => {
-                  e.preventDefault();
-                  setIsEditing(true);
-                }}
-              >
-                Edit
-              </Button>
-            )}
-          </Box>
         </Box>
       </Box>
     </>

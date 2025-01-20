@@ -10,12 +10,12 @@ const productsApi = apiSlice.injectEndpoints({
     // get a product by its ID
     getProduct: builder.query<getProductResponse, string>({
       query: (id) => `v1/products/${id}`,
-      providesTags: (result, error, arg) => [{ type: "Product", id: arg }],
+      providesTags: (_result, _error, arg) => [{ type: "Product", id: arg }],
     }),
     // Get products for the hero section
     getHeroProducts: builder.query<getMultipleProductsResponse, void>({
       query: () => "v1/products/hero",
-      providesTags: (result = { data: [], success: false }, error, arg) => [
+      providesTags: (result = { data: [], success: false }) => [
         ...result.data.map(
           ({ _id }) => ({ type: "Product", id: _id } as const)
         ),
@@ -24,7 +24,7 @@ const productsApi = apiSlice.injectEndpoints({
     // fetch products related to a product
     getRelatedProducts: builder.query<getMultipleProductsResponse, string>({
       query: (productId) => `v1/products/${productId}/related`,
-      providesTags: (result = { data: [], success: false }, error, arg) => [
+      providesTags: (result = { data: [], success: false }, _error, arg) => [
         ...result.data.map(
           ({ _id }) => ({ type: "Product", id: _id } as const)
         ),
@@ -34,7 +34,7 @@ const productsApi = apiSlice.injectEndpoints({
     // fetch all products
     getProducts: builder.query<getMultipleProductsResponse, void>({
       query: () => `v1/products`,
-      providesTags: (result = { data: [], success: false }, error, arg) => [
+      providesTags: (result = { data: [], success: false }) => [
         ...result.data.map(
           ({ _id }) => ({ type: "Product", id: _id } as const)
         ),
@@ -51,7 +51,7 @@ const productsApi = apiSlice.injectEndpoints({
         method: "PATCH",
         body: patch,
       }),
-      invalidatesTags: (result, error, { id }) => [{ type: "Product", id }],
+      invalidatesTags: (_result, _error, { id }) => [{ type: "Product", id }],
     }),
     // Create a new product
     createProduct: builder.mutation<getProductResponse, CreateProductType>({
@@ -68,7 +68,7 @@ const productsApi = apiSlice.injectEndpoints({
         url: `v1/products/${id}`,
         method: "DELETE",
       }),
-      invalidatesTags: (result, error, arg) => [{ type: "Product", id: arg }],
+      invalidatesTags: (_result, _error, arg) => [{ type: "Product", id: arg }],
     }),
   }),
 });
