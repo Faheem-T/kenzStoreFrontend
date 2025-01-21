@@ -13,13 +13,11 @@ import { ServerError } from "../types/serverErrorType";
 // DONE Create Cart Summary component
 // DONE Create "Checkout" button
 // DONE Create "Clear Cart" button
-// TODO Create "Continue Shopping" button ?
 export const CartPage = () => {
   const { data, isLoading } = useGetCartQuery();
   //   const [addToCart, { isLoading: isAddToCartLoading }] = useAddToCartMutation();
 
   if (isLoading) return <LoadingComponent fullScreen />;
-  let content;
   let cart;
   if (!data) cart = { items: [] };
   else {
@@ -31,9 +29,9 @@ export const CartPage = () => {
         <ShoppingCart size={40} />
         <Typography variant="h5">Your Cart</Typography>
       </Box>
-      {cart.items.length ? <ClearCartButton /> : null}
+      {cart?.items.length ? <ClearCartButton /> : null}
       <Box sx={{ display: "flex", minWidth: 500 }}>
-        {cart.items.length ? (
+        {cart?.items.length ? (
           <>
             <Stack
               gap={2}
@@ -50,7 +48,7 @@ export const CartPage = () => {
               ))}
               {/* TODO make a compound component out of `CartSummary` and display the `cartTotal` here */}
             </Stack>
-            <CartSummary cart={cart} />
+            <CartSummary cart={cart as ProductAndTotalPopulatedCartType} />
           </>
         ) : (
           <Box
