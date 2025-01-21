@@ -1,5 +1,4 @@
 import { Box, TextField, Typography } from "@mui/material";
-import { FieldValues, UseFormRegister } from "react-hook-form";
 export const EditableField = ({
   label,
   value,

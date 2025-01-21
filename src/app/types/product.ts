@@ -1,4 +1,4 @@
-import { CategoryType, PopulatedCategoryType } from "./categories";
+import { PopulatedCategoryType } from "./categories";
 
 // SHARED TYPE: Sync with backend
 export interface ProductType {

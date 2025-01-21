@@ -9,6 +9,7 @@ import { NavbarUserIcon } from "./NavbarUserIcon";
 import { ShoppingCart } from "lucide-react";
 import { useGetMinimalCartQuery } from "../api/cartApi";
 import { LoadingComponent } from "./LoadingComponent";
+import { SiteLogo } from "./SiteLogo";
 
 export const Navbar = () => {
   const user = useAppSelector(selectUser) as SafeUserType;
@@ -39,7 +40,7 @@ export const Navbar = () => {
       bgcolor={theme.palette.background.paper}
     >
       <Link to="/home">
-        <Typography variant="h4">K</Typography>
+        <SiteLogo />
       </Link>
       <Box sx={{ display: "flex", gap: "4px" }}>
         <Navlink link="/home" label="Home" />

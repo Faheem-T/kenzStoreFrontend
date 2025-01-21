@@ -10,6 +10,7 @@ import {
   SidebarMenuItem,
   SidebarMenuButton,
   SidebarFooter,
+  SidebarHeader,
 } from "@/components/ui/sidebar";
 import {
   DropdownMenu,
@@ -19,9 +20,11 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 import { ChevronUp, MapPin, Package, ShoppingCart, User } from "lucide-react";
-import { Link, useLocation } from "react-router";
+import { Link as RouterLink, useLocation } from "react-router";
 import { LogoutButton } from "./logoutButton";
 import { SafeUserType } from "../types/user";
+import { SiteLogo } from "./SiteLogo";
+import { Box, Link } from "@mui/material";
 
 // Menu items
 const items = [
@@ -52,6 +55,31 @@ export const UserSidebar = () => {
   const location = useLocation();
   return (
     <Sidebar collapsible="icon">
+      <SidebarHeader>
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            "&:hover": { backgroundColor: "background.default" },
+          }}
+        >
+          <Link
+            component={RouterLink}
+            to="/home"
+            sx={{
+              width: "100%",
+              height: "100%",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              "&:hover": { fontSize: "20%" },
+            }}
+          >
+            <SiteLogo />
+          </Link>
+        </Box>
+      </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupLabel>Dashboard</SidebarGroupLabel>
@@ -63,10 +91,10 @@ export const UserSidebar = () => {
                     asChild
                     isActive={item.url === location.pathname}
                   >
-                    <Link to={item.url}>
+                    <RouterLink to={item.url}>
                       <item.icon />
                       <span>{item.title}</span>
-                    </Link>
+                    </RouterLink>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
