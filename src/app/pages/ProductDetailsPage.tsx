@@ -10,6 +10,7 @@ import { useGetProductReviewsQuery } from "../api/reviewsApi";
 import { RelatedProductsSection } from "./pageSections/RelatedProductsSection";
 import { SpecificationSection } from "./pageSections/SpecificationSection";
 import { Navbar } from "../components/Navbar";
+import { StockDisplay } from "../components/ProductStockDisplay";
 
 export const ProductDetailsPage = () => {
   const productId = useParams().id?.trim();
@@ -90,7 +91,13 @@ export const ProductDetailsPage = () => {
               </Box>
               <Typography>{product.description}</Typography>
               {product.stock ? (
-                <AddToCartButton productId={product._id} />
+                <>
+                  <StockDisplay stock={product.stock} />
+                  <AddToCartButton
+                    productId={product._id}
+                    productStock={product.stock}
+                  />
+                </>
               ) : (
                 <Typography color="textDisabled">
                   This product is currently out of stock

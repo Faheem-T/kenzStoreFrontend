@@ -13,7 +13,13 @@ import { Add, Delete, Remove } from "@mui/icons-material";
 import toast from "react-hot-toast";
 import { ServerError } from "../types/serverErrorType";
 
-export const AddToCartButton = ({ productId }: { productId: string }) => {
+export const AddToCartButton = ({
+  productId,
+  productStock,
+}: {
+  productId: string;
+  productStock: number;
+}) => {
   const [quantity, setQuantity] = useState(1);
   const [foundQuantity, setFoundQuantity] = useState(0);
   const timerId = useRef<NodeJS.Timeout>();
@@ -60,7 +66,9 @@ export const AddToCartButton = ({ productId }: { productId: string }) => {
         }
         if (error) {
           const serverError = error as ServerError;
-          toast.error(serverError.message);
+          console.log(error);
+          toast.error(serverError.data.message);
+          setFoundQuantity(prev);
         }
       }, 1500);
       return nextAmount;
@@ -85,7 +93,9 @@ export const AddToCartButton = ({ productId }: { productId: string }) => {
     }
     if (error) {
       const serverError = error as ServerError;
-      toast.error(serverError.message);
+      console.log(error);
+      toast.error(serverError.data.message);
+      //   setFoundQuantity(prev);
     }
   };
 
@@ -115,7 +125,10 @@ export const AddToCartButton = ({ productId }: { productId: string }) => {
             </Tooltip>
             <Typography sx={{ mx: "auto" }}>{foundQuantity}</Typography>
             <Tooltip title="Add to cart">
-              <IconButton onClick={() => handleQuantityChange(1)}>
+              <IconButton
+                onClick={() => handleQuantityChange(1)}
+                disabled={productStock <= foundQuantity}
+              >
                 <Add />
               </IconButton>
             </Tooltip>
