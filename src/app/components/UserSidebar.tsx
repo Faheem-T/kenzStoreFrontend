@@ -18,7 +18,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-import { ChevronUp, MapPin, Package, User } from "lucide-react";
+import { ChevronUp, MapPin, Package, ShoppingCart, User } from "lucide-react";
 import { Link, useLocation } from "react-router";
 import { LogoutButton } from "./logoutButton";
 import { SafeUserType } from "../types/user";
@@ -31,14 +31,19 @@ const items = [
     icon: User,
   },
   {
-    title: "Orders",
-    url: "/user/orders",
-    icon: Package,
-  },
-  {
     title: "Addresses",
     url: "/user/addresses",
     icon: MapPin,
+  },
+  {
+    title: "Cart",
+    url: "/user/cart",
+    icon: ShoppingCart,
+  },
+  {
+    title: "Orders",
+    url: "/user/orders",
+    icon: Package,
   },
 ];
 

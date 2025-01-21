@@ -16,7 +16,7 @@ export interface CategoryType {
 // SHARED TYPE: Sync with backend
 export interface PopulatedCategoryType
   extends Omit<CategoryType, "parentCategory"> {
-  parentCategory: CategoryType | null;
+  parentCategory: PopulatedCategoryType | null;
 }
 
 // SHARED TYPE: Sync with backend

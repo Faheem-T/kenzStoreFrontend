@@ -1,4 +1,4 @@
-import { Box, Button, TextField, Typography } from "@mui/material";
+import { Box, Button, Stack, Typography } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { SafeUserType } from "../types/user";
 import { profileUpdated, selectUser } from "../features/auth/authSlice";
@@ -9,6 +9,7 @@ import { useUpdateUserProfileMutation } from "../api/userProfileApi";
 import toast from "react-hot-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { EditableField } from "../components/EditableField";
+import { User } from "lucide-react";
 
 const ProfileSchema = z.object({
   firstName: z.string().nonempty("First name is required"),
@@ -42,45 +43,9 @@ export const UserProfilePage = () => {
 
   const {
     register,
-    control,
     formState: { errors },
     handleSubmit,
   } = form;
-
-  // reusable compontent
-  // const ProfileField = ({
-  //   label,
-  //   value,
-  //   name,
-  // }: {
-  //   label: string;
-  //   value: string;
-  //   name: keyof ProfileType;
-  // }) => {
-  //   if (isEditing) {
-  //     return (
-  //       <Box>
-  //         <TextField
-  //           {...register(name)}
-  //           label={label}
-  //           variant="standard"
-  //           error={!!errors[name]}
-  //           helperText={errors[name]?.message}
-  //           // type={name === "DOB" ? "date" : "text"}
-  //         />
-  //       </Box>
-  //     );
-  //   }
-  //   if (!value) return null;
-  //   return (
-  //     <Box>
-  //       <Typography variant="caption" color="textDisabled">
-  //         {label}
-  //       </Typography>
-  //       <Typography>{value}</Typography>
-  //     </Box>
-  //   );
-  // };
 
   const submitHandler = async (data: ProfileType) => {
     const { data: updateResponse, error } =
@@ -102,7 +67,11 @@ export const UserProfilePage = () => {
 
   return (
     <>
-      <Box sx={{ px: 12, py: 4 }}>
+      <Stack sx={{ p: 4 }} gap={2}>
+        <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
+          <User size={40} />
+          <Typography variant="h5">Your Details</Typography>
+        </Box>
         <Box
           component="form"
           noValidate
@@ -118,7 +87,6 @@ export const UserProfilePage = () => {
               gap: 2,
             }}
           >
-            <Typography variant="h6">User Details</Typography>
             <Box
               sx={{
                 display: "flex",
@@ -131,8 +99,13 @@ export const UserProfilePage = () => {
               {/* Edit / Save / Cancel Buttons */}
               {isEditing ? (
                 <>
-                  <Button size="small" variant="text" type="submit">
-                    Save
+                  <Button
+                    size="small"
+                    variant="text"
+                    type="submit"
+                    disabled={isLoading}
+                  >
+                    {isLoading ? "Saving..." : "Save"}
                   </Button>
                   <Button
                     size="small"
@@ -186,7 +159,7 @@ export const UserProfilePage = () => {
             name="DOB"
           /> */}
         </Box>
-      </Box>
+      </Stack>
     </>
   );
 };

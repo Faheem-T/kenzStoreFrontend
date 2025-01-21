@@ -90,7 +90,7 @@ export const ProductDetailsPage = () => {
               </Box>
               <Typography>{product.description}</Typography>
               {product.stock ? (
-                <AddToCartButton />
+                <AddToCartButton productId={product._id} />
               ) : (
                 <Typography color="textDisabled">
                   This product is currently out of stock

@@ -4,20 +4,24 @@ import { Box, Stack, Typography } from "@mui/material";
 import { AddressCard } from "../components/AddressCard";
 import { AddAddressButton } from "../components/AddAddressButton";
 import { useState } from "react";
+import { MapPin } from "lucide-react";
 
 export const UserAddressesPage = () => {
   const [isAdding, setIsAdding] = useState(false);
-  const { data, isLoading, error } = useGetUserAddressesQuery();
+  const { data, isLoading } = useGetUserAddressesQuery();
 
   if (isLoading) return <LoadingComponent fullScreen />;
   if (!data) return <Box>Couldn't fetch addresses</Box>;
 
-  // TODO Create "Add Address" button
-  // TODO Create Address Card component
+  // DONE Create "Add Address" button
+  // DONE Create Address Card component
   const addresses = data.data;
   return (
     <Stack gap={2} sx={{ p: 4 }}>
-      <Typography variant="h5">Your Addresses</Typography>
+      <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
+        <MapPin size={40} />
+        <Typography variant="h5">Your Addresses</Typography>
+      </Box>
       <Box
         sx={{
           display: "flex",
@@ -36,7 +40,6 @@ export const UserAddressesPage = () => {
           onCancelClick={() => setIsAdding(false)}
         />
       </Box>
-      <Box sx={{ display: "flex", gap: 2 }}></Box>
     </Stack>
   );
 };

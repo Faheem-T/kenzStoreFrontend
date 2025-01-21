@@ -1,4 +1,4 @@
-import { CategoryType } from "./categories";
+import { CategoryType, PopulatedCategoryType } from "./categories";
 
 // SHARED TYPE: Sync with backend
 export interface ProductType {
@@ -9,7 +9,8 @@ export interface ProductType {
   price: number;
   stock: number;
   images: string[];
-  categories: CategoryType[];
+  // categories: CategoryType[];
+  categories: PopulatedCategoryType[];
   listed: boolean;
   isHero?: boolean;
 

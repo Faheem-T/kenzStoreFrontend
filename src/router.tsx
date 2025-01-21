@@ -25,6 +25,7 @@ import { UserProfilePage } from "./app/pages/UserProfilePage";
 import { UserProfileRoot } from "./app/pages/UserProfileRoot";
 import { initialAuthLoader } from "./app/utils/initialAuthLoader";
 import { UserAddressesPage } from "./app/pages/UserAddressesPage";
+import { CartPage } from "./app/pages/CartPage";
 
 export const router = createBrowserRouter([
   {
@@ -73,6 +74,10 @@ export const router = createBrowserRouter([
                   {
                     path: "addresses",
                     element: <UserAddressesPage />,
+                  },
+                  {
+                    path: "cart",
+                    element: <CartPage />,
                   },
                 ],
               },

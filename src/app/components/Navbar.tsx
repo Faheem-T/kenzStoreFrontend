@@ -1,15 +1,33 @@
-import { Box, Stack, Typography } from "@mui/material";
+import { Badge, Box, IconButton, Typography } from "@mui/material";
 import { Navlink } from "./Navlink";
 import theme from "../../theme";
 import { useAppSelector } from "../hooks";
 import { selectUser } from "../features/auth/authSlice";
-import { Link } from "react-router";
-import { LogoutButton } from "./logoutButton";
+import { Link, useNavigate } from "react-router";
 import { SafeUserType } from "../types/user";
 import { NavbarUserIcon } from "./NavbarUserIcon";
+import { ShoppingCart } from "lucide-react";
+import { useGetMinimalCartQuery } from "../api/cartApi";
+import { LoadingComponent } from "./LoadingComponent";
 
 export const Navbar = () => {
   const user = useAppSelector(selectUser) as SafeUserType;
+  const navigate = useNavigate();
+  let CartIcon: () => React.ReactElement;
+  const { data: cartData, isLoading: cartLoading } = useGetMinimalCartQuery();
+  if (cartLoading) CartIcon = () => <LoadingComponent />;
+  else {
+    CartIcon = () => {
+      return (
+        <Badge badgeContent={cartData?.data.items.length}>
+          <IconButton onClick={() => navigate("/user/cart")}>
+            <ShoppingCart size={20} />
+          </IconButton>
+        </Badge>
+      );
+    };
+  }
+
   return (
     <Box
       sx={{
@@ -30,13 +48,10 @@ export const Navbar = () => {
       </Box>
       <Box sx={{ display: "flex", gap: "4px" }}>
         {user ? (
-          // <Stack direction="row" sx={{ display: "flex", alignItems: "center" }}>
-          //   <Typography
-          //     sx={{ fontVariantCaps: "all-petite-caps" }}
-          //   >{`Hello ${user?.firstName}`}</Typography>
-          //   <LogoutButton />
-          // </Stack>
-          <NavbarUserIcon />
+          <>
+            <CartIcon />
+            <NavbarUserIcon />
+          </>
         ) : (
           <Navlink link="/login" label="Login" />
         )}

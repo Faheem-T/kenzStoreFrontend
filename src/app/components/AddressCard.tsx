@@ -15,7 +15,7 @@ import toast from "react-hot-toast";
 import { ServerError } from "../types/serverErrorType";
 
 // DONE Create Address Card
-// TODO "Set as default" button
+// DONE "Set as default" button
 
 export const AddressCard = ({ address }: { address: AddressType }) => {
   const [isEditing, setIsEditing] = useState(false);
