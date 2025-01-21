@@ -11,6 +11,7 @@ import { RelatedProductsSection } from "./pageSections/RelatedProductsSection";
 import { SpecificationSection } from "./pageSections/SpecificationSection";
 import { Navbar } from "../components/Navbar";
 import { StockDisplay } from "../components/ProductStockDisplay";
+import { DiscountedPriceDisplay } from "../components/ProductDiscountedPriceDisplay";
 
 export const ProductDetailsPage = () => {
   const productId = useParams().id?.trim();
@@ -69,26 +70,11 @@ export const ProductDetailsPage = () => {
             >
               <Typography variant="h4">{product.name}</Typography>
               {averageReviewContent}
-              <Box sx={{ display: "flex", gap: 2 }}>
-                <Typography
-                  variant={product.isDiscountActive ? "h6" : "h5"}
-                  sx={{
-                    textDecoration: product.isDiscountActive
-                      ? "line-through"
-                      : "inital",
-                  }}
-                  color={
-                    product.isDiscountActive ? "textDisabled" : "textPrimary"
-                  }
-                >
-                  QR {product.price}/-
-                </Typography>
-                {product.isDiscountActive && (
-                  <Typography variant="h5" color="accent.main">
-                    QR {product.finalPrice}/-
-                  </Typography>
-                )}
-              </Box>
+              <DiscountedPriceDisplay
+                price={product.price}
+                finalPrice={product.finalPrice}
+                isDiscountActive={product.isDiscountActive}
+              />
               <Typography>{product.description}</Typography>
               {product.stock ? (
                 <>

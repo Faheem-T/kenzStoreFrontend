@@ -5,6 +5,7 @@ import { Delete } from "@mui/icons-material";
 import { useRemoveFromCartMutation } from "../api/cartApi";
 import toast from "react-hot-toast";
 import { ServerError } from "../types/serverErrorType";
+import { DiscountedPriceDisplay } from "./ProductDiscountedPriceDisplay";
 
 export const CartItemCard = ({
   item,
@@ -21,7 +22,7 @@ export const CartItemCard = ({
     }
     if (error) {
       const serverError = error as ServerError;
-      toast.error(serverError.message);
+      toast.error(serverError.data.message);
     }
   };
 
@@ -43,14 +44,24 @@ export const CartItemCard = ({
             display: "flex",
             flexDirection: "column",
             gap: 1,
-            alignItems: "center",
+            justifyContent: "center",
           }}
         >
-          <Typography>{item.productId.name}</Typography>
-          {/* <Typography>Quantity: {item.quantity}</Typography> */}
+          <Typography sx={{ fontSize: "1.5em" }}>
+            {item.productId.name}
+          </Typography>
+          <DiscountedPriceDisplay
+            price={item.productId.price}
+            finalPrice={item.productId.finalPrice}
+            isDiscountActive={item.productId.isDiscountActive}
+            smallFont={true}
+          />
         </Box>
         <Box sx={{ ml: "auto" }}>
-          <AddToCartButton productId={item.productId._id} />
+          <AddToCartButton
+            productId={item.productId._id}
+            productStock={item.productId.stock}
+          />
         </Box>
         <Tooltip title="Remove from cart">
           <IconButton
