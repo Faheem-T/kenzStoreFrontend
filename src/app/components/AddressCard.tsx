@@ -52,8 +52,8 @@ export const AddressCard = ({ address }: { address: AddressType }) => {
     }
     if (error) {
       if ("data" in error) {
-        const serverError = error.data as ServerError;
-        toast.error(serverError.message);
+        const serverError = error as ServerError;
+        toast.error(serverError.data.message);
       }
     }
   };
@@ -67,8 +67,8 @@ export const AddressCard = ({ address }: { address: AddressType }) => {
     }
     if (error) {
       if ("data" in error) {
-        const serverError = error.data as ServerError;
-        toast.error(serverError.message);
+        const serverError = error as ServerError;
+        toast.error(serverError.data.message);
       }
     }
   };
@@ -87,8 +87,8 @@ export const AddressCard = ({ address }: { address: AddressType }) => {
     }
     if (error) {
       if ("data" in error) {
-        const serverError = error.data as ServerError;
-        toast.error(serverError.message);
+        const serverError = error as ServerError;
+        toast.error(serverError.data.message);
       }
     }
   };

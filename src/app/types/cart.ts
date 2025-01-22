@@ -1,16 +1,22 @@
 import { ProductType } from "./product";
 
-// SHARED TYPE: Sync with backend
+// SHARED TYPE: Sync with frontend
 export interface CartType {
-  userId: string;
-  items: { productId: string; quantity: number }[];
+  _id: string; // ObjectID
+  userId: string; // ObjectID
+  items: {
+    _id: string; // ObjectID
+    productId: string; // ObjectID
+    price: number;
+    quantity: number;
+  }[];
 }
-
-// SHARED TYPE: Sync with backend
-export interface ProductAndTotalPopulatedCartType
-  extends Omit<CartType, "items"> {
-  items: { productId: ProductType; quantity: number }[];
-  cartTotal: number;
+// SHARED TYPE: Sync with frontend
+export interface ProductPopulatedCartType extends Omit<CartType, "items"> {
+  items: {
+    _id: string; // ObjectID
+    productId: Partial<ProductType>;
+    price: number;
+    quantity: number;
+  }[];
 }
-
-// SHARED TYPE: Sync with backend

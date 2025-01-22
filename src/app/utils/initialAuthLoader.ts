@@ -1,6 +1,5 @@
 import { authApi } from "../api/authApi";
 import { userLoggedIn } from "../features/auth/authSlice";
-import { useAppDispatch } from "../hooks";
 import { store } from "../store";
 
 export const initialAuthLoader = async () => {

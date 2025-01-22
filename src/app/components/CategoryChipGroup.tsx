@@ -1,8 +1,8 @@
 import { Box, Chip } from "@mui/material";
-import { CategoryType } from "../types/categories";
+import { CategoryType, PopulatedCategoryType } from "../types/categories";
 
 interface CategoryChipGroupProps {
-  categories: CategoryType[];
+  categories: CategoryType[] | PopulatedCategoryType[];
   chipSize?: "small" | "medium";
   maxChips?: number;
 }
