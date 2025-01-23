@@ -97,7 +97,7 @@ export const OrderCard = ({ order }: { order: GetUserOrder }) => {
   );
 };
 
-const statusColor = (status: OrderStatus): string => {
+export const statusColor = (status: OrderStatus): string => {
   switch (status) {
     case "pending":
       return "warning";

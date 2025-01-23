@@ -29,6 +29,7 @@ import { CartPage } from "./app/pages/CartPage";
 import { CheckoutPage } from "./app/pages/CheckoutPage";
 import { OrderConfirmationPage } from "./app/pages/OrderConfirmationPage";
 import { OrdersPage } from "./app/pages/OrdersPage";
+import { AdminOrderOverviewPage } from "./app/pages/adminPages/AdminOrderOverviewPage";
 
 export const router = createBrowserRouter([
   {
@@ -169,6 +170,11 @@ export const router = createBrowserRouter([
           {
             path: "categories/create",
             element: <AdminCreateCategoryPage />,
+          },
+          // Order paths
+          {
+            path: "orders",
+            element: <AdminOrderOverviewPage />,
           },
         ],
       },

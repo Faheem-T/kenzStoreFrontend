@@ -20,7 +20,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-import { ChevronUp, Users } from "lucide-react";
+import { Box, ChevronUp, Users } from "lucide-react";
 import { Link, useLocation } from "react-router";
 import { LogoutButton } from "../logoutButton";
 
@@ -45,6 +45,11 @@ const items = [
     title: "Users",
     url: "/admin/users",
     icon: Users,
+  },
+  {
+    title: "Orders",
+    url: "/admin/orders",
+    icon: Box,
   },
 ];
 

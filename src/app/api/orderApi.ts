@@ -1,6 +1,7 @@
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import { apiSlice } from "../api";
-import { GetUserOrder } from "../types/order";
+import { GetUserOrder, OrderStatus } from "../types/order";
+import { baseResponseWithMessage } from "../types/apiResponseTypes";
 
 interface placeOrderBody {
   cartId: string;
@@ -73,6 +74,26 @@ const orderApi = apiSlice.injectEndpoints({
         { type: "Order", _id: arg.orderId },
       ],
     }),
+    adminGetAllOrders: build.query<getUserOrdersResponse, void>({
+      query: () => "v1/orders/admin",
+      providesTags: (result = { data: [], success: false }, _error) => [
+        ...result.data.map(({ _id }) => ({ type: "Order", id: _id } as const)),
+        "Order",
+      ],
+    }),
+    adminChangeOrderStatus: build.mutation<
+      baseResponseWithMessage,
+      { orderId: string; status: OrderStatus }
+    >({
+      query: ({ orderId, status }) => ({
+        url: `v1/orders/admin/${orderId}/status`,
+        method: "PATCH",
+        body: { status },
+      }),
+      invalidatesTags: (_result, _error, arg) => [
+        { type: "Order", _id: arg.orderId },
+      ],
+    }),
   }),
 });
 
@@ -80,4 +101,6 @@ export const {
   usePlaceOrderMutation,
   useGetUserOrdersQuery,
   useCancelOrderMutation,
+  useAdminGetAllOrdersQuery,
+  useAdminChangeOrderStatusMutation,
 } = orderApi;
