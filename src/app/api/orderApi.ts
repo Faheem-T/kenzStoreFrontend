@@ -38,6 +38,7 @@ const orderApi = apiSlice.injectEndpoints({
           message: "An error occured during order placement",
         };
       },
+      invalidatesTags: ["Cart", "Product", { type: "Product" }],
     }),
   }),
 });
