@@ -27,6 +27,7 @@ import { initialAuthLoader } from "./app/utils/initialAuthLoader";
 import { UserAddressesPage } from "./app/pages/UserAddressesPage";
 import { CartPage } from "./app/pages/CartPage";
 import { CheckoutPage } from "./app/pages/CheckoutPage";
+import { OrderConfirmationPage } from "./app/pages/OrderConfirmationPage";
 
 export const router = createBrowserRouter([
   {
@@ -85,6 +86,10 @@ export const router = createBrowserRouter([
               {
                 path: "/checkout",
                 element: <CheckoutPage />,
+              },
+              {
+                path: "/order-confirmation",
+                element: <OrderConfirmationPage />,
               },
             ],
           },
