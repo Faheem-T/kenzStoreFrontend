@@ -1,4 +1,4 @@
-import { Badge, Box, IconButton, Typography } from "@mui/material";
+import { Badge, Box, IconButton } from "@mui/material";
 import { Navlink } from "./Navlink";
 import theme from "../../theme";
 import { useAppSelector } from "../hooks";

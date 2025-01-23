@@ -1,5 +1,6 @@
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import { apiSlice } from "../api";
+import { GetUserOrder } from "../types/order";
 
 interface placeOrderBody {
   cartId: string;
@@ -20,6 +21,13 @@ export interface CartValidationErrorType {
   requested?: number;
   available?: number;
 }
+
+export interface getUserOrdersResponse {
+  success: boolean;
+  data: GetUserOrder[];
+  message?: string;
+}
+
 const orderApi = apiSlice.injectEndpoints({
   endpoints: (build) => ({
     placeOrder: build.mutation<PlaceOrderResponse, placeOrderBody>({
@@ -35,12 +43,41 @@ const orderApi = apiSlice.injectEndpoints({
         }
         return {
           success: false,
-          message: "An error occured during order placement",
+          message: "An unexpected error occured during order placement",
         };
       },
       invalidatesTags: ["Cart", "Product", { type: "Product" }],
     }),
+    getUserOrders: build.query<getUserOrdersResponse, void>({
+      query: () => "v1/orders",
+      providesTags: (result = { data: [], success: false }) => [
+        ...result.data.map(({ _id }) => ({ type: "Order", id: _id } as const)),
+        { type: "Order" },
+      ],
+      transformErrorResponse: (response: FetchBaseQueryError) => {
+        if ("data" in response) {
+          return response.data as getUserOrdersResponse;
+        }
+        return {
+          success: false,
+          message: "An unexpected error occured when fetching orders",
+        };
+      },
+    }),
+    cancelOrder: build.mutation<any, { orderId: string }>({
+      query: ({ orderId }) => ({
+        url: `v1/orders/${orderId}/cancel`,
+        method: "PATCH",
+      }),
+      invalidatesTags: (_result, _error, arg) => [
+        { type: "Order", _id: arg.orderId },
+      ],
+    }),
   }),
 });
 
-export const { usePlaceOrderMutation } = orderApi;
+export const {
+  usePlaceOrderMutation,
+  useGetUserOrdersQuery,
+  useCancelOrderMutation,
+} = orderApi;

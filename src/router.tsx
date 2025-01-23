@@ -28,6 +28,7 @@ import { UserAddressesPage } from "./app/pages/UserAddressesPage";
 import { CartPage } from "./app/pages/CartPage";
 import { CheckoutPage } from "./app/pages/CheckoutPage";
 import { OrderConfirmationPage } from "./app/pages/OrderConfirmationPage";
+import { OrdersPage } from "./app/pages/OrdersPage";
 
 export const router = createBrowserRouter([
   {
@@ -80,6 +81,10 @@ export const router = createBrowserRouter([
                   {
                     path: "cart",
                     element: <CartPage />,
+                  },
+                  {
+                    path: "orders",
+                    element: <OrdersPage />,
                   },
                 ],
               },
