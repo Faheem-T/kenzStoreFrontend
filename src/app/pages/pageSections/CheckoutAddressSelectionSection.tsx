@@ -1,16 +1,9 @@
 import { useGetUserAddressesQuery } from "@/app/api/addressesApi";
 import { LoadingComponent } from "@/app/components/LoadingComponent";
-import { AddressType } from "@/app/types/address";
-import {
-  Box,
-  FormControl,
-  FormControlLabel,
-  FormLabel,
-  Radio,
-  RadioGroup,
-  Typography,
-} from "@mui/material";
+import { Box, Button, Modal, Typography } from "@mui/material";
 import React, { useState } from "react";
+import { SelectableAddressForm } from "@/app/components/SelectableAddressForm";
+import { AddAddressButton } from "@/app/components/AddAddressButton";
 
 export const CheckoutAddressSelectionSection = ({
   addressId,
@@ -20,6 +13,7 @@ export const CheckoutAddressSelectionSection = ({
   setAddressId: React.Dispatch<React.SetStateAction<string>>;
 }) => {
   const { data, isLoading } = useGetUserAddressesQuery();
+  const [isModalOpen, setIsModalOpen] = useState(false);
   if (isLoading) return <LoadingComponent />;
   if (!data) return <Box>You do not have any addresses saved</Box>;
 
@@ -32,80 +26,60 @@ export const CheckoutAddressSelectionSection = ({
         selectedId={addressId}
         setSelectedId={setAddressId}
       />
+      <Button variant="contained" onClick={() => setIsModalOpen(true)}>
+        Add address
+      </Button>
+      <AddAddressModal
+        isModalOpen={isModalOpen}
+        setIsModalOpen={setIsModalOpen}
+      />
     </>
   );
 };
 
-const SelectableAddressForm = ({
-  addresses,
-  selectedId,
-  setSelectedId,
+const AddAddressModal = ({
+  isModalOpen,
+  setIsModalOpen,
 }: {
-  addresses: AddressType[];
-  selectedId: string;
-  setSelectedId: React.Dispatch<React.SetStateAction<string>>;
+  isModalOpen: boolean;
+  setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
-  const defaultAddressId = addresses.find((address) => address.isDefault)?._id;
-  if (defaultAddressId) {
-    setSelectedId(defaultAddressId);
-  }
-  //   const [selectedId, setSelectedId] = useState(defaultAddressId);
-
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSelectedId((event.target as HTMLInputElement).value);
-  };
-
   return (
     <>
-      <Box>
-        {/* <Typography variant="h5">Select Address</Typography> */}
-        <FormControl
+      <Modal
+        open={isModalOpen}
+        onClose={(e: React.MouseEvent) => {
+          e.stopPropagation();
+          setIsModalOpen(false);
+        }}
+      >
+        <Box
           sx={{
-            backgroundColor: "background.paper",
+            position: "absolute",
+            transform: "translate(-50%, -50%)",
+            width: 400,
+            height: "fit-content",
+            top: "50%",
+            left: "50%",
+            boxShadow: 24,
+            bgcolor: "background.paper",
             p: 4,
-            boxShadow: 3,
-            display: "block",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
           }}
         >
-          <FormLabel id="selectAddressForm">
-            <Typography variant="h6">Select Address</Typography>
-          </FormLabel>
-          <RadioGroup
-            aria-labelledby="selectAddressForm"
-            value={selectedId}
-            onChange={handleChange}
-            sx={{ gap: 1 }}
-          >
-            {addresses.map((address) => (
-              <Box
-                sx={{
-                  p: 2,
-                }}
-              >
-                <FormControlLabel
-                  value={address._id}
-                  label={
-                    <Box>
-                      <Typography fontSize={18} fontWeight={"bold"}>
-                        {address.city}
-                      </Typography>
-                      {/* <Box sx={{ pl: 1 }}>
-                        <Typography>{address.state}</Typography>
-                        <Typography>{address.address_line}</Typography>
-                        <Typography>{address.landmark}</Typography>
-                      </Box> */}
-                      <Typography sx={{ pl: 1 }}>
-                        {`${address.address_line}, ${address.city}, ${address.state}`}
-                      </Typography>
-                    </Box>
-                  }
-                  control={<Radio />}
-                />
-              </Box>
-            ))}
-          </RadioGroup>
-        </FormControl>
-      </Box>
+          <Typography variant="h5">Add Address</Typography>
+          <AddAddressButton
+            isAdding={true}
+            onAddClick={() => {}}
+            onCancelClick={() => {
+              setIsModalOpen(false);
+            }}
+          />
+        </Box>
+      </Modal>
     </>
   );
 };

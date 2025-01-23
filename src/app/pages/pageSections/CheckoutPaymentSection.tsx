@@ -18,7 +18,7 @@ export const CheckoutPaymentSection = ({
     setPaymentMethod(event.target.value as PaymentMethod);
   };
   return (
-    <Box sx={{ backgroundColor: "background.paper", p: 2 }}>
+    <Box sx={{ backgroundColor: "background.paper", boxShadow: 3, p: 2 }}>
       <Typography variant="h6" sx={{ mb: 2 }}>
         Payment Method
       </Typography>

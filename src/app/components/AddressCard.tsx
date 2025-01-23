@@ -168,7 +168,7 @@ export const AddressCard = ({ address }: { address: AddressType }) => {
         />
         <EditableField
           label="Pincode"
-          value={address.pincode}
+          value={address.pincode.toString()}
           name="pincode"
           type="number"
           isEditing={isEditing}

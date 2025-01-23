@@ -1,3 +1,4 @@
+import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import { apiSlice } from "../api";
 
 interface placeOrderBody {
@@ -6,14 +7,14 @@ interface placeOrderBody {
   paymentMethod: string;
 }
 // SHARED TYPE: Sync with backend
-interface PlaceOrderResponse {
+export interface PlaceOrderResponse {
   success: boolean;
   message: string;
   data?: { orderId: string };
   errors?: CartValidationErrorType[];
 }
 // SHARED TYPE: Sync with backend
-interface CartValidationErrorType {
+export interface CartValidationErrorType {
   item: string; // ObjectId
   error: string;
   requested?: number;
@@ -27,7 +28,16 @@ const orderApi = apiSlice.injectEndpoints({
         method: "POST",
         body: body,
       }),
-      transformErrorResponse: (response) => response.data,
+      // Transform error responses
+      transformErrorResponse: (response: FetchBaseQueryError) => {
+        if ("data" in response) {
+          return response.data as PlaceOrderResponse;
+        }
+        return {
+          success: false,
+          message: "An error occured during order placement",
+        };
+      },
     }),
   }),
 });

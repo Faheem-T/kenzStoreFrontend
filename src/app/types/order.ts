@@ -1,14 +1,11 @@
 import { AddressType } from "./address";
+import { ItemType } from "./item";
 
 // SHARED TYPE: Sync with backend
 export interface OrderType {
   _id: string;
   userId: string; // ObjectId
-  items: {
-    productId: string; // ObjectId
-    price: number;
-    quantity: number;
-  }[];
+  items: ItemType[];
   status: OrderStatus;
   paymentMethod: PaymentMethod;
   address: Pick<

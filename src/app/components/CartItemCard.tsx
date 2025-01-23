@@ -10,12 +10,18 @@ import { DiscountedPriceDisplay } from "./ProductDiscountedPriceDisplay";
 export const CartItemCard = ({
   item,
 }: {
-  item: { productId: ProductType; quantity: number };
+  item: {
+    _id: string;
+    productId: Partial<ProductType>;
+    price: number;
+    quantity: number;
+  };
 }) => {
   const [removeFromCart, { isLoading }] = useRemoveFromCartMutation();
+  const product = item.productId as ProductType;
   const handleRemoveFromCart = async () => {
     const { data, error } = await removeFromCart({
-      productId: item.productId._id,
+      productId: product._id,
     });
     if (data) {
       toast.success(data.message);
@@ -38,7 +44,7 @@ export const CartItemCard = ({
           position: "relative",
         }}
       >
-        <img src={item.productId.images[0]} width="25%" />
+        <img src={product.images[0]} width="25%" />
         <Box
           sx={{
             display: "flex",
@@ -47,20 +53,18 @@ export const CartItemCard = ({
             justifyContent: "center",
           }}
         >
-          <Typography sx={{ fontSize: "1.5em" }}>
-            {item.productId.name}
-          </Typography>
+          <Typography sx={{ fontSize: "1.5em" }}>{product.name}</Typography>
           <DiscountedPriceDisplay
-            price={item.productId.price}
-            finalPrice={item.productId.finalPrice}
-            isDiscountActive={item.productId.isDiscountActive}
+            price={product.price}
+            finalPrice={product.finalPrice}
+            isDiscountActive={product.isDiscountActive}
             smallFont={true}
           />
         </Box>
         <Box sx={{ ml: "auto" }}>
           <AddToCartButton
-            productId={item.productId._id}
-            productStock={item.productId.stock}
+            productId={product._id}
+            productStock={product.stock}
           />
         </Box>
         <Tooltip title="Remove from cart">

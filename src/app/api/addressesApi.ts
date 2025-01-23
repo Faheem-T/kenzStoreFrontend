@@ -37,14 +37,17 @@ const addressesApi = apiSlice.injectEndpoints({
         { type: "Addresses", id: arg },
       ],
     }),
-    updateAddress: build.mutation({
+    updateAddress: build.mutation<
+      any,
+      { addressId: string; patch: Partial<AddressType> }
+    >({
       query: ({ addressId, patch }) => ({
         url: `v1/addresses/${addressId}`,
         method: "PATCH",
         body: patch,
       }),
       invalidatesTags: (_result, _error, arg) => [
-        { type: "Addresses", id: arg },
+        { type: "Addresses", id: arg.addressId },
         "Addresses", // TODO: check if this is needed
       ],
     }),

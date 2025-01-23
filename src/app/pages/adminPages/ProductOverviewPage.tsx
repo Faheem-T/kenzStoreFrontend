@@ -17,6 +17,7 @@ import { cn } from "@/lib/utils";
 import { DeleteProductButton } from "@/app/components/adminComponents/DeleteProductButton";
 
 export const ProductOverviewPage = () => {
+  // TODO add pagination
   const [page, setPage] = useState(1);
   const navigate = useNavigate();
   const { data, isLoading } = useGetProductsQuery();
