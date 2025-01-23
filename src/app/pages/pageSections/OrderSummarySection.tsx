@@ -1,8 +1,9 @@
 import { CartValidationErrorType } from "@/app/api/orderApi";
 import { OrderItemCard } from "@/app/components/OrderItemCard";
 import { ProductAndTotalPopulatedCartType } from "@/app/types/cart";
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, Link } from "@mui/material";
 import { createContext, PropsWithChildren, useContext } from "react";
+import { Link as RouterLink } from "react-router";
 
 interface OrderSummaryContext {
   cart: ProductAndTotalPopulatedCartType;
@@ -40,6 +41,7 @@ OrderSummary.Items = function OrderSummaryItems({
   errors: CartValidationErrorType[];
 }) {
   const { cart } = useOrderSummaryContext();
+
   return (
     <>
       <Box
@@ -51,15 +53,32 @@ OrderSummary.Items = function OrderSummaryItems({
           gap: 1,
         }}
       >
-        {cart.items.map((item) => (
-          <>
-            <OrderItemCard
-              item={item}
-              key={item._id}
-              error={errors.find((error) => error.item === item._id)}
-            />
-          </>
-        ))}
+        <Typography variant="h6">Items</Typography>
+        {cart.items.length > 0 ? (
+          cart.items.map((item) => (
+            <>
+              <OrderItemCard
+                item={item}
+                key={item._id}
+                error={errors.find((error) => error.item === item._id)}
+              />
+            </>
+          ))
+        ) : (
+          <Typography color="textDisabled">
+            Your Cart is empty{" "}
+            <Link
+              component={RouterLink}
+              to="/home"
+              sx={{
+                color: "text.primary",
+                "&:hover": { textDecoration: "underline" },
+              }}
+            >
+              Continue Shopping?
+            </Link>
+          </Typography>
+        )}
       </Box>
     </>
   );

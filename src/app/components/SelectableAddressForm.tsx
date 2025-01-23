@@ -70,6 +70,12 @@ export const SelectableAddressForm = ({
                       <Typography
                         variant="caption"
                         color="textDisabled"
+                        sx={{
+                          "&:hover": {
+                            cursor: "pointer",
+                            textDecoration: "underline",
+                          },
+                        }}
                         onClick={() => {
                           setIsEditing(true);
                           setEditingAddressId(address._id);
@@ -124,6 +130,11 @@ export const SelectableAddressForm = ({
                 </Modal>
               </Box>
             ))}
+            {addresses.length === 0 && (
+              <Typography sx={{ pl: 1 }} color="textDisabled">
+                You do not have any addresses saved
+              </Typography>
+            )}
           </RadioGroup>
         </FormControl>
       </Box>

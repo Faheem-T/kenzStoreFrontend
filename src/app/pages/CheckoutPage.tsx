@@ -13,6 +13,7 @@ import { CheckoutPaymentSection } from "./pageSections/CheckoutPaymentSection";
 import toast from "react-hot-toast";
 import { OrderSummary } from "./pageSections/OrderSummarySection";
 import { Navbar } from "../components/Navbar";
+import { useNavigate } from "react-router";
 
 // Type predicate
 const isOrderError = (error: unknown): error is PlaceOrderResponse => {
@@ -20,6 +21,7 @@ const isOrderError = (error: unknown): error is PlaceOrderResponse => {
 };
 
 export const CheckoutPage = () => {
+  const navigate = useNavigate();
   const [addressId, setAddressId] = useState<string>("");
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>("COD");
   const [errors, setErrors] = useState<CartValidationErrorType[]>([]);
@@ -31,14 +33,6 @@ export const CheckoutPage = () => {
   const cart = data.data;
   const cartId = cart._id;
 
-  // TODO complete cart empty case
-  if (cart.items.length === 0)
-    return (
-      <Box>
-        <Typography>Cart is empty</Typography>
-      </Box>
-    );
-
   const handleOrderPlacement = async () => {
     try {
       const data = await placeOrder({
@@ -48,6 +42,9 @@ export const CheckoutPage = () => {
       }).unwrap();
       if (data) {
         toast.success(data.message);
+        navigate("/order-confirmation", {
+          state: { orderId: data.data?.orderId },
+        });
       }
     } catch (error) {
       if (isOrderError(error)) {
@@ -63,6 +60,12 @@ export const CheckoutPage = () => {
       console.log(error);
     }
   };
+
+  const isOrderButtonDisabled =
+    cart.items.length === 0 ||
+    isPlacingOrder ||
+    errors.length > 0 ||
+    !addressId;
 
   return (
     <>
@@ -95,7 +98,7 @@ export const CheckoutPage = () => {
             {/* Place Order Button */}
             <Button
               onClick={handleOrderPlacement}
-              disabled={isPlacingOrder || errors.length > 0 || !addressId}
+              disabled={isOrderButtonDisabled}
               variant="contained"
             >
               Place Order
@@ -115,7 +118,7 @@ export const CheckoutPage = () => {
             <Button
               variant="contained"
               onClick={handleOrderPlacement}
-              disabled={isPlacingOrder || errors.length > 0 || !addressId}
+              disabled={isOrderButtonDisabled}
             >
               Place Order
             </Button>
