@@ -4,7 +4,7 @@ import { ProductCard } from "@/app/components/ProductCard";
 import { Box, Stack, Typography } from "@mui/material";
 
 export const AllProductsSection = () => {
-  const { data, isLoading } = useGetProductsQuery();
+  const { data, isLoading } = useGetProductsQuery({});
   if (isLoading) return <LoadingComponent fullScreen />;
   if (!data) return <Box>Couldn't fetch products</Box>;
 

@@ -20,7 +20,7 @@ export const ProductOverviewPage = () => {
   // TODO add pagination
   const [page, setPage] = useState(1);
   const navigate = useNavigate();
-  const { data, isLoading } = useGetProductsQuery();
+  const { data, isLoading } = useGetProductsQuery({});
 
   if (isLoading) return <LoadingComponent fullScreen />;
   if (!data) return <Box>Could not fetch products</Box>;

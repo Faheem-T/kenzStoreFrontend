@@ -30,6 +30,7 @@ import { CheckoutPage } from "./app/pages/CheckoutPage";
 import { OrderConfirmationPage } from "./app/pages/OrderConfirmationPage";
 import { OrdersPage } from "./app/pages/OrdersPage";
 import { AdminOrderOverviewPage } from "./app/pages/adminPages/AdminOrderOverviewPage";
+import { SearchProductPage } from "./app/pages/SearchProductPage";
 
 export const router = createBrowserRouter([
   {
@@ -111,6 +112,11 @@ export const router = createBrowserRouter([
           {
             path: "/products/:id",
             element: <ProductDetailsPage />,
+          },
+          {
+            // path: "/search?sort=:sort&sortBy=:sortBy",
+            path: "/search",
+            element: <SearchProductPage />,
           },
         ],
       },

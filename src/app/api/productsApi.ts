@@ -5,6 +5,14 @@ import {
 } from "../types/apiResponseTypes";
 import { CreateProductType, UpdateProductType } from "../types/product";
 
+export const sortByFields = [
+  "name",
+  "price",
+  "createdAt",
+  "avgRating",
+] as const;
+export type SortByField = (typeof sortByFields)[number];
+
 const productsApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     // get a product by its ID
@@ -32,8 +40,21 @@ const productsApi = apiSlice.injectEndpoints({
       ],
     }),
     // fetch all products
-    getProducts: builder.query<getMultipleProductsResponse, void>({
-      query: () => `v1/products`,
+    getProducts: builder.query<
+      getMultipleProductsResponse,
+      {
+        sortBy?: SortByField;
+        sort?: "asc" | "desc";
+        page?: number;
+        query?: string;
+      }
+    >({
+      query: ({ sortBy = "createdAt", sort, page = "1", query }) =>
+        `v1/products?` +
+        (sort ? `sort=${sort}` : "") +
+        (query ? `&q=${query}` : "") +
+        (sortBy ? `&sortBy=${sortBy}` : "") +
+        (page ? `&page=${page}` : page),
       providesTags: (result = { data: [], success: false }) => [
         ...result.data.map(
           ({ _id }) => ({ type: "Product", id: _id } as const)
@@ -78,6 +99,7 @@ export const {
   useGetHeroProductsQuery,
   useGetRelatedProductsQuery,
   useGetProductsQuery,
+  useLazyGetProductsQuery,
   useUpdateProductMutation,
   useCreateProductMutation,
   useDeleteProductMutation,
