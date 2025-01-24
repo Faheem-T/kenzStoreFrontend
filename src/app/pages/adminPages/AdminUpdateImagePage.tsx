@@ -94,7 +94,7 @@ export const AdminUpdateImagePage = () => {
       return;
     }
     toast.success("Images updated successfully!");
-    navigate(-1);
+    navigate(`/admin/products/${productId}`);
   };
 
   return (

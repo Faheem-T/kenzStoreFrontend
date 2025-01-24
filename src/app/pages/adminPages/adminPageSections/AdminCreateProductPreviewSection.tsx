@@ -103,7 +103,7 @@ export const AdminCreateProductPreviewSection = ({
       </Box>
       <Button
         variant="contained"
-        disabled={isLoading}
+        disabled={isLoading || isUploadLoading}
         onClick={handleConfirmClick}
       >
         {isLoading

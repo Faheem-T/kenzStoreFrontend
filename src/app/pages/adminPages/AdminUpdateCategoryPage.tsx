@@ -67,7 +67,7 @@ export const AdminUpdateCategoryPage = () => {
     console.log(data);
     await updateCategoryMutation({ categoryId, patch: data });
     toast.success("Category updated successfully");
-    navigate(-1);
+    navigate("/admin/categories");
   };
 
   return (

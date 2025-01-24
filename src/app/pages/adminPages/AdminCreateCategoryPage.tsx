@@ -43,7 +43,7 @@ export const AdminCreateCategoryPage = () => {
     console.log(data);
     await createCategoryMutation(data);
     toast.success("Category created successfully");
-    navigate(-1);
+    navigate("/admin/categories");
   };
 
   return (
