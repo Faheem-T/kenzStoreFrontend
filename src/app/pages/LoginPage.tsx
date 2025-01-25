@@ -139,6 +139,17 @@ export const LoginPage = () => {
           <DevTool control={control} />
         </form>
         <Typography variant="caption">
+          <Box
+            component="span"
+            sx={{
+              textDecoration: "underline",
+              "&:hover": { color: "primary.light" },
+            }}
+          >
+            <Link to="/forgot-password">Forgot password?</Link>
+          </Box>
+        </Typography>
+        <Typography variant="caption">
           Not registered?{" "}
           <Box
             component="span"

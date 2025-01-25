@@ -7,7 +7,6 @@ import {
   Tooltip,
 } from "@mui/material";
 import { Navlink } from "./Navlink";
-import theme from "../../theme";
 import { useAppSelector } from "../hooks";
 import { selectUser } from "../features/auth/authSlice";
 import { Link, useNavigate } from "react-router";
@@ -19,7 +18,7 @@ import { SiteLogo } from "./SiteLogo";
 import { useState } from "react";
 import { Search, ShoppingCartOutlined } from "@mui/icons-material";
 
-export const Navbar = () => {
+export const Navbar = ({ transparent }: { transparent: boolean }) => {
   const user = useAppSelector(selectUser) as SafeUserType;
   const navigate = useNavigate();
   let CartIcon: () => React.ReactElement;
@@ -47,8 +46,8 @@ export const Navbar = () => {
         alignItems: "center",
         display: "flex",
         padding: "8px 40px",
+        backgroundColor: transparent ? "" : "background.paper",
       }}
-      bgcolor={theme.palette.background.paper}
     >
       <Link to="/home">
         <SiteLogo />
