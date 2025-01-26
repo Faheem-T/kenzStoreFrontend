@@ -1,23 +1,17 @@
 import {
   Box,
-  Button,
   IconButton,
   MenuItem,
   Select,
-  SelectChangeEvent,
   TextField,
   Typography,
 } from "@mui/material";
 import { useSearchParams } from "react-router";
 import { Navbar } from "../components/Navbar";
-import {
-  SortByField,
-  sortByFields,
-  useLazyGetProductsQuery,
-} from "../api/productsApi";
+import { SortByField, useLazyGetProductsQuery } from "../api/productsApi";
 import { LoadingComponent } from "../components/LoadingComponent";
 import { ProductCard } from "../components/ProductCard";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useRef, useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Search } from "@mui/icons-material";
@@ -29,54 +23,75 @@ const searchFormSchema = z.object({
 type SearchFormType = z.infer<typeof searchFormSchema>;
 
 export const SearchProductPage = () => {
-  const [getProducts, { data, isLoading }] = useLazyGetProductsQuery();
+  const [getProducts, { data, isFetching, isLoading }] =
+    useLazyGetProductsQuery();
   const [searchParams, setSearchParams] = useSearchParams();
   const searchTimer = useRef<NodeJS.Timeout | null>(null);
-  const [isLoadingProducts, setIsLoadingProducts] = useState(false);
   const { handleSubmit, register } = useForm();
+  interface SortOption {
+    label: string;
+    sortBy: SortByField;
+    sort: "asc" | "desc";
+  }
 
-  // Front end friendly names for the query params
-  const sortByMap = {
-    "Price: Low to High": { sortBy: "price", sort: "asc" },
-    "Price: High to Low": { sortBy: "price", sort: "desc" },
-    Newest: { sortBy: "createdAt", sort: "desc" },
-    Oldest: { sortBy: "createdAt", sort: "asc" },
-    "Average Rating": { sortBy: "avgRating", sort: "desc" },
-  };
+  const sortOptions: SortOption[] = [
+    {
+      label: "Price: Low to High",
+      sortBy: "price",
+      sort: "asc",
+    },
+    {
+      label: "Price: High to Low",
+      sortBy: "price",
+      sort: "desc",
+    },
+    {
+      label: "Newest",
+      sortBy: "createdAt",
+      sort: "desc",
+    },
+    {
+      label: "Oldest",
+      sortBy: "createdAt",
+      sort: "asc",
+    },
+    {
+      label: "Average Rating",
+      sortBy: "avgRating",
+      sort: "desc",
+    },
+  ];
 
-  // getting the query params
-  const sortBy: SortByField =
-    (searchParams.get("sortBy") as SortByField) || "createdAt";
-  const sort: "asc" | "desc" =
-    (searchParams.get("sort") as "asc" | "desc") || sortBy === "avgRating"
-      ? "desc"
-      : "asc";
-  const query = searchParams.get("q") || "";
-
-  // Querying when either the sortBy or sort changes
+  // Querying when searchParams change
   useEffect(() => {
+    const sortBy: SortByField =
+      (searchParams.get("sortBy") as SortByField) || "createdAt";
+    const sort: "asc" | "desc" = searchParams.get("sort") as "asc" | "desc";
+    const query = searchParams.get("q") || "";
     getProducts({ sortBy, sort, query });
-  }, [sortBy, sort, query]);
+    // cleanup
+    return () => {
+      searchTimer.current && clearTimeout(searchTimer.current);
+    };
+  }, [searchParams]);
 
-  // Query handler
+  // Search submit handler
   const handleSearchSubmit = async (data: SearchFormType) => {
-    setSearchParams({ q: data.query || "" }); // setting the query param to the data;
-    setIsLoadingProducts(true);
-    await getProducts({ query, sortBy, sort });
-    setIsLoadingProducts(false);
+    setSearchParams({
+      ...Object.fromEntries(searchParams),
+      q: data.query || "",
+    });
   };
 
-  //
-  const handleSearchChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = e.target;
-    searchTimer.current && clearTimeout(searchTimer.current);
-    searchTimer.current = setTimeout(async () => {
-      setSearchParams({ q: value });
-      setIsLoadingProducts(true);
-      await getProducts({ query: value, sortBy, sort });
-      setIsLoadingProducts(false);
-    }, 1500);
-  };
+  const currentSort = useMemo(
+    () =>
+      sortOptions.find(
+        (options) =>
+          options.sortBy === searchParams.get("sortBy") &&
+          options.sort === searchParams.get("sort")
+      ),
+    [searchParams]
+  );
 
   if (isLoading) return <LoadingComponent fullScreen />;
   if (!data) return <Box>Couldn't fetch products</Box>;
@@ -102,42 +117,49 @@ export const SearchProductPage = () => {
               variant="standard"
               {...register("query")}
               placeholder="Search for a product..."
-              defaultValue={query}
-              onChange={handleSearchChange}
+              defaultValue={searchParams.get("q")}
             />
-            <IconButton type="submit" disabled={isLoadingProducts}>
+            <IconButton type="submit" disabled={isFetching}>
               <Search />
             </IconButton>
           </Box>
           <Select
-            defaultValue={
-              (Object.entries(sortByMap).find(
-                ([_, value]) => value.sortBy === sortBy && value.sort === sort
-              )?.[0] as keyof typeof sortByMap) || "Price: Low to High"
+            value={
+              currentSort?.label ||
+              sortOptions.find((option) => option.label === "Newest")?.label
             }
-            onChange={(e: SelectChangeEvent<keyof typeof sortByMap>) =>
-              setSearchParams({
-                sortBy:
-                  sortByMap[e.target.value as keyof typeof sortByMap].sortBy,
-                sort: sortByMap[e.target.value as keyof typeof sortByMap].sort,
-              })
-            }
+            disabled={isFetching}
+            onChange={(e) => {
+              const selectedOption = sortOptions.find(
+                (option) => option.label === e.target.value
+              );
+              if (selectedOption) {
+                setSearchParams(
+                  {
+                    ...Object.fromEntries(searchParams),
+                    sort: selectedOption.sort,
+                    sortBy: selectedOption.sortBy,
+                  },
+                  { replace: false }
+                );
+              }
+            }}
             sx={{ textTransform: "capitalize", ml: "auto" }}
             size="small"
           >
-            {Object.keys(sortByMap).map((field) => (
+            {sortOptions.map((option) => (
               <MenuItem
-                value={field}
+                value={option.label}
+                key={option.label}
                 sx={{ textTransform: "capitalize" }}
-                key={field}
               >
-                Sort By: {field}
+                Sort By: {option.label}
               </MenuItem>
             ))}
           </Select>
         </Box>
         <Box sx={{ display: "flex", gap: 2, p: 2 }}>
-          {isLoadingProducts ? (
+          {isFetching ? (
             <Box sx={{ width: "100%", height: "30vh" }}>
               <LoadingComponent />
             </Box>

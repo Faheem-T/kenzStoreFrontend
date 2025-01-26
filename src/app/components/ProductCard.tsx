@@ -1,4 +1,4 @@
-import { Box, Chip, Typography } from "@mui/material";
+import { Box, Chip, Rating, Typography } from "@mui/material";
 import { ProductType } from "../types/product";
 import { Link } from "react-router";
 import { CategoryChipGroup } from "./CategoryChipGroup";
@@ -52,6 +52,12 @@ export const ProductCard = ({ product }: ProductCardProps) => {
               QR {product.price}/-
             </Typography>
           )}
+          <Rating
+            size="small"
+            value={product.avgRating}
+            precision={0.5}
+            readOnly
+          />
           <Link to={`/products/${product._id}`}>
             <Typography variant="body1">{product.name}</Typography>
           </Link>
