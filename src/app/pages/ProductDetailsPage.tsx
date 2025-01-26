@@ -53,7 +53,7 @@ export const ProductDetailsPage = () => {
       <Stack sx={{ px: 18 }} spacing={4} divider={<Divider />}>
         <Box>
           {/* Category Breadcrumb */}
-          <CategoryBreadCrumb categories={product.categories} />
+          <CategoryBreadCrumb categories={[product.category]} />
           {/* Main Section */}
           <Box sx={{ display: "flex", gap: 4 }}>
             <Box sx={{ width: 1 / 2 }}>

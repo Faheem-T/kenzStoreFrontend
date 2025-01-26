@@ -18,7 +18,7 @@ import { SiteLogo } from "./SiteLogo";
 import { useState } from "react";
 import { Search, ShoppingCartOutlined } from "@mui/icons-material";
 
-export const Navbar = ({ transparent }: { transparent: boolean }) => {
+export const Navbar = ({ transparent }: { transparent?: boolean }) => {
   const user = useAppSelector(selectUser) as SafeUserType;
   const navigate = useNavigate();
   let CartIcon: () => React.ReactElement;

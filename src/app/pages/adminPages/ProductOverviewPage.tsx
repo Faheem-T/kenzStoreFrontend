@@ -55,7 +55,7 @@ export const ProductOverviewPage = () => {
               <TableHead>Price (QR)</TableHead>
               <TableHead>Discount</TableHead>
               <TableHead>Discounted Price (QR)</TableHead>
-              <TableHead>Categories</TableHead>
+              <TableHead>Category</TableHead>
               <TableHead />
             </TableRow>
           </TableHeader>
@@ -67,6 +67,7 @@ export const ProductOverviewPage = () => {
                   "border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted"
                 )}
                 onClick={() => navigate(`/admin/products/${product._id}`)}
+                key={product._id}
               >
                 <TableCell>{product.name}</TableCell>
                 <TableCell>{product.price}</TableCell>
@@ -80,7 +81,7 @@ export const ProductOverviewPage = () => {
                 )}
                 <TableCell>{product.finalPrice}</TableCell>
                 <TableCell>
-                  <CategoryChipGroup categories={product.categories} />
+                  <CategoryChipGroup categories={[product.category]} />
                 </TableCell>
                 <TableCell>
                   <DeleteProductButton

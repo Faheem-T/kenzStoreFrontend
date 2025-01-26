@@ -1,5 +1,5 @@
 import { Box, Chip } from "@mui/material";
-import { CategoryType, PopulatedCategoryType } from "../types/categories";
+import { CategoryType, PopulatedCategoryType } from "../types/category";
 
 interface CategoryChipGroupProps {
   categories: CategoryType[] | PopulatedCategoryType[];

@@ -12,8 +12,8 @@ interface CategoryAutoCompleteProps {
 
 export const CategoryAutocomplete = ({
   control,
-  name = "categories",
-  label = "Categories",
+  name = "category",
+  label = "Category",
   multiple = true,
 }: CategoryAutoCompleteProps) => {
   const [options, setOptions] = useState<{ _id: string; name: string }[]>([]);

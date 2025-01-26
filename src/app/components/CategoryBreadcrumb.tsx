@@ -1,5 +1,5 @@
 import { Box, Typography } from "@mui/material";
-import { PopulatedCategoryType } from "../types/categories";
+import { PopulatedCategoryType } from "../types/category";
 import { Link } from "react-router";
 
 interface CategoryBreadCrumbProps {

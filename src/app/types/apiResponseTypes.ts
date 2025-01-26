@@ -1,5 +1,5 @@
 import { SafeAdminType } from "./admin";
-import { PopulatedCategoryType } from "./categories";
+import { PopulatedCategoryType } from "./category";
 import { ProductType } from "./product";
 import { ReviewType, UserPopulatedReviewType } from "./reviews";
 import { SafeUserType } from "./user";

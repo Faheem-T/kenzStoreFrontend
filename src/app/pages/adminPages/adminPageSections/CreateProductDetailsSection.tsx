@@ -33,7 +33,7 @@ const createProductDetailsSchema = z.object({
   brand: z.string(),
   price: z.number().min(0, "Price cannot be less than 0"),
   stock: z.number().min(0, "Stock cannot be less than 0"),
-  categories: z.array(z.string()),
+  category: z.string().nonempty("Category is required"),
   features: z.array(
     z.object({
       name: z.string(),
@@ -166,7 +166,7 @@ export const CreateProductDetailsSection = ({
             />
           </Box>
           {/* Categories */}
-          <CategoryAutocomplete control={control} />
+          <CategoryAutocomplete multiple={false} control={control} />
           {/* Specifications */}
           <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
             <FormLabel sx={{ fontSize: "16px", fontWeight: "bold", mt: 2 }}>

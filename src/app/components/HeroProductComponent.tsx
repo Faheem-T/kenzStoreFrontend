@@ -34,7 +34,7 @@ export const HeroProductComponent = ({
             {product.name}
           </Typography>
         </Link>
-        {product?.categories[0]?.name}
+        {product?.category.name}
         <Typography variant="h4" color="secondary" fontWeight="800">
           QR {product.price}/-
         </Typography>

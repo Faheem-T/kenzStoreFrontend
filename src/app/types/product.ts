@@ -1,4 +1,4 @@
-import { PopulatedCategoryType } from "./categories";
+import { PopulatedCategoryType } from "./category";
 
 // SHARED TYPE: Sync with backend
 export interface ProductType {
@@ -9,12 +9,15 @@ export interface ProductType {
   price: number;
   stock: number;
   images: string[];
-  // categories: CategoryType[];
-  categories: PopulatedCategoryType[];
+  // category: CategoryType;
+  category: PopulatedCategoryType;
   listed: boolean;
   isHero?: boolean;
 
   specifications: ProductSpecificationType[];
+
+  //for soft deletion
+  isDeleted: boolean;
 
   // discount related fields
   discountType?: "percentage" | "fixed";
@@ -54,13 +57,14 @@ export interface CreateProductType
     | "finalPrice"
     | "listed"
     | "isHero"
-    | "categories" // changing from populated to id
+    | "category" // changing from populated to id
+    | "isDeleted"
   > {
-  categories: string[];
+  category: string;
 }
 
 // SHARED TYPE: Sync with backend
 export interface UpdateProductType
-  extends Partial<Omit<CreateProductType, "categories">> {
-  categories?: string[];
+  extends Partial<Omit<CreateProductType, "category">> {
+  category?: string;
 }

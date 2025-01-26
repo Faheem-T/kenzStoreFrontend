@@ -33,7 +33,7 @@ const updateProductSchema = z.object({
   brand: z.string(),
   price: z.number().min(0, "Price cannot be less than 0"),
   stock: z.number().min(0, "Stock cannot be less than 0"),
-  categories: z.array(z.string()),
+  category: z.string().nonempty("Category is required"),
   features: z.array(
     z.object({
       name: z.string(),
@@ -59,17 +59,17 @@ type UpdateProductFormValues = z.infer<typeof updateProductSchema>;
 export const AdminUpdateProductPage = () => {
   const { productId } = useParams();
   const navigate = useNavigate();
-  let categories: { _id: string; name: string }[] = [];
+  // let categories: { _id: string; name: string }[] = [];
 
   const { data, isLoading } = useGetProductQuery(productId || "");
   const { data: categoriesData, isLoading: categoriesLoading } =
     useGetCategoriesQuery();
 
   if (categoriesData) {
-    categories = categoriesData.data.map((category) => ({
-      _id: category._id,
-      name: category.name,
-    }));
+    // categories = categoriesData.data.map((category) => ({
+    //   _id: category._id,
+    //   name: category.name,
+    // }));
   }
 
   const form = useForm<UpdateProductFormValues>({
@@ -107,10 +107,7 @@ export const AdminUpdateProductPage = () => {
           (specification) => specification.category === "technical"
         )
       );
-      setValue(
-        "categories",
-        data.data.categories.map(({ _id }) => _id)
-      );
+      setValue("category", data.data.category._id);
     }
   }, [data]);
 
@@ -118,10 +115,10 @@ export const AdminUpdateProductPage = () => {
   if (isLoading) return <LoadingComponent fullScreen />;
   if (!data) return <Box>Product Not Found</Box>;
 
-  const productCategories = data.data.categories.map((category) => ({
-    _id: category._id,
-    name: category.name,
-  }));
+  // const productCategory = {
+  //   _id: data.data.category._id,
+  //   name: data.data.category.name,
+  // };
   const submitHandler = async (formData: UpdateProductFormValues) => {
     console.log(formData);
     const { features, physical, technical, ...patchData } = formData;
@@ -213,7 +210,8 @@ export const AdminUpdateProductPage = () => {
           {/* Categories */}
           <CategoryAutocomplete
             control={control}
-            // defaultValue={productCategories || []}
+            multiple={false}
+            // defaultValue={productCategory || []}
           />
           {/* Specifications */}
           <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>

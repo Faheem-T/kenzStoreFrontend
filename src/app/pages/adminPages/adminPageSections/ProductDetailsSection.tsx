@@ -63,7 +63,7 @@ export const ProductDetailsSection = ({
         <Typography variant="caption" color="textDisabled">
           Product Categories
         </Typography>
-        <CategoryChipGroup categories={product.categories} maxChips={100} />
+        <CategoryChipGroup categories={[product.category]} maxChips={100} />
       </Box>
       <Box>
         <SpecificationSection
