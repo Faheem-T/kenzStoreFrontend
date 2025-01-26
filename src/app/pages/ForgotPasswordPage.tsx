@@ -1,9 +1,19 @@
-import { Box, Button, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  IconButton,
+  TextField,
+  Tooltip,
+  Typography,
+} from "@mui/material";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { useForgotPasswordMutation } from "../api/authApi";
 import { zodResolver } from "@hookform/resolvers/zod";
 import toast from "react-hot-toast";
+import { ServerError } from "../types/serverErrorType";
+import { ArrowBack } from "@mui/icons-material";
+import { useNavigate } from "react-router";
 
 const formSchema = z.object({
   email: z.string().nonempty("Email is required").email("Invalid email format"),
@@ -12,6 +22,7 @@ const formSchema = z.object({
 type FormType = z.infer<typeof formSchema>;
 
 export const ForgotPasswordPage = () => {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -19,8 +30,7 @@ export const ForgotPasswordPage = () => {
   } = useForm<FormType>({
     resolver: zodResolver(formSchema),
   });
-  const [createForgotPasswordMutation, { isLoading }] =
-    useForgotPasswordMutation();
+  const [createForgotPasswordMutation, {}] = useForgotPasswordMutation();
   const submitHandler = async (data: FormType) => {
     const { email } = data;
     const { data: response, error } = await createForgotPasswordMutation({
@@ -28,6 +38,11 @@ export const ForgotPasswordPage = () => {
     });
     if (response) {
       toast(response.message);
+    }
+    if (error) {
+      if ("data" in error) {
+        toast((error as ServerError)?.data.message);
+      }
     }
   };
   return (
@@ -39,8 +54,17 @@ export const ForgotPasswordPage = () => {
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
+          position: "relative",
         }}
       >
+        <Tooltip title="Go back">
+          <IconButton
+            sx={{ position: "absolute", left: 20, top: 20 }}
+            onClick={() => navigate(-1)}
+          >
+            <ArrowBack fontSize="large" />
+          </IconButton>
+        </Tooltip>
         <Typography variant="h3">Reset Password</Typography>
         <Box
           component="form"

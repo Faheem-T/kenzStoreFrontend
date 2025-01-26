@@ -32,6 +32,7 @@ import { OrdersPage } from "./app/pages/OrdersPage";
 import { AdminOrderOverviewPage } from "./app/pages/adminPages/AdminOrderOverviewPage";
 import { SearchProductPage } from "./app/pages/SearchProductPage";
 import { ForgotPasswordPage } from "./app/pages/ForgotPasswordPage";
+import { ResetPasswordPage } from "./app/pages/ResetPasswordPage";
 
 export const router = createBrowserRouter([
   {
@@ -61,6 +62,10 @@ export const router = createBrowserRouter([
               {
                 path: "/forgot-password",
                 element: <ForgotPasswordPage />,
+              },
+              {
+                path: "/reset-password",
+                element: <ResetPasswordPage />,
               },
             ],
           },

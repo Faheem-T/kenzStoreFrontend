@@ -10,8 +10,9 @@ import {
   IconButton,
   FormHelperText,
   Input,
+  Tooltip,
 } from "@mui/material";
-import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { ArrowBack, Visibility, VisibilityOff } from "@mui/icons-material";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { DevTool } from "@hookform/devtools";
@@ -89,8 +90,17 @@ export const LoginPage = () => {
           justifyContent: "center",
           flexDirection: "column",
           gap: "8px",
+          position: "relative",
         }}
       >
+        <Tooltip title="Go back">
+          <IconButton
+            sx={{ position: "absolute", left: 20, top: 20 }}
+            onClick={() => navigate(-1)}
+          >
+            <ArrowBack fontSize="large" />
+          </IconButton>
+        </Tooltip>
         <Typography margin={4} variant="h2" fontWeight={800}>
           Login
         </Typography>
