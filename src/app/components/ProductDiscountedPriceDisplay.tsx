@@ -3,15 +3,14 @@ import { Box, Typography } from "@mui/material";
 export const DiscountedPriceDisplay = ({
   price,
   finalPrice,
-  isDiscountActive,
   smallFont = false,
 }: {
   price: number;
   finalPrice: number;
-  isDiscountActive: boolean;
   smallFont?: boolean;
 }) => {
   const fontSize = smallFont ? "1em" : "1.5em";
+  const isDiscountActive = price !== finalPrice;
   return (
     <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
       <Typography

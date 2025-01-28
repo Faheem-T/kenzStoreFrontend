@@ -71,7 +71,7 @@ export const ProductOverviewPage = () => {
               >
                 <TableCell>{product.name}</TableCell>
                 <TableCell>{product.price}</TableCell>
-                {product.isDiscountActive ? (
+                {product.finalPrice !== product.price ? (
                   <TableCell>
                     {product.discountValue}
                     {product.discountType === "percentage" ? "%" : "QR"}

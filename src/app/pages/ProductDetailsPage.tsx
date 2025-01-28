@@ -73,7 +73,6 @@ export const ProductDetailsPage = () => {
               <DiscountedPriceDisplay
                 price={product.price}
                 finalPrice={product.finalPrice}
-                isDiscountActive={product.isDiscountActive}
               />
               <Typography>{product.description}</Typography>
               {product.stock ? (

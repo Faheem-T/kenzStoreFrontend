@@ -8,6 +8,7 @@ interface ProductCardProps {
 }
 
 export const ProductCard = ({ product }: ProductCardProps) => {
+  const isProductDiscountActive = product.finalPrice !== product.price;
   return (
     <>
       <Box
@@ -39,11 +40,11 @@ export const ProductCard = ({ product }: ProductCardProps) => {
           <Typography
             variant="body1"
             fontWeight="bold"
-            color={product.isDiscountActive ? "accent.main" : ""}
+            color={isProductDiscountActive ? "accent.main" : ""}
           >
             QR {product.finalPrice}/-
           </Typography>
-          {product.isDiscountActive && (
+          {isProductDiscountActive && (
             <Typography
               sx={{ textDecoration: "line-through" }}
               variant="caption"

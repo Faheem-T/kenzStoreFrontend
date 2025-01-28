@@ -57,7 +57,6 @@ export const CartItemCard = ({
           <DiscountedPriceDisplay
             price={product.price}
             finalPrice={product.finalPrice}
-            isDiscountActive={product.isDiscountActive}
             smallFont={true}
           />
         </Box>
