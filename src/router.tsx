@@ -33,6 +33,8 @@ import { AdminOrderOverviewPage } from "./app/pages/adminPages/AdminOrderOvervie
 import { SearchProductPage } from "./app/pages/SearchProductPage";
 import { ForgotPasswordPage } from "./app/pages/ForgotPasswordPage";
 import { ResetPasswordPage } from "./app/pages/ResetPasswordPage";
+import { AdminProductOffersPage } from "./app/pages/adminPages/AdminProductOffersPage";
+import { AdminCreateOfferPage } from "./app/pages/adminPages/AdminCreateProductOfferPage";
 
 export const router = createBrowserRouter([
   {
@@ -191,6 +193,19 @@ export const router = createBrowserRouter([
           {
             path: "orders",
             element: <AdminOrderOverviewPage />,
+          },
+          // Offer paths
+          {
+            path: "offers",
+            element: <AdminProductOffersPage />,
+          },
+          {
+            path: "offers/products",
+            element: <AdminProductOffersPage />,
+          },
+          {
+            path: "offers/products/create",
+            element: <AdminCreateOfferPage type="product" />,
           },
         ],
       },

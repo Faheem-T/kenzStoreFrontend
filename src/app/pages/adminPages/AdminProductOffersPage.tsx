@@ -1,7 +1,7 @@
-import { useGetProductsQuery } from "@/app/api/productsApi";
+import { useGetOfferProductsQuery } from "@/app/api/offerApi";
 import { LoadingComponent } from "@/app/components/LoadingComponent";
-import { Box, Button, Typography } from "@mui/material";
-import { useState } from "react";
+import { Box, Typography, Button } from "@mui/material";
+import { useNavigate } from "react-router";
 import {
   Table,
   TableBody,
@@ -11,21 +11,17 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { CategoryChipGroup } from "@/app/components/CategoryChipGroup";
-import { useNavigate } from "react-router";
 import { cn } from "@/lib/utils";
-import { DeleteProductButton } from "@/app/components/adminComponents/DeleteProductButton";
 
-export const ProductOverviewPage = () => {
-  // TODO add pagination
-  const [page, setPage] = useState(1);
+export const AdminProductOffersPage = () => {
+  const { data, isLoading } = useGetOfferProductsQuery();
   const navigate = useNavigate();
-  const { data, isLoading } = useGetProductsQuery({});
-
   if (isLoading) return <LoadingComponent fullScreen />;
-  if (!data) return <Box>Could not fetch products</Box>;
+  if (!data) return <Box>Couldn't fetch offers</Box>;
 
-  const products = data.data;
+  const offerProducts = data.data;
+
+  //   return <>{offerProducts.map((product) => product.name)}</>;
 
   return (
     <>
@@ -36,31 +32,32 @@ export const ProductOverviewPage = () => {
             fontWeight={700}
             sx={{ textTransform: "uppercase", ml: "auto" }}
           >
-            Products Overview
+            Offer Products Overview
           </Typography>
           <Button
             variant="contained"
             sx={{ ml: "auto" }}
-            onClick={() => navigate("/admin/products/create")}
+            onClick={() => navigate("/admin/offers/products/create")}
           >
-            Add Product
+            Add New Product Offer
           </Button>
         </Box>
 
         <Table>
-          <TableCaption>Overview of all products in your store</TableCaption>
+          <TableCaption>
+            Overview of all discounted products in your store
+          </TableCaption>
           <TableHeader>
             <TableRow>
               <TableHead>Name</TableHead>
               <TableHead>Price (QR)</TableHead>
               <TableHead>Discount</TableHead>
               <TableHead>Discounted Price (QR)</TableHead>
-              <TableHead>Category</TableHead>
-              <TableHead />
+              <TableHead>Discount Name</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {...products.map((product) => (
+            {...offerProducts.map((product) => (
               <TableRow
                 className={cn(
                   "hover:bg-accent cursor-pointer",
@@ -71,27 +68,16 @@ export const ProductOverviewPage = () => {
               >
                 <TableCell>{product.name}</TableCell>
                 <TableCell>{product.price}</TableCell>
-                {product.finalPrice !== product.price &&
-                product.effectiveDiscount ? (
+                {product.finalPrice !== product.price ? (
                   <TableCell>
-                    {product.effectiveDiscount.value}
-                    {product.effectiveDiscount.type === "percentage"
-                      ? "%"
-                      : "QR"}
+                    {product.discountValue}
+                    {product.discountType === "percentage" ? "%" : "QR"}
                   </TableCell>
                 ) : (
                   <TableCell>None</TableCell>
                 )}
                 <TableCell>{product.finalPrice}</TableCell>
-                <TableCell>
-                  <CategoryChipGroup categories={[product.category]} />
-                </TableCell>
-                <TableCell>
-                  <DeleteProductButton
-                    productId={product._id}
-                    productName={product.name}
-                  />
-                </TableCell>
+                <TableCell>{product.discountName}</TableCell>
               </TableRow>
             ))}
           </TableBody>

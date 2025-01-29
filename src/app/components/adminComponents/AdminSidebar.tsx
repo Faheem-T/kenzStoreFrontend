@@ -11,6 +11,9 @@ import {
   SidebarMenuItem,
   SidebarMenuButton,
   SidebarFooter,
+  SidebarMenuSub,
+  SidebarMenuSubItem,
+  SidebarMenuSubButton,
 } from "@/components/ui/sidebar";
 import { Category, Dashboard, Inventory } from "@mui/icons-material";
 import {
@@ -20,7 +23,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-import { Box, ChevronUp, Users } from "lucide-react";
+import { Box, ChevronUp, DollarSign, Users } from "lucide-react";
 import { Link, useLocation } from "react-router";
 import { LogoutButton } from "../logoutButton";
 
@@ -51,6 +54,21 @@ const items = [
     url: "/admin/orders",
     icon: Box,
   },
+  {
+    title: "Offers",
+    url: "/admin/offers",
+    icon: DollarSign,
+    items: [
+      {
+        title: "Product Offers",
+        url: "/admin/offers/products",
+      },
+      {
+        title: "Category Offers",
+        url: "/admin/offers/categories",
+      },
+    ],
+  },
 ];
 
 export const AdminSidebar = () => {
@@ -74,6 +92,20 @@ export const AdminSidebar = () => {
                       <span>{item.title}</span>
                     </Link>
                   </SidebarMenuButton>
+                  {item.items?.length ? (
+                    <SidebarMenuSub>
+                      {item.items.map((subItem) => (
+                        <SidebarMenuSubItem key={subItem.title}>
+                          <SidebarMenuSubButton
+                            asChild
+                            isActive={subItem.url === location.pathname}
+                          >
+                            <Link to={subItem.url}>{subItem.title}</Link>
+                          </SidebarMenuSubButton>
+                        </SidebarMenuSubItem>
+                      ))}
+                    </SidebarMenuSub>
+                  ) : null}
                 </SidebarMenuItem>
               ))}
             </SidebarMenu>

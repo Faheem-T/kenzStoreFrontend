@@ -8,6 +8,8 @@ export const ProductDetailsSection = ({
 }: {
   product: ProductType;
 }) => {
+  const isDiscountActive = product.finalPrice < product.price;
+
   return (
     <>
       <Box>
@@ -28,13 +30,13 @@ export const ProductDetailsSection = ({
         </Typography>
         <Typography variant="h6">QR {product.price}/-</Typography>
       </Box>
-      {product.isDiscountActive && (
+      {isDiscountActive && product.effectiveDiscount && (
         <Box>
           <Typography variant="caption" color="textDisabled">
             Discounted Price:
           </Typography>
           <Chip
-            label={`-${product.discountValue} ${
+            label={`-${product.effectiveDiscount.value} ${
               product.discountType === "percentage" ? "%" : "QR"
             }`}
             size="small"
