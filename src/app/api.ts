@@ -33,7 +33,7 @@ const baseQueryWithReauth: BaseQueryFn<
     // refresh route for "user" role
     let refreshRoute = "v1/auth/refresh";
     if ((api.getState() as RootState).auth.isAdmin) {
-      refreshRoute = "v1/admin/refresh";
+      refreshRoute = "v1/admin/auth/refresh";
     }
     const refreshResult = await baseQuery(refreshRoute, api, extraOptions);
     if (refreshResult.data) {
