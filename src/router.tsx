@@ -34,7 +34,8 @@ import { SearchProductPage } from "./app/pages/SearchProductPage";
 import { ForgotPasswordPage } from "./app/pages/ForgotPasswordPage";
 import { ResetPasswordPage } from "./app/pages/ResetPasswordPage";
 import { AdminProductOffersPage } from "./app/pages/adminPages/AdminProductOffersPage";
-import { AdminCreateOfferPage } from "./app/pages/adminPages/AdminCreateProductOfferPage";
+import { AdminCreateOfferPage } from "./app/pages/adminPages/AdminCreateOfferPage";
+import { AdminCategoryOffersPage } from "./app/pages/adminPages/AdminCategoryOffersPage";
 
 export const router = createBrowserRouter([
   {
@@ -204,8 +205,16 @@ export const router = createBrowserRouter([
             element: <AdminProductOffersPage />,
           },
           {
+            path: "offers/categories",
+            element: <AdminCategoryOffersPage />,
+          },
+          {
             path: "offers/products/create",
             element: <AdminCreateOfferPage type="product" />,
+          },
+          {
+            path: "offers/categories/create",
+            element: <AdminCreateOfferPage type="category" />,
           },
         ],
       },

@@ -1,4 +1,4 @@
-import { useGetOfferProductsQuery } from "@/app/api/offerApi";
+import { useGetOfferCategoriesQuery } from "@/app/api/offerApi";
 import { LoadingComponent } from "@/app/components/LoadingComponent";
 import { Box, Typography, Button } from "@mui/material";
 import { useNavigate } from "react-router";
@@ -15,13 +15,13 @@ import { cn } from "@/lib/utils";
 import { DeleteOfferButton } from "@/app/components/DeleteCategoryButton";
 import { calculateDaysToToday } from "@/app/utils/dateUtils";
 
-export const AdminProductOffersPage = () => {
-  const { data, isLoading } = useGetOfferProductsQuery();
+export const AdminCategoryOffersPage = () => {
+  const { data, isLoading } = useGetOfferCategoriesQuery();
   const navigate = useNavigate();
   if (isLoading) return <LoadingComponent fullScreen />;
   if (!data) return <Box>Couldn't fetch offers</Box>;
 
-  const offerProducts = data.data;
+  const offerCategories = data.data;
 
   return (
     <>
@@ -32,27 +32,25 @@ export const AdminProductOffersPage = () => {
             fontWeight={700}
             sx={{ textTransform: "uppercase", ml: "auto" }}
           >
-            Offer Products Overview
+            Offer Categories Overview
           </Typography>
           <Button
             variant="contained"
             sx={{ ml: "auto" }}
-            onClick={() => navigate("/admin/offers/products/create")}
+            onClick={() => navigate("/admin/offers/categories/create")}
           >
-            Add New Product Offer
+            Add New Category Offer
           </Button>
         </Box>
 
         <Table>
           <TableCaption>
-            Overview of all discounted products in your store
+            Overview of all categories with an offer in your store
           </TableCaption>
           <TableHeader>
             <TableRow>
               <TableHead>Name</TableHead>
-              {/* <TableHead>Price (QR)</TableHead> */}
               <TableHead>Discount</TableHead>
-              {/* <TableHead>Discounted Price (QR)</TableHead> */}
               <TableHead>Discount Name</TableHead>
               <TableHead>Starts in</TableHead>
               <TableHead>Ends in</TableHead>
@@ -60,37 +58,30 @@ export const AdminProductOffersPage = () => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {...offerProducts.map((product) => (
+            {...offerCategories.map((category) => (
               <TableRow
                 className={cn(
                   "hover:bg-accent cursor-pointer",
                   "border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted"
                 )}
-                onClick={() => navigate(`/admin/products/${product._id}`)}
-                key={product._id}
+                key={category._id}
               >
-                <TableCell>{product.name}</TableCell>
-                {/* <TableCell>{product.price}</TableCell> */}
-                {product.finalPrice ? (
-                  <TableCell>
-                    -{product.discountValue}
-                    {product.discountType === "percentage" ? "%" : "QR"}
-                  </TableCell>
-                ) : (
-                  <TableCell>None</TableCell>
-                )}
-                {/* <TableCell>{product.finalPrice}</TableCell> */}
-                <TableCell>{product.discountName}</TableCell>
+                <TableCell>{category.name}</TableCell>
+                <TableCell>
+                  -{category.discountValue}
+                  {category.discountType === "percentage" ? "%" : "QR"}
+                </TableCell>
+                <TableCell>{category.discountName}</TableCell>
                 <TableCell>{`${
-                  calculateDaysToToday(product.discountStartDate) > 0
-                    ? calculateDaysToToday(product.discountStartDate) + " days"
+                  calculateDaysToToday(category.discountStartDate) > 0
+                    ? calculateDaysToToday(category.discountStartDate) + " days"
                     : "Started"
                 }`}</TableCell>
                 <TableCell>
-                  {calculateDaysToToday(product.discountEndDate) + " days"}
+                  {calculateDaysToToday(category.discountEndDate) + " days"}
                 </TableCell>
                 <TableCell>
-                  <DeleteOfferButton type="product" id={product._id} />
+                  <DeleteOfferButton type="category" id={category._id} />
                 </TableCell>
               </TableRow>
             ))}

@@ -23,15 +23,15 @@ export interface ProductType {
   discountName?: string;
   discountType?: "percentage" | "fixed";
   discountValue?: number;
-  discountStartDate?: Date;
-  discountEndDate?: Date;
+  discountStartDate?: string; // Date
+  discountEndDate?: string; // Date
   // discount virtuals
   effectiveDiscount: {
     name: string;
     type: "percentage" | "fixed";
     value: number;
-    startDate: Date;
-    endDate: Date;
+    startDate: string; // Date
+    endDate: string; // Date
     discountApplied: number;
   } | null;
   finalPrice: number;
@@ -80,4 +80,12 @@ export interface CreateProductType
 export interface UpdateProductType
   extends Partial<Omit<CreateProductType, "category">> {
   category?: string;
+}
+
+export interface ProductWithDiscount extends ProductWithoutCategory {
+  discountName: string;
+  discountType: "percentage" | "fixed";
+  discountValue: number;
+  discountStartDate: string; // Date
+  discountEndDate: string; // Date
 }

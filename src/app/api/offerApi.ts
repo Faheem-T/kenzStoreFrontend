@@ -1,7 +1,7 @@
 import { apiSlice } from "../api";
 import { baseResponse } from "../types/apiResponseTypes";
-import { CategoryType } from "../types/category";
-import { ProductWithoutCategory } from "../types/product";
+import { CategoryType, CategoryWithDiscount } from "../types/category";
+import { ProductWithDiscount, ProductWithoutCategory } from "../types/product";
 
 interface CreateOfferBody {
   name: string;
@@ -21,10 +21,7 @@ interface CreateCategoriesOfferBody extends CreateOfferBody {
 
 const offerApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    getOfferProducts: builder.query<
-      baseResponse<ProductWithoutCategory[]>,
-      void
-    >({
+    getOfferProducts: builder.query<baseResponse<ProductWithDiscount[]>, void>({
       query: () => "v1/offers/offer-products",
       providesTags: (result = { data: [], success: false }, _error, _arg) => [
         ...result.data.map(
@@ -38,7 +35,10 @@ const offerApi = apiSlice.injectEndpoints({
         { type: "Offer", group: "offer-products" },
       ],
     }),
-    getOfferCategories: builder.query<baseResponse<CategoryType[]>, void>({
+    getOfferCategories: builder.query<
+      baseResponse<CategoryWithDiscount[]>,
+      void
+    >({
       query: () => "v1/offers/offer-categories",
       providesTags: (result = { data: [], success: false }, _error, _arg) => [
         ...result.data.map(
@@ -68,11 +68,32 @@ const offerApi = apiSlice.injectEndpoints({
       }),
       invalidatesTags: () => [{ type: "Offer", group: "offer-categories" }],
     }),
+    deleteProductOffer: builder.mutation<void, string>({
+      query: (id) => ({
+        url: `v1/offers/products/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: (_result, _error, arg) => [
+        { type: "Offer", id: `Product-${arg}`, group: "offer-products" },
+      ],
+    }),
+    deleteCategoryOffer: builder.mutation<void, string>({
+      query: (id) => ({
+        url: `v1/offers/categories/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: (_result, _error, arg) => [
+        { type: "Offer", id: `Category-${arg}`, group: "offer-categories" },
+      ],
+    }),
   }),
 });
 
 export const {
   useGetOfferProductsQuery,
+  useGetOfferCategoriesQuery,
   useCreateCategoriesOfferMutation,
   useCreateProductsOfferMutation,
+  useDeleteProductOfferMutation,
+  useDeleteCategoryOfferMutation,
 } = offerApi;

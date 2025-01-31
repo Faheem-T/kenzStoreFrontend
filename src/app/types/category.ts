@@ -6,6 +6,14 @@ export interface CategoryType {
   parentCategory?: string; // ObjectId of parent category
   image?: string;
   isActive: boolean;
+  // discount related fields
+  discountName?: string;
+  discountType?: "percentage" | "fixed";
+  discountValue?: number;
+  discountStartDate?: string; // Date
+  discountEndDate?: string; // Date
+  // discount virtual
+  isDiscountActive: boolean;
   // deletion indicator
   isDeleted: boolean;
   // timestamp fields
@@ -29,3 +37,11 @@ export type CreateCategoryType = Omit<
 // SHARED TYPE: Sync with backend
 // Type for updating an existing category
 export type UpdateCategoryType = Partial<CreateCategoryType>;
+
+export interface CategoryWithDiscount extends CategoryType {
+  discountName: string;
+  discountType: "percentage" | "fixed";
+  discountValue: number;
+  discountStartDate: string; // Date
+  discountEndDate: string; // Date
+}

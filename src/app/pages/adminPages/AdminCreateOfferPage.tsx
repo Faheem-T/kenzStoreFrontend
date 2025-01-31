@@ -100,6 +100,7 @@ export const AdminCreateOfferPage = ({
     }
 
     if ("products" in data) {
+      // Handle product offer
       const products = data.products;
       await createProductOffer({
         discountType,
@@ -109,7 +110,12 @@ export const AdminCreateOfferPage = ({
         endDate,
         products,
       });
-      // Handle product offer
+      if (productOfferError) {
+        toast.error("That did not work...");
+      } else {
+        toast.success("Offer created successfully");
+        navigate("/admin/offers/products");
+      }
     } else {
       // Handle category offer
       const categories = data.categories;
@@ -121,13 +127,12 @@ export const AdminCreateOfferPage = ({
         endDate,
         categories,
       });
-    }
-
-    if (productOfferError || categoryOfferError) {
-      toast.error("That did not work...");
-    } else {
-      toast.success("Offer created successfully");
-      navigate("/admin/offers", { replace: false });
+      if (categoryOfferError) {
+        toast.error("That did not work...");
+      } else {
+        toast.success("Offer created successfully");
+        navigate("/admin/offers/categories");
+      }
     }
   };
 
