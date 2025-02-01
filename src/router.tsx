@@ -37,6 +37,7 @@ import { AdminProductOffersPage } from "./app/pages/adminPages/AdminProductOffer
 import { AdminCreateOfferPage } from "./app/pages/adminPages/AdminCreateOfferPage";
 import { AdminCategoryOffersPage } from "./app/pages/adminPages/AdminCategoryOffersPage";
 import { AdminCouponPage } from "./app/pages/adminPages/AdminCouponPage";
+import { AdminCreateCouponPage } from "./app/pages/adminPages/AdminCreateCouponPage";
 
 export const router = createBrowserRouter([
   {
@@ -225,7 +226,7 @@ export const router = createBrowserRouter([
           },
           {
             path: "coupons/create",
-            element: <></>,
+            element: <AdminCreateCouponPage />,
           },
         ],
       },

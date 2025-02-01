@@ -23,13 +23,7 @@ export interface CouponType {
 // SHARED TYPE: Sync with backend
 export type CreateCouponType = Pick<
   CouponType,
-  | "name"
-  | "code"
-  | "description"
-  | "discountPercentage"
-  | "limitPerUser"
-  | "validUntil"
-  | "minOrderAmount"
->;
+  "name" | "code" | "description" | "discountPercentage"
+> & { limitPerUser?: number; validUntil?: Date; minOrderAmount?: number };
 // SHARED TYPE: Sync with backend
 export type UpdateCouponType = Partial<CreateCouponType>;

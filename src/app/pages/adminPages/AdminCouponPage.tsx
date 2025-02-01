@@ -15,7 +15,6 @@ import {
 } from "@/components/ui/table";
 import { useNavigate } from "react-router";
 import { calculateDaysToToday } from "@/app/utils/dateUtils";
-import { cn } from "@/lib/utils";
 
 export const AdminCouponPage = () => {
   const { data, isLoading } = useGetAllCouponsQuery();
