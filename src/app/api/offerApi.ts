@@ -1,7 +1,7 @@
 import { apiSlice } from "../api";
 import { baseResponse } from "../types/apiResponseTypes";
-import { CategoryType, CategoryWithDiscount } from "../types/category";
-import { ProductWithDiscount, ProductWithoutCategory } from "../types/product";
+import { CategoryWithDiscount } from "../types/category";
+import { ProductWithDiscount } from "../types/product";
 
 interface CreateOfferBody {
   name: string;

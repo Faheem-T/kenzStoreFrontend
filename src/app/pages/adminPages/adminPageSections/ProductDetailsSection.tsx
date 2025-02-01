@@ -37,7 +37,7 @@ export const ProductDetailsSection = ({
           </Typography>
           <Chip
             label={`-${product.effectiveDiscount.value} ${
-              product.discountType === "percentage" ? "%" : "QR"
+              product.effectiveDiscount.type === "percentage" ? "%" : "QR"
             }`}
             size="small"
             sx={{ color: "primary" }}
