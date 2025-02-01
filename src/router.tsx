@@ -36,6 +36,7 @@ import { ResetPasswordPage } from "./app/pages/ResetPasswordPage";
 import { AdminProductOffersPage } from "./app/pages/adminPages/AdminProductOffersPage";
 import { AdminCreateOfferPage } from "./app/pages/adminPages/AdminCreateOfferPage";
 import { AdminCategoryOffersPage } from "./app/pages/adminPages/AdminCategoryOffersPage";
+import { AdminCouponPage } from "./app/pages/adminPages/AdminCouponPage";
 
 export const router = createBrowserRouter([
   {
@@ -215,6 +216,16 @@ export const router = createBrowserRouter([
           {
             path: "offers/categories/create",
             element: <AdminCreateOfferPage type="category" />,
+          },
+
+          // Coupon Paths
+          {
+            path: "coupons",
+            element: <AdminCouponPage />,
+          },
+          {
+            path: "coupons/create",
+            element: <></>,
           },
         ],
       },

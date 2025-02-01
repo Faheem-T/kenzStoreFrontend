@@ -23,7 +23,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-import { Box, ChevronUp, DollarSign, Users } from "lucide-react";
+import { BadgePercent, Box, ChevronUp, DollarSign, Users } from "lucide-react";
 import { Link, useLocation } from "react-router";
 import { LogoutButton } from "../logoutButton";
 
@@ -68,6 +68,11 @@ const items = [
         url: "/admin/offers/categories",
       },
     ],
+  },
+  {
+    title: "Coupons",
+    url: "/admin/coupons",
+    icon: BadgePercent,
   },
 ];
 

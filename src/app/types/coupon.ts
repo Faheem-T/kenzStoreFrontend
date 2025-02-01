@@ -7,7 +7,7 @@ export interface CouponType {
   limitPerUser: number;
   minOrderAmount: number;
   description?: string;
-  validUntil?: Date;
+  validUntil?: string; // Date
   totalUsedCount: number;
   redeemedUsers: string[]; // ObjectIds
 
