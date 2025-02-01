@@ -43,6 +43,7 @@ export const AdminCouponPage = () => {
           <TableCell>-</TableCell>
         </>
       )}
+      <TableCell>{coupon.limitPerUser}</TableCell>
       <TableCell>{coupon.totalUsedCount}</TableCell>
       <TableCell>
         {coupon.isDeleted ? (
@@ -88,6 +89,7 @@ export const AdminCouponPage = () => {
               <TableHead>Discount</TableHead>
               <TableHead>Valid Until</TableHead>
               <TableHead>Days Left</TableHead>
+              <TableHead>Limit per user</TableHead>
               <TableHead>Total Used Count</TableHead>
               <TableHead />
             </TableRow>
