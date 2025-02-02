@@ -3,7 +3,8 @@ export interface CouponType {
   _id: string;
   name: string;
   code: string;
-  discountPercentage: number;
+  discountType: "percentage" | "fixed";
+  discountValue: number;
   limitPerUser: number;
   minOrderAmount: number;
   description?: string;
@@ -23,7 +24,20 @@ export interface CouponType {
 // SHARED TYPE: Sync with backend
 export type CreateCouponType = Pick<
   CouponType,
-  "name" | "code" | "description" | "discountPercentage"
+  "name" | "code" | "description" | "discountValue" | "discountType"
 > & { limitPerUser?: number; validUntil?: Date; minOrderAmount?: number };
 // SHARED TYPE: Sync with backend
 export type UpdateCouponType = Partial<CreateCouponType>;
+
+export type FetchCouponType = Pick<
+  CouponType,
+  | "_id"
+  | "code"
+  | "name"
+  | "isValid"
+  | "validUntil"
+  | "description"
+  | "discountType"
+  | "discountValue"
+  | "minOrderAmount"
+>;
