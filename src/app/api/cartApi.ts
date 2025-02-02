@@ -31,7 +31,7 @@ const cartApi = apiSlice.injectEndpoints({
         method: "PATCH",
         body: body,
       }),
-      invalidatesTags: ["Cart"],
+      invalidatesTags: ["Cart", { type: "Coupon", id: "User" }],
     }),
     removeFromCart: builder.mutation<
       baseResponseWithMessage,
@@ -41,14 +41,14 @@ const cartApi = apiSlice.injectEndpoints({
         url: `v1/cart/items/${body.productId}`,
         method: "DELETE",
       }),
-      invalidatesTags: ["Cart"],
+      invalidatesTags: ["Cart", { type: "Coupon", id: "User" }],
     }),
     clearCart: builder.mutation<baseResponseWithMessage, void>({
       query: () => ({
         url: "v1/cart",
         method: "DELETE",
       }),
-      invalidatesTags: ["Cart"],
+      invalidatesTags: ["Cart", { type: "Coupon", id: "User" }],
     }),
   }),
 });

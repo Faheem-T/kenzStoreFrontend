@@ -7,6 +7,8 @@ export interface OrderType {
   _id: string;
   userId: string; // ObjectId
   items: ItemType[];
+  coupon: string; // ObjectId
+  discountAmount: number;
   status: OrderStatus;
   paymentMethod: PaymentMethod;
   address: Pick<

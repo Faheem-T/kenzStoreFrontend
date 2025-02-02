@@ -35,6 +35,10 @@ export const AdminCreateCouponPage = () => {
   const navigate = useNavigate();
   const form = useForm<CouponForm>({
     resolver: zodResolver(couponSchema),
+    defaultValues: {
+      minOrderAmount: 0,
+      limitPerUser: 1,
+    },
   });
 
   const {
@@ -73,14 +77,14 @@ export const AdminCreateCouponPage = () => {
           alignItems: "center",
           justifyContent: "center",
           gap: 2,
-          width: 1,
-          heiht: 1,
+          width: "100%",
+          height: "100vh",
           "& > *": { width: "40%" },
         }}
         noValidate
       >
         <Typography variant="h4">Create Coupon</Typography>
-        <Box sx={{ display: "flex", gap: 1, width: 1 }}>
+        <Box sx={{ display: "flex", gap: 1 }}>
           <TextField
             {...register("name")}
             label="Name"

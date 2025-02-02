@@ -6,6 +6,7 @@ import {
 import {
   CouponType,
   CreateCouponType,
+  FetchCouponType,
   UpdateCouponType,
 } from "../types/coupon";
 
@@ -48,6 +49,10 @@ const couponApi = apiSlice.injectEndpoints({
         { type: "Coupon", id: couponId },
       ],
     }),
+    getApplicableCoupons: builder.query<baseResponse<FetchCouponType[]>, void>({
+      query: () => "v1/coupons/users/applicable",
+      providesTags: [{ type: "Coupon", id: "User" }],
+    }),
   }),
 });
 
@@ -56,4 +61,5 @@ export const {
   useCreateCouponMutation,
   useDeleteCouponMutation,
   useUpdateCouponMutation,
+  useGetApplicableCouponsQuery,
 } = couponApi;

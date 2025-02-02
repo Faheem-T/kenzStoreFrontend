@@ -5,6 +5,11 @@ export interface CartType {
   _id: string; // ObjectID
   userId: string; // ObjectID
   items: ItemType[];
+  coupon: string; // ObjectID
+  discountValue: number;
+  discountType: "percentage" | "fixed";
+  // virtual
+  cartTotal: number;
 }
 // SHARED TYPE: Sync with backend
 export interface ProductPopulatedCartType extends Omit<CartType, "items"> {

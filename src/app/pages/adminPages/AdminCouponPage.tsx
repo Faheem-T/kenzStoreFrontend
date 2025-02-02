@@ -29,7 +29,11 @@ export const AdminCouponPage = () => {
     <TableRow key={coupon._id} className={coupon.isDeleted ? "opacity-50" : ""}>
       <TableCell>{coupon.name}</TableCell>
       <TableCell>{coupon.code}</TableCell>
-      <TableCell>{coupon.discountPercentage + " %"} </TableCell>
+      <TableCell>
+        {coupon.discountValue + coupon.discountType === "percentage"
+          ? " %"
+          : " QR"}
+      </TableCell>
       {coupon.validUntil ? (
         <>
           <TableCell>

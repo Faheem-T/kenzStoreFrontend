@@ -7,6 +7,7 @@ import { ProductAndTotalPopulatedCartType } from "../types/cart";
 import { Link, useNavigate } from "react-router";
 import toast from "react-hot-toast";
 import { ServerError } from "../types/serverErrorType";
+import { ApplicableCoupons } from "../components/ApplicableCouponsSection";
 
 // DONE Create Cart Item component
 // DONE "Cart Empty"
@@ -48,7 +49,10 @@ export const CartPage = () => {
               ))}
               {/* TODO make a compound component out of `CartSummary` and display the `cartTotal` here */}
             </Stack>
-            <CartSummary cart={cart as ProductAndTotalPopulatedCartType} />
+            <Box sx={{ display: "flex", flexDirection: "column" }}>
+              <CartSummary cart={cart as ProductAndTotalPopulatedCartType} />
+              <ApplicableCoupons />
+            </Box>
           </>
         ) : (
           <Box
