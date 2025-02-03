@@ -12,7 +12,7 @@ import { z } from "zod";
 const couponSchema = z.object({
   name: z.string().trim().nonempty("Name is required"),
   code: z.string().trim().nonempty("Code is required"),
-  discountAmount: z
+  discountValue: z
     .number()
     .min(0, "Discount Percentage cannot be less than 0")
     .max(100, "Discount Percentage cannot be more than 100"),
@@ -103,11 +103,11 @@ export const AdminCreateCouponPage = () => {
           />
         </Box>
         <TextField
-          {...register("discountAmount", { valueAsNumber: true })}
+          {...register("discountValue", { valueAsNumber: true })}
           label="Discount Percentage"
           type="number"
-          error={!!errors.discountAmount}
-          helperText={errors.discountAmount?.message}
+          error={!!errors.discountValue}
+          helperText={errors.discountValue?.message}
           variant="standard"
           required
         />
