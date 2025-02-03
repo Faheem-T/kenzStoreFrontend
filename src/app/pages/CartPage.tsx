@@ -8,6 +8,7 @@ import { Link, useNavigate } from "react-router";
 import toast from "react-hot-toast";
 import { ServerError } from "../types/serverErrorType";
 import { ApplicableCoupons } from "../components/ApplicableCouponsSection";
+import { useDeleteCouponFromCartMutation } from "../api/couponApi";
 
 // DONE Create Cart Item component
 // DONE "Cart Empty"
@@ -90,13 +91,14 @@ export const CartPage = () => {
 
 const CartSummary = ({ cart }: { cart: PopulatedCartType }) => {
   // const totalItemsCount = cart.items.reduce((acc, item) => acc + item.quantity, 0);
+  const [deleteCoupon, { isLoading }] = useDeleteCouponFromCartMutation();
   let totalItemsCount = 0;
   let totalItemPrice = 0;
   for (let i = 0; i < cart.items.length; i++) {
     totalItemsCount += cart.items[i].quantity;
     totalItemPrice += cart.items[i].price * cart.items[i].quantity;
   }
-  const couponDiscountAmount = cart.cartTotal - totalItemPrice;
+  const couponDiscountAmount = totalItemPrice - cart.cartTotal;
   const navigate = useNavigate();
 
   const handleCheckoutClick = () => {
@@ -126,14 +128,16 @@ const CartSummary = ({ cart }: { cart: PopulatedCartType }) => {
           </Typography>
         </Typography>
         {/* Coupon section */}
+        {/* TODO: implement coupon deletion */}
         {cart.coupon && (
           <>
             <Typography variant="body2">
-              Item Price: <Box component="span">QR {totalItemPrice}</Box>
+              Items price: <Box component="span">QR {totalItemPrice}</Box>
             </Typography>
             <Typography variant="body2">
               Coupon discount:{" "}
               <Typography variant="body2" component="span">
+                {"- QR "}
                 {couponDiscountAmount}{" "}
               </Typography>
               <Typography
@@ -148,6 +152,16 @@ const CartSummary = ({ cart }: { cart: PopulatedCartType }) => {
                     : "QR")}
                 {")"}
               </Typography>
+            </Typography>
+            <Typography
+              variant="caption"
+              color="textDisabled"
+              sx={{
+                "&:hover": { textDecoration: "underline", cursor: "pointer" },
+              }}
+              onClick={() => deleteCoupon()}
+            >
+              {isLoading ? "Deleting..." : "Delete coupon"}
             </Typography>
           </>
         )}

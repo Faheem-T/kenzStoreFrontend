@@ -59,12 +59,14 @@ const couponApi = apiSlice.injectEndpoints({
         method: "POST",
         body: { code },
       }),
+      invalidatesTags: ["Cart", "Coupon"],
     }),
     deleteCouponFromCart: builder.mutation<baseResponseWithMessage, void>({
       query: () => ({
         url: "v1/coupons/cart",
         method: "DELETE",
       }),
+      invalidatesTags: ["Cart", "Coupon"],
     }),
   }),
 });

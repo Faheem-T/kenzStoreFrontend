@@ -86,6 +86,11 @@ OrderSummary.Items = function OrderSummaryItems({
 
 OrderSummary.Total = function OrderSummaryTotal() {
   const { cart } = useOrderSummaryContext();
+  const totalItemPrice = cart.items.reduce(
+    (acc, item) => acc + item.price * item.quantity,
+    0
+  );
+  const couponDiscountAmount = totalItemPrice - cart.cartTotal;
   return (
     <Box
       sx={{
@@ -96,6 +101,24 @@ OrderSummary.Total = function OrderSummaryTotal() {
         gap: 1,
       }}
     >
+      <Typography variant="body2">
+        Items price: <Box component="span">QR {totalItemPrice}</Box>
+      </Typography>
+      <Typography variant="body2">
+        Coupon discount:{" "}
+        <Typography variant="body2" component="span">
+          {"- QR "}
+          {couponDiscountAmount}{" "}
+        </Typography>
+        <Typography variant="caption" color="textDisabled" component="span">
+          {"(-"}
+          {cart.discountValue +
+            (cart.discountType && cart.discountType === "percentage"
+              ? "%"
+              : "QR")}
+          {")"}
+        </Typography>
+      </Typography>
       <Typography sx={{ fontWeight: "bold" }}>
         Order Total: QR {cart.cartTotal} /-
       </Typography>

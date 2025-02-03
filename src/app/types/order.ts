@@ -8,7 +8,8 @@ export interface OrderType {
   userId: string; // ObjectId
   items: ItemType[];
   coupon: string; // ObjectId
-  discountAmount: number;
+  discountType: "percentage" | "fixed" | null;
+  discountValue: number;
   status: OrderStatus;
   paymentMethod: PaymentMethod;
   address: Pick<
