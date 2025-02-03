@@ -1,12 +1,12 @@
 import { CartValidationErrorType } from "@/app/api/orderApi";
 import { OrderItemCard } from "@/app/components/OrderItemCard";
-import { ProductAndTotalPopulatedCartType } from "@/app/types/cart";
+import { PopulatedCartType } from "@/app/types/cart";
 import { Box, Typography, Link } from "@mui/material";
 import { createContext, PropsWithChildren, useContext } from "react";
 import { Link as RouterLink } from "react-router";
 
 interface OrderSummaryContext {
-  cart: ProductAndTotalPopulatedCartType;
+  cart: PopulatedCartType;
 }
 
 const OrderSummaryContext = createContext<OrderSummaryContext | undefined>(
@@ -22,7 +22,7 @@ const useOrderSummaryContext = () => {
 };
 
 interface OrderSummarySectionProps extends PropsWithChildren {
-  cart: ProductAndTotalPopulatedCartType;
+  cart: PopulatedCartType;
 }
 
 export const OrderSummary = ({ children, cart }: OrderSummarySectionProps) => {

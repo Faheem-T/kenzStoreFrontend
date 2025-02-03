@@ -53,6 +53,19 @@ const couponApi = apiSlice.injectEndpoints({
       query: () => "v1/coupons/users/applicable",
       providesTags: [{ type: "Coupon", id: "User" }],
     }),
+    applyCouponToCart: builder.mutation<baseResponseWithMessage, string>({
+      query: (code) => ({
+        url: "v1/coupons/cart",
+        method: "POST",
+        body: { code },
+      }),
+    }),
+    deleteCouponFromCart: builder.mutation<baseResponseWithMessage, void>({
+      query: () => ({
+        url: "v1/coupons/cart",
+        method: "DELETE",
+      }),
+    }),
   }),
 });
 
@@ -62,4 +75,6 @@ export const {
   useDeleteCouponMutation,
   useUpdateCouponMutation,
   useGetApplicableCouponsQuery,
+  useApplyCouponToCartMutation,
+  useDeleteCouponFromCartMutation,
 } = couponApi;

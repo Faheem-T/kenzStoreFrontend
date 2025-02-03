@@ -3,7 +3,7 @@ import {
   baseResponse,
   baseResponseWithMessage,
 } from "../types/apiResponseTypes";
-import { CartType, ProductAndTotalPopulatedCartType } from "../types/cart";
+import { CartType, PopulatedCartType } from "../types/cart";
 
 // interface GetCartResponse extends baseResponse<ProductPopulatedCartType> {
 //   cartTotal: number;
@@ -11,10 +11,7 @@ import { CartType, ProductAndTotalPopulatedCartType } from "../types/cart";
 
 const cartApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    getCart: builder.query<
-      baseResponse<ProductAndTotalPopulatedCartType>,
-      void
-    >({
+    getCart: builder.query<baseResponse<PopulatedCartType>, void>({
       query: () => "v1/cart",
       providesTags: ["Cart"],
     }),

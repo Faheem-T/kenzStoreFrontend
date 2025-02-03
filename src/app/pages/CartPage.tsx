@@ -3,7 +3,7 @@ import { ShoppingCart } from "lucide-react";
 import { useClearCartMutation, useGetCartQuery } from "../api/cartApi";
 import { LoadingComponent } from "../components/LoadingComponent";
 import { CartItemCard } from "../components/CartItemCard";
-import { ProductAndTotalPopulatedCartType } from "../types/cart";
+import { PopulatedCartType } from "../types/cart";
 import { Link, useNavigate } from "react-router";
 import toast from "react-hot-toast";
 import { ServerError } from "../types/serverErrorType";
@@ -41,6 +41,7 @@ export const CartPage = () => {
                 flex: 2,
                 backgroundColor: "background.paper",
                 m: 2,
+                height: "fit-content",
               }}
               divider={<Divider />}
             >
@@ -50,7 +51,7 @@ export const CartPage = () => {
               {/* TODO make a compound component out of `CartSummary` and display the `cartTotal` here */}
             </Stack>
             <Box sx={{ display: "flex", flexDirection: "column" }}>
-              <CartSummary cart={cart as ProductAndTotalPopulatedCartType} />
+              <CartSummary cart={cart as PopulatedCartType} />
               <ApplicableCoupons />
             </Box>
           </>
@@ -87,13 +88,21 @@ export const CartPage = () => {
   );
 };
 
-const CartSummary = ({ cart }: { cart: ProductAndTotalPopulatedCartType }) => {
-  const total = cart.items.reduce((acc, item) => acc + item.quantity, 0);
+const CartSummary = ({ cart }: { cart: PopulatedCartType }) => {
+  // const totalItemsCount = cart.items.reduce((acc, item) => acc + item.quantity, 0);
+  let totalItemsCount = 0;
+  let totalItemPrice = 0;
+  for (let i = 0; i < cart.items.length; i++) {
+    totalItemsCount += cart.items[i].quantity;
+    totalItemPrice += cart.items[i].price * cart.items[i].quantity;
+  }
+  const couponDiscountAmount = cart.cartTotal - totalItemPrice;
   const navigate = useNavigate();
 
   const handleCheckoutClick = () => {
     navigate("/checkout");
   };
+  console.log(cart);
 
   return (
     <>
@@ -111,9 +120,37 @@ const CartSummary = ({ cart }: { cart: ProductAndTotalPopulatedCartType }) => {
         <Typography variant="h6">
           Cart Summary{" "}
           <Typography variant="caption" color="textDisabled" noWrap>
-            {`(${total} Item` + (total === 1 ? "" : "s") + ")"}
+            {`(${totalItemsCount} Item` +
+              (totalItemsCount === 1 ? "" : "s") +
+              ")"}
           </Typography>
         </Typography>
+        {/* Coupon section */}
+        {cart.coupon && (
+          <>
+            <Typography variant="body2">
+              Item Price: <Box component="span">QR {totalItemPrice}</Box>
+            </Typography>
+            <Typography variant="body2">
+              Coupon discount:{" "}
+              <Typography variant="body2" component="span">
+                {couponDiscountAmount}{" "}
+              </Typography>
+              <Typography
+                variant="caption"
+                color="textDisabled"
+                component="span"
+              >
+                {"(-"}
+                {cart.discountValue +
+                  (cart.discountType && cart.discountType === "percentage"
+                    ? "%"
+                    : "QR")}
+                {")"}
+              </Typography>
+            </Typography>
+          </>
+        )}
         <Typography variant="body1">
           Total Price:{" "}
           <Box component="span" sx={{ fontWeight: "bold" }}>

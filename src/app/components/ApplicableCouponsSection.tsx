@@ -1,6 +1,13 @@
 import { Box, Button, TextField, Typography } from "@mui/material";
-import { useGetApplicableCouponsQuery } from "../api/couponApi";
+import {
+  useApplyCouponToCartMutation,
+  useGetApplicableCouponsQuery,
+} from "../api/couponApi";
 import { LoadingComponent } from "./LoadingComponent";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import toast from "react-hot-toast";
 
 export const ApplicableCoupons = () => {
   const { data, isLoading } = useGetApplicableCouponsQuery();
@@ -11,6 +18,7 @@ export const ApplicableCoupons = () => {
 
   const couponComponent = coupons.map((coupon) => (
     <Box
+      key={coupon._id}
       sx={{
         display: "flex",
         flexDirection: "column",
@@ -47,21 +55,63 @@ export const ApplicableCoupons = () => {
         {coupons.length}
         {")"}
       </Typography>
-      <EnterCodeInput />
+      {coupons.length > 0 ? (
+        <EnterCodeInput />
+      ) : (
+        <Typography variant="caption" color="textDisabled" flexWrap={"wrap"}>
+          A coupon has already been applied or no applicable coupons found...
+        </Typography>
+      )}
       {couponComponent}
     </Box>
   );
 };
 
+const applyCouponSchema = z.object({
+  code: z.string().trim().nonempty("Please enter a code"),
+});
+
+type ApplyCouponForm = z.infer<typeof applyCouponSchema>;
+
 const EnterCodeInput = () => {
+  const [applyCoupon, { isLoading }] = useApplyCouponToCartMutation();
+  const form = useForm<ApplyCouponForm>({
+    resolver: zodResolver(applyCouponSchema),
+  });
+
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+  } = form;
+
+  const submitHandler = async (data: ApplyCouponForm) => {
+    try {
+      await applyCoupon(data.code).unwrap();
+      toast.success("Coupon applied successfully");
+    } catch (error) {
+      toast.error("That did not work...");
+    }
+  };
+
   return (
-    <Box sx={{ my: 5, display: "flex", gap: 1 }}>
+    <Box
+      sx={{ my: 5, display: "flex", gap: 1 }}
+      noValidate
+      component="form"
+      onSubmit={handleSubmit(submitHandler)}
+    >
       <TextField
+        {...register("code")}
         placeholder="Enter a coupon code"
-        name="couponCode"
+        name="code"
         variant="standard"
+        error={!!errors.code}
+        helperText={errors.code?.message}
       />
-      <Button>Apply</Button>
+      <Button type="submit" disabled={isLoading}>
+        Apply
+      </Button>
     </Box>
   );
 };
