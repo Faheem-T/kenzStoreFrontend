@@ -68,6 +68,7 @@ export const apiSlice = createApi({
     "Order",
     "Offer",
     "Coupon",
+    "Wishlist",
   ],
   // keepUnusedDataFor: 60,
   endpoints: () => ({}),

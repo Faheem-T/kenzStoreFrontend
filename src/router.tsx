@@ -38,6 +38,7 @@ import { AdminCreateOfferPage } from "./app/pages/adminPages/AdminCreateOfferPag
 import { AdminCategoryOffersPage } from "./app/pages/adminPages/AdminCategoryOffersPage";
 import { AdminCouponPage } from "./app/pages/adminPages/AdminCouponPage";
 import { AdminCreateCouponPage } from "./app/pages/adminPages/AdminCreateCouponPage";
+import { WishlistPage } from "./app/pages/WishlistPage";
 
 export const router = createBrowserRouter([
   {
@@ -78,12 +79,6 @@ export const router = createBrowserRouter([
             element: <ProtectedRoutes />,
             children: [
               {
-                path: "/protected",
-                element: (
-                  <div>You can't see this unless you are logged in 😮 </div>
-                ),
-              },
-              {
                 path: "/user",
                 element: <UserProfileRoot />,
                 children: [
@@ -102,6 +97,10 @@ export const router = createBrowserRouter([
                   {
                     path: "orders",
                     element: <OrdersPage />,
+                  },
+                  {
+                    path: "wishlist",
+                    element: <WishlistPage />,
                   },
                 ],
               },

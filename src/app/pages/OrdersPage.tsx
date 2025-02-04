@@ -2,6 +2,7 @@ import { Box, Typography } from "@mui/material";
 import { useGetUserOrdersQuery } from "../api/orderApi";
 import { LoadingComponent } from "../components/LoadingComponent";
 import { OrderCard } from "../components/OrderCard";
+import { Package } from "lucide-react";
 
 export const OrdersPage = () => {
   const { data, isLoading } = useGetUserOrdersQuery();
@@ -28,7 +29,10 @@ export const OrdersPage = () => {
   return (
     <>
       <Box sx={{ display: "flex", flexDirection: "column", gap: 2, p: 4 }}>
-        <Typography variant="h4">Your Orders</Typography>
+        <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
+          <Package size={40} />
+          <Typography variant="h5">Your Orders</Typography>
+        </Box>
         {orders.map((order) => (
           <OrderCard order={order} />
         ))}

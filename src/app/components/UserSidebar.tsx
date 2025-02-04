@@ -19,7 +19,14 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-import { ChevronUp, MapPin, Package, ShoppingCart, User } from "lucide-react";
+import {
+  ChevronUp,
+  Heart,
+  MapPin,
+  Package,
+  ShoppingCart,
+  User,
+} from "lucide-react";
 import { Link as RouterLink, useLocation } from "react-router";
 import { LogoutButton } from "./logoutButton";
 import { SafeUserType } from "../types/user";
@@ -47,6 +54,11 @@ const items = [
     title: "Orders",
     url: "/user/orders",
     icon: Package,
+  },
+  {
+    title: "Wishlist",
+    url: "/user/wishlist",
+    icon: Heart,
   },
 ];
 

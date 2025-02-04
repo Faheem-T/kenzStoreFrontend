@@ -1,7 +1,16 @@
-import { Box, Chip, Rating, Typography } from "@mui/material";
+import { Box, IconButton, Rating, Tooltip, Typography } from "@mui/material";
 import { ProductType } from "../types/product";
 import { Link } from "react-router";
 import { CategoryChipGroup } from "./CategoryChipGroup";
+import {
+  useAddToWishlistMutation,
+  useGetWishlistQuery,
+  useRemoveFromWishlistMutation,
+} from "../api/wishlistApi";
+import { LoadingComponent } from "./LoadingComponent";
+import { useMemo } from "react";
+import { Heart } from "lucide-react";
+import toast from "react-hot-toast";
 
 interface ProductCardProps {
   product: ProductType;
@@ -9,6 +18,45 @@ interface ProductCardProps {
 
 export const ProductCard = ({ product }: ProductCardProps) => {
   const isProductDiscountActive = product.finalPrice !== product.price;
+  const [addToWishlist, { isLoading: addingToWishlist }] =
+    useAddToWishlistMutation();
+  const [removeFromWishlist, { isLoading: removingFromWishlist }] =
+    useRemoveFromWishlistMutation();
+  const { data: wishlistData, isLoading } = useGetWishlistQuery();
+  const wishlistProducts = useMemo(
+    () => (wishlistData ? wishlistData.data : []),
+    [wishlistData]
+  );
+
+  const inWishlist = useMemo(
+    () => !!wishlistProducts.find((wProduct) => wProduct._id === product._id),
+    [product, wishlistProducts]
+  );
+  if (isLoading) return <LoadingComponent />;
+  if (!wishlistData) {
+    return <Box>Couldn't fetch wishlist</Box>;
+  }
+
+  const handleAddToWishlist = async () => {
+    try {
+      await addToWishlist({ productId: product._id }).unwrap();
+      toast.success("Product has been added to wishlist successfully");
+    } catch (error) {
+      console.log(error);
+      toast.error("That did not work");
+    }
+  };
+
+  const handleRemoveFromWishlist = async () => {
+    try {
+      await removeFromWishlist({ productId: product._id }).unwrap();
+      toast.success("Product has been removed from wishlist successfully");
+    } catch (error) {
+      console.log(error);
+      toast.error("That did not work");
+    }
+  };
+
   return (
     <>
       <Box
@@ -21,8 +69,30 @@ export const ProductCard = ({ product }: ProductCardProps) => {
           minHeight: 350,
           bgcolor: "background.paper",
           padding: 4,
+          position: "relative",
         }}
       >
+        <Box sx={{ position: "absolute", top: 2, right: 2 }}>
+          {inWishlist ? (
+            <Tooltip title="Remove from wishlist">
+              <IconButton
+                onClick={handleRemoveFromWishlist}
+                disabled={removingFromWishlist}
+              >
+                <Heart fill="white" />
+              </IconButton>
+            </Tooltip>
+          ) : (
+            <Tooltip title="Add to wishlist">
+              <IconButton
+                onClick={handleAddToWishlist}
+                disabled={addingToWishlist}
+              >
+                <Heart />
+              </IconButton>
+            </Tooltip>
+          )}
+        </Box>
         <Box
           sx={{
             height: 0.7,

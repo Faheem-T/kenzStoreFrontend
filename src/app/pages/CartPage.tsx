@@ -26,7 +26,7 @@ export const CartPage = () => {
     cart = data.data;
   }
   return (
-    <Box sx={{ px: 4, py: 2, width: "100vw" }}>
+    <Box sx={{ p: 4, width: "100vw" }}>
       <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
         <ShoppingCart size={40} />
         <Typography variant="h5">Your Cart</Typography>
