@@ -24,10 +24,8 @@ export const CheckoutPaymentSection = ({
       </Typography>
       <Select value={paymentMethod} onChange={handlePaymentMethodChange}>
         <MenuItem value="COD">Cash on Delivery</MenuItem>
-        <MenuItem value="creditCard" disabled>
-          Credit Card
-        </MenuItem>
-        <MenuItem value="debitCard" disabled>
+        <MenuItem value="Credit Card">Credit Card</MenuItem>
+        <MenuItem value="Debit Card" disabled>
           Debit Card
         </MenuItem>
       </Select>

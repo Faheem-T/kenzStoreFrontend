@@ -12,7 +12,10 @@ interface placeOrderBody {
 export interface PlaceOrderResponse {
   success: boolean;
   message: string;
-  data?: { orderId: string };
+  data?: {
+    orderId: string;
+    razorpayOrder: { id: string; amount: number; currency: string };
+  };
   errors?: CartValidationErrorType[];
 }
 // SHARED TYPE: Sync with backend
@@ -29,7 +32,7 @@ export interface getUserOrdersResponse {
   message?: string;
 }
 
-const orderApi = apiSlice.injectEndpoints({
+export const orderApi = apiSlice.injectEndpoints({
   endpoints: (build) => ({
     placeOrder: build.mutation<PlaceOrderResponse, placeOrderBody>({
       query: (body) => ({
@@ -48,6 +51,20 @@ const orderApi = apiSlice.injectEndpoints({
         };
       },
       invalidatesTags: ["Cart", "Product", { type: "Product" }],
+    }),
+    verifyPayment: build.mutation<
+      baseResponseWithMessage,
+      {
+        razorpay_payment_id: string;
+        razorpay_order_id: string;
+        razorpay_signature: string;
+      }
+    >({
+      query: (body) => ({
+        url: "v1/orders/verify",
+        method: "POST",
+        body,
+      }),
     }),
     getUserOrders: build.query<getUserOrdersResponse, void>({
       query: () => "v1/orders",
@@ -99,6 +116,7 @@ const orderApi = apiSlice.injectEndpoints({
 
 export const {
   usePlaceOrderMutation,
+  useVerifyPaymentMutation,
   useGetUserOrdersQuery,
   useCancelOrderMutation,
   useAdminGetAllOrdersQuery,

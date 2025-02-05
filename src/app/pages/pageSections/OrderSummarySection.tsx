@@ -56,13 +56,11 @@ OrderSummary.Items = function OrderSummaryItems({
         <Typography variant="h6">Items</Typography>
         {cart.items.length > 0 ? (
           cart.items.map((item) => (
-            <>
-              <OrderItemCard
-                item={item}
-                key={item._id}
-                error={errors.find((error) => error.item === item._id)}
-              />
-            </>
+            <OrderItemCard
+              item={item}
+              key={item._id}
+              error={errors.find((error) => error.item === item._id)}
+            />
           ))
         ) : (
           <Typography color="textDisabled">

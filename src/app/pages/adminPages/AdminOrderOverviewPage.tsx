@@ -20,10 +20,8 @@ import {
   MenuItem,
   Select,
   SelectChangeEvent,
-  TextField,
   Typography,
 } from "@mui/material";
-import { useState } from "react";
 import toast from "react-hot-toast";
 
 export const AdminOrderOverviewPage = () => {
@@ -100,6 +98,7 @@ const OrderRow = ({ order }: { order: GetUserOrder }) => {
           </MenuItem>
           <MenuItem value="cancelled">Cancelled</MenuItem>
           <MenuItem value="completed">Completed</MenuItem>
+          <MenuItem value="payment incomplete">Payment Incomplete</MenuItem>
         </Select>
       </TableCell>
     </TableRow>

@@ -20,6 +20,10 @@ export interface OrderType {
   // Cancel date
   cancelledAt: Date;
 
+  // payment related fields
+  paymentOrder: any;
+  paymentStatus: PaymentStatus;
+
   // Virtual fields
   totalPrice: number;
 
@@ -40,12 +44,21 @@ export interface PlaceOrderType extends Pick<OrderType, "paymentMethod"> {
   addressId: string; // Address ID
 }
 
-// SHARED TYPE: Sync with backend
+// SHARED TYPE: Sync with frontend
 export const paymentMethods = ["COD", "Credit Card", "Debit Card"] as const;
 export type PaymentMethod = (typeof paymentMethods)[number];
 
-// SHARED TYPE: Sync with backend
-export const orderStatuses = ["pending", "completed", "cancelled"] as const;
+// SHARED TYPE: Sync with frontend
+export const paymentStatuses = ["incomplete", "paid"] as const;
+export type PaymentStatus = (typeof paymentStatuses)[number];
+
+// SHARED TYPE: Sync with frontend
+export const orderStatuses = [
+  "pending",
+  "completed",
+  "cancelled",
+  // "payment incomplete",
+] as const;
 export type OrderStatus = (typeof orderStatuses)[number];
 
 // SHARED TYPE: Sync with backend

@@ -121,7 +121,7 @@ export const router = createBrowserRouter([
           },
           {
             path: "/test",
-            element: <LoadingComponent fullScreen />,
+            element: <></>,
           },
           {
             path: "/products/:id",

@@ -14,6 +14,7 @@ import toast from "react-hot-toast";
 import { OrderSummary } from "./pageSections/OrderSummarySection";
 import { Navbar } from "../components/Navbar";
 import { useNavigate } from "react-router";
+import { displayRazorpay } from "../utils/razorpayUtils";
 
 // Type predicate
 const isOrderError = (error: unknown): error is PlaceOrderResponse => {
@@ -41,6 +42,10 @@ export const CheckoutPage = () => {
         cartId,
       }).unwrap();
       if (data) {
+        if (data.data?.razorpayOrder) {
+          const { amount, currency, id } = data.data.razorpayOrder;
+          await displayRazorpay({ amount, currency, id });
+        }
         toast.success(data.message);
         navigate("/order-confirmation", {
           state: { orderId: data.data?.orderId },

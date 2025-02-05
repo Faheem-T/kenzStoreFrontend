@@ -1,5 +1,5 @@
 import { Box, Button, Divider, Stack, Typography } from "@mui/material";
-import { GetUserOrder, OrderStatus } from "../types/order";
+import { GetUserOrder, OrderStatus, PaymentStatus } from "../types/order";
 import { useCancelOrderMutation } from "../api/orderApi";
 import toast from "react-hot-toast";
 
@@ -54,13 +54,50 @@ export const OrderCard = ({ order }: { order: GetUserOrder }) => {
               </Typography>
             </Box>
           )}
+          <Box>
+            <Typography variant="caption" color="textDisabled">
+              Payment Method:
+            </Typography>
+            <Typography
+              sx={{ textTransform: "capitalize", fontWeight: "bold" }}
+            >
+              {order.paymentMethod}
+            </Typography>
+          </Box>
           <Box
             sx={{
               ml: "auto",
             }}
           >
             <Typography variant="caption" color="textDisabled">
-              Status:
+              Payment Status:
+            </Typography>
+            <Typography
+              color={statusColor(order.paymentStatus)}
+              sx={{ textTransform: "capitalize", fontWeight: "bold" }}
+            >
+              {order.paymentStatus}
+            </Typography>
+            {order.paymentStatus === "incomplete" &&
+              order.paymentMethod !== "COD" && (
+                <Typography
+                  variant="caption"
+                  sx={{
+                    "&:hover": {
+                      textDecoration: "underline",
+                      cursor: "pointer",
+                    },
+                  }}
+                  // TODO Implement retry payment
+                  onClick={() => toast("TODO!")}
+                >
+                  Retry payment?
+                </Typography>
+              )}
+          </Box>
+          <Box>
+            <Typography variant="caption" color="textDisabled">
+              Order Status:
             </Typography>
             <Typography
               color={statusColor(order.status)}
@@ -97,12 +134,16 @@ export const OrderCard = ({ order }: { order: GetUserOrder }) => {
   );
 };
 
-export const statusColor = (status: OrderStatus): string => {
+export const statusColor = (status: OrderStatus | PaymentStatus): string => {
   switch (status) {
     case "pending":
       return "warning";
     case "completed":
       return "success";
+    case "paid":
+      return "success";
+    case "incomplete":
+      return "error";
     case "cancelled":
       return "error";
     default:
