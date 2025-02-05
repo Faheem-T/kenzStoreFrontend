@@ -1,6 +1,6 @@
 import { apiSlice } from "../api";
 import {
-  baseResponse,
+  BaseResponse,
   baseResponseWithMessage,
 } from "../types/apiResponseTypes";
 import {
@@ -12,7 +12,7 @@ import {
 
 const couponApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    getAllCoupons: builder.query<baseResponse<CouponType[]>, void>({
+    getAllCoupons: builder.query<BaseResponse<CouponType[]>, void>({
       query: () => "v1/coupons",
       providesTags: (result = { data: [], success: false }) => [
         ...result.data.map(
@@ -49,7 +49,7 @@ const couponApi = apiSlice.injectEndpoints({
         { type: "Coupon", id: couponId },
       ],
     }),
-    getApplicableCoupons: builder.query<baseResponse<FetchCouponType[]>, void>({
+    getApplicableCoupons: builder.query<BaseResponse<FetchCouponType[]>, void>({
       query: () => "v1/coupons/users/applicable",
       providesTags: [{ type: "Coupon", id: "User" }],
     }),

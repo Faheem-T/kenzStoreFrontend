@@ -1,10 +1,10 @@
 import { apiSlice } from "../api";
 import { AddressType } from "../types/address";
-import { baseResponse } from "../types/apiResponseTypes";
+import { BaseResponse } from "../types/apiResponseTypes";
 
 const addressesApi = apiSlice.injectEndpoints({
   endpoints: (build) => ({
-    getUserAddresses: build.query<baseResponse<AddressType[]>, void>({
+    getUserAddresses: build.query<BaseResponse<AddressType[]>, void>({
       query: () => "v1/addresses/user",
       providesTags: (result = { data: [], success: false }) => [
         ...result.data.map(

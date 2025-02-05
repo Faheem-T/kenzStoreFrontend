@@ -4,7 +4,7 @@ import { ProductType } from "./product";
 import { ReviewType, UserPopulatedReviewType } from "./reviews";
 import { SafeUserType } from "./user";
 
-export interface baseResponse<T> {
+export interface BaseResponse<T> {
   success: boolean;
   data: T;
 }
@@ -44,11 +44,11 @@ export interface meResponse {
   };
 }
 
-export type getProductResponse = baseResponse<ProductType>;
+export type getProductResponse = BaseResponse<ProductType>;
 
-export type getMultipleProductsResponse = baseResponse<ProductType[]>;
+export type getMultipleProductsResponse = BaseResponse<ProductType[]>;
 
-export type getReviewResponse = baseResponse<ReviewType>;
+export type getReviewResponse = BaseResponse<ReviewType>;
 
 export interface getProductReviewsResponse {
   success: boolean;
@@ -59,21 +59,21 @@ export interface getProductReviewsResponse {
   };
 }
 
-export type AdminLoginResponse = baseResponse<{
+export type AdminLoginResponse = BaseResponse<{
   admin: SafeAdminType;
   accessToken: string;
 }>;
 
-export type getCategoryResponse = baseResponse<PopulatedCategoryType>;
+export type getCategoryResponse = BaseResponse<PopulatedCategoryType>;
 
-export type getCategoriesResponse = baseResponse<PopulatedCategoryType[]>;
+export type getCategoriesResponse = BaseResponse<PopulatedCategoryType[]>;
 
-export type getUsersResponse = baseResponse<SafeUserType[]>;
+export type getUsersResponse = BaseResponse<SafeUserType[]>;
 
-export type getUserResponse = baseResponse<SafeUserType>;
+export type getUserResponse = BaseResponse<SafeUserType>;
 
 export type blockUserResponse = baseResponseWithMessageAndData<SafeUserType>;
 
-export type updateUserProfileResponse = baseResponse<
+export type updateUserProfileResponse = BaseResponse<
   Pick<SafeUserType, "firstName" | "lastName" | "email">
 >;
