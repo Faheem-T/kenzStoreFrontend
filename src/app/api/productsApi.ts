@@ -7,7 +7,7 @@ import { CreateProductType, UpdateProductType } from "../types/product";
 
 export const sortByFields = [
   "name",
-  "price",
+  "finalPrice",
   "createdAt",
   "avgRating",
 ] as const;
@@ -47,14 +47,16 @@ const productsApi = apiSlice.injectEndpoints({
         sort?: "asc" | "desc";
         page?: number;
         query?: string;
+        category?: string;
       }
     >({
-      query: ({ sortBy = "createdAt", sort, page = "1", query }) =>
+      query: ({ sortBy = "createdAt", sort, page = "1", query, category }) =>
         `v1/products?` +
         (sort ? `sort=${sort}` : "") +
         (query ? `&q=${query}` : "") +
         (sortBy ? `&sortBy=${sortBy}` : "") +
-        (page ? `&page=${page}` : page),
+        (page ? `&page=${page}` : "") +
+        (category ? `&category=${category}` : ""),
       providesTags: (result = { data: [], success: false }) => [
         ...result.data.map(
           ({ _id }) => ({ type: "Product", id: _id } as const)

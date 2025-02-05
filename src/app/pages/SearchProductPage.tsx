@@ -1,7 +1,13 @@
 import {
   Box,
+  Button,
+  FormControl,
+  FormControlLabel,
+  FormLabel,
   IconButton,
   MenuItem,
+  Radio,
+  RadioGroup,
   Select,
   TextField,
   Typography,
@@ -15,6 +21,7 @@ import { useEffect, useRef, useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Search } from "@mui/icons-material";
+import { useGetCategoriesQuery } from "../api/categoriesApi";
 
 const searchFormSchema = z.object({
   query: z.string().optional(),
@@ -37,12 +44,12 @@ export const SearchProductPage = () => {
   const sortOptions: SortOption[] = [
     {
       label: "Price: Low to High",
-      sortBy: "price",
+      sortBy: "finalPrice",
       sort: "asc",
     },
     {
       label: "Price: High to Low",
-      sortBy: "price",
+      sortBy: "finalPrice",
       sort: "desc",
     },
     {
@@ -68,7 +75,8 @@ export const SearchProductPage = () => {
       (searchParams.get("sortBy") as SortByField) || "createdAt";
     const sort: "asc" | "desc" = searchParams.get("sort") as "asc" | "desc";
     const query = searchParams.get("q") || "";
-    getProducts({ sortBy, sort, query });
+    const category = searchParams.get("category") ?? "";
+    getProducts({ sortBy, sort, query, category });
     // cleanup
     return () => {
       searchTimer.current && clearTimeout(searchTimer.current);
@@ -123,6 +131,7 @@ export const SearchProductPage = () => {
               <Search />
             </IconButton>
           </Box>
+
           <Select
             value={
               currentSort?.label ||
@@ -159,17 +168,71 @@ export const SearchProductPage = () => {
           </Select>
         </Box>
         <Box sx={{ display: "flex", gap: 2, p: 2 }}>
-          {isFetching ? (
-            <Box sx={{ width: "100%", height: "30vh" }}>
-              <LoadingComponent />
-            </Box>
-          ) : (
-            products.map((product) => (
-              <ProductCard product={product} key={product._id} />
-            ))
-          )}
+          <CategoryRadioGroup
+            value={searchParams.get("category") ?? ""}
+            handleChange={(e) => {
+              setSearchParams({
+                ...Object.fromEntries(searchParams),
+                category: e.target.value,
+              });
+            }}
+            handleClear={() => {
+              setSearchParams({
+                ...Object.fromEntries(searchParams),
+                category: "",
+              });
+            }}
+          />
+          <Box sx={{ display: "flex", gap: 2, p: 2 }}>
+            {isFetching ? (
+              <Box sx={{ width: "100%", height: "30vh" }}>
+                <LoadingComponent />
+              </Box>
+            ) : (
+              products.map((product) => (
+                <ProductCard product={product} key={product._id} />
+              ))
+            )}
+          </Box>
         </Box>
       </Box>
     </>
+  );
+};
+
+const CategoryRadioGroup = ({
+  value,
+  handleChange,
+  handleClear,
+}: {
+  value: string;
+  handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleClear: () => void;
+}) => {
+  const { data, isLoading } = useGetCategoriesQuery();
+  if (isLoading) return <LoadingComponent />;
+  if (!data) return <Box>Couldn't fetch categories</Box>;
+  const categories = data.data;
+  return (
+    <FormControl>
+      <FormLabel>Shop by category</FormLabel>
+      <RadioGroup value={value} onChange={handleChange}>
+        {...categories.map((category) => (
+          <FormControlLabel
+            // sx={{ fontSize: "1px" }}
+            sx={{ "& > *": { fontSize: "14px" } }}
+            key={category._id}
+            value={category._id}
+            control={<Radio size="small" />}
+            label={category.name}
+          />
+        ))}
+      </RadioGroup>
+      {value && (
+        <Button onClick={handleClear} variant="text" color="text">
+          Clear category filter
+        </Button>
+      )}
+    </FormControl>
   );
 };
