@@ -79,7 +79,8 @@ export const OrderCard = ({ order }: { order: GetUserOrder }) => {
               {order.paymentStatus}
             </Typography>
             {order.paymentStatus === "incomplete" &&
-              order.paymentMethod !== "COD" && (
+              order.paymentMethod !== "COD" &&
+              order.status !== "cancelled" && (
                 <Typography
                   variant="caption"
                   sx={{
@@ -136,16 +137,20 @@ export const OrderCard = ({ order }: { order: GetUserOrder }) => {
 
 export const statusColor = (status: OrderStatus | PaymentStatus): string => {
   switch (status) {
+    // order related
     case "pending":
       return "warning";
     case "completed":
       return "success";
+    case "cancelled":
+      return "error";
+    // payment related
     case "paid":
       return "success";
     case "incomplete":
       return "error";
-    case "cancelled":
-      return "error";
+    case "refunded":
+      return "success";
     default:
       return "warning";
   }

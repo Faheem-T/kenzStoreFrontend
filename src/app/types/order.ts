@@ -49,7 +49,7 @@ export const paymentMethods = ["COD", "Credit Card", "Debit Card"] as const;
 export type PaymentMethod = (typeof paymentMethods)[number];
 
 // SHARED TYPE: Sync with frontend
-export const paymentStatuses = ["incomplete", "paid"] as const;
+export const paymentStatuses = ["incomplete", "paid", "refunded"] as const;
 export type PaymentStatus = (typeof paymentStatuses)[number];
 
 // SHARED TYPE: Sync with frontend
