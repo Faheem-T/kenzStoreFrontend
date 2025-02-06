@@ -42,8 +42,6 @@ export const AdminDashboardPage = () => {
     salesLabel.push(orderCountByTimeframe[i]._id);
   }
 
-  // const totalSalesCountDisplay
-
   return (
     <Box
       sx={{
@@ -83,50 +81,71 @@ export const AdminDashboardPage = () => {
           </Typography>
         </Box>
       </Box>
-      <Box
-        sx={{
-          width: "100%",
-          display: "flex",
-          flexDirection: "column",
-        }}
-      >
-        <Box sx={{ display: "flex" }}>
-          <Typography variant="h6" sx={{ alignSelf: "center", mx: "auto" }}>
-            Sales Count
-          </Typography>
-          <FormControl>
-            <FormHelperText>Chart view</FormHelperText>
-            <Select
-              value={sTimeframe}
-              onChange={(e) => setSTimeframe(e.target.value as Timeframe)}
-              variant="standard"
-              label="something"
-            >
-              {timeframes.map((timeframe) => (
-                <MenuItem
-                  key={timeframe}
-                  value={timeframe}
-                  selected={timeframe === timeframe}
-                >
-                  <Typography sx={{ textTransform: "capitalize" }}>
-                    {timeframe}
-                  </Typography>
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        </Box>
-        <Box sx={{ width: "70%", mx: "auto" }}>
-          <LineChart
-            height={500}
-            series={[{ data: salesCount }]}
-            xAxis={[{ scaleType: "point", data: salesLabel }]}
-            colors={["white"]}
-            grid={{ vertical: true, horizontal: true }}
-          />
-        </Box>
-      </Box>
+      <SalesCountChart
+        salesCount={salesCount}
+        salesLabel={salesLabel}
+        sTimeframe={sTimeframe}
+        setSTimeframe={setSTimeframe}
+      />
       <TopSellingProductsSection products={topSellingProducts} />
+    </Box>
+  );
+};
+
+const SalesCountChart = ({
+  salesCount,
+  salesLabel,
+  sTimeframe,
+  setSTimeframe,
+}: {
+  salesCount: number[];
+  salesLabel: string[];
+  sTimeframe: string;
+  setSTimeframe: React.Dispatch<React.SetStateAction<Timeframe>>;
+}) => {
+  return (
+    <Box
+      sx={{
+        width: "100%",
+        display: "flex",
+        flexDirection: "column",
+      }}
+    >
+      <Box sx={{ display: "flex" }}>
+        <Typography variant="h6" sx={{ alignSelf: "center", mx: "auto" }}>
+          Sales Count
+        </Typography>
+        <FormControl>
+          <FormHelperText>Chart view</FormHelperText>
+          <Select
+            value={sTimeframe}
+            onChange={(e) => setSTimeframe(e.target.value as Timeframe)}
+            variant="standard"
+            label="something"
+          >
+            {timeframes.map((timeframe) => (
+              <MenuItem
+                key={timeframe}
+                value={timeframe}
+                selected={timeframe === timeframe}
+              >
+                <Typography sx={{ textTransform: "capitalize" }}>
+                  {timeframe}
+                </Typography>
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+      </Box>
+      <Box sx={{ width: "70%", mx: "auto" }}>
+        <LineChart
+          height={500}
+          series={[{ data: salesCount }]}
+          xAxis={[{ scaleType: "point", data: salesLabel }]}
+          colors={["white"]}
+          grid={{ vertical: true, horizontal: true }}
+        />
+      </Box>
     </Box>
   );
 };
