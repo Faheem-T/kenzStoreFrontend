@@ -1,7 +1,7 @@
-import { apiSlice } from "../api";
+import { api } from "../api";
 import { AdminLoginResponse } from "../types/apiResponseTypes";
 
-const adminApi = apiSlice.injectEndpoints({
+const adminApi = api.injectEndpoints({
   endpoints: (builder) => ({
     adminLogin: builder.mutation<AdminLoginResponse, any>({
       query: (body) => ({

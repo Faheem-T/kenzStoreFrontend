@@ -55,7 +55,7 @@ const baseQueryWithReauth: BaseQueryFn<
   return result;
 };
 
-export const apiSlice = createApi({
+export const api = createApi({
   baseQuery: baseQueryWithReauth,
   tagTypes: [
     "Product",
@@ -69,6 +69,7 @@ export const apiSlice = createApi({
     "Offer",
     "Coupon",
     "Wishlist",
+    "Wallet",
   ],
   // keepUnusedDataFor: 60,
   endpoints: () => ({}),

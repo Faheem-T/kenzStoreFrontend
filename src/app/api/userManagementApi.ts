@@ -1,7 +1,7 @@
-import { apiSlice } from "../api";
+import { api } from "../api";
 import { getUsersResponse, blockUserResponse } from "../types/apiResponseTypes";
 
-const userManagementApi = apiSlice.injectEndpoints({
+const userManagementApi = api.injectEndpoints({
   endpoints: (builder) => ({
     // Get all users
     getUsers: builder.query<getUsersResponse, void>({

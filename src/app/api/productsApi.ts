@@ -1,4 +1,4 @@
-import { apiSlice } from "../api";
+import { api } from "../api";
 import {
   getMultipleProductsResponse,
   getProductResponse,
@@ -13,7 +13,7 @@ export const sortByFields = [
 ] as const;
 export type SortByField = (typeof sortByFields)[number];
 
-const productsApi = apiSlice.injectEndpoints({
+const productsApi = api.injectEndpoints({
   endpoints: (builder) => ({
     // get a product by its ID
     getProduct: builder.query<getProductResponse, string>({

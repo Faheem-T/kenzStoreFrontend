@@ -1,4 +1,4 @@
-import { apiSlice } from "../api";
+import { api } from "../api";
 import { BaseResponse } from "../types/apiResponseTypes";
 import { CategoryWithDiscount } from "../types/category";
 import { ProductWithDiscount } from "../types/product";
@@ -19,7 +19,7 @@ interface CreateCategoriesOfferBody extends CreateOfferBody {
   categories: string[];
 }
 
-const offerApi = apiSlice.injectEndpoints({
+const offerApi = api.injectEndpoints({
   endpoints: (builder) => ({
     getOfferProducts: builder.query<BaseResponse<ProductWithDiscount[]>, void>({
       query: () => "v1/offers/offer-products",

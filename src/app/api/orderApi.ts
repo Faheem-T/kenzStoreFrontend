@@ -1,5 +1,5 @@
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
-import { apiSlice } from "../api";
+import { api } from "../api";
 import { GetUserOrder, OrderStatus } from "../types/order";
 import { baseResponseWithMessage } from "../types/apiResponseTypes";
 
@@ -32,7 +32,7 @@ export interface getUserOrdersResponse {
   message?: string;
 }
 
-export const orderApi = apiSlice.injectEndpoints({
+export const orderApi = api.injectEndpoints({
   endpoints: (build) => ({
     placeOrder: build.mutation<PlaceOrderResponse, placeOrderBody>({
       query: (body) => ({

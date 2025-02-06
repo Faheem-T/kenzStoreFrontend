@@ -26,6 +26,7 @@ import {
   Package,
   ShoppingCart,
   User,
+  Wallet,
 } from "lucide-react";
 import { Link as RouterLink, useLocation } from "react-router";
 import { LogoutButton } from "./logoutButton";
@@ -59,6 +60,11 @@ const items = [
     title: "Wishlist",
     url: "/user/wishlist",
     icon: Heart,
+  },
+  {
+    title: "Wallet",
+    url: "/user/wallet",
+    icon: Wallet,
   },
 ];
 

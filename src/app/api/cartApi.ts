@@ -1,4 +1,4 @@
-import { apiSlice } from "../api";
+import { api } from "../api";
 import {
   BaseResponse,
   baseResponseWithMessage,
@@ -9,7 +9,7 @@ import { CartType, PopulatedCartType } from "../types/cart";
 //   cartTotal: number;
 // }
 
-const cartApi = apiSlice.injectEndpoints({
+const cartApi = api.injectEndpoints({
   endpoints: (builder) => ({
     getCart: builder.query<BaseResponse<PopulatedCartType>, void>({
       query: () => "v1/cart",

@@ -1,12 +1,12 @@
 import { string } from "zod";
-import { apiSlice } from "../api";
+import { api } from "../api";
 import {
   getCategoriesResponse,
   getCategoryResponse,
 } from "../types/apiResponseTypes";
 import { UpdateProductType } from "../types/product";
 
-const categoriesApi = apiSlice.injectEndpoints({
+const categoriesApi = api.injectEndpoints({
   endpoints: (builder) => ({
     getCategory: builder.query<getCategoryResponse, string>({
       query: (categoryId) => `v1/categories/${categoryId}`,

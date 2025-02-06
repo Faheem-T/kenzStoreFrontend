@@ -1,4 +1,4 @@
-import { apiSlice } from "../api";
+import { api } from "../api";
 import { BaseResponse } from "../types/apiResponseTypes";
 
 interface razorpayOrder {
@@ -16,7 +16,7 @@ interface razorpayOrder {
   status: string;
 }
 
-const paymentsApi = apiSlice.injectEndpoints({
+const paymentsApi = api.injectEndpoints({
   endpoints: (builder) => ({
     getRazorpayOrder: builder.query<BaseResponse<razorpayOrder>, void>({
       query: () => "v1/payments/order",

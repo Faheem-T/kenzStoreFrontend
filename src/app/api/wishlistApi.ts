@@ -1,11 +1,11 @@
-import { apiSlice } from "../api";
+import { api } from "../api";
 import {
   BaseResponse,
   baseResponseWithMessage,
 } from "../types/apiResponseTypes";
 import { ProductType } from "../types/product";
 
-const wishlistApi = apiSlice.injectEndpoints({
+const wishlistApi = api.injectEndpoints({
   endpoints: (builder) => ({
     getWishlist: builder.query<BaseResponse<ProductType[]>, void>({
       query: () => "v1/wishlist",

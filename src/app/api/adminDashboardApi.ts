@@ -1,4 +1,4 @@
-import { apiSlice } from "../api";
+import { api } from "../api";
 import { BaseResponse } from "../types/apiResponseTypes";
 
 // SHARED
@@ -11,7 +11,7 @@ type SalesReportBody = BaseResponse<{
   topSellingProducts: { _id: string /*ObjectId*/; count: number }[];
 }>;
 
-const adminDashboardApi = apiSlice.injectEndpoints({
+const adminDashboardApi = api.injectEndpoints({
   endpoints: (builder) => ({
     getSalesReport: builder.query<SalesReportBody, { timeframe?: Timeframe }>({
       query: ({ timeframe }) =>

@@ -39,6 +39,7 @@ import { AdminCategoryOffersPage } from "./app/pages/adminPages/AdminCategoryOff
 import { AdminCouponPage } from "./app/pages/adminPages/AdminCouponPage";
 import { AdminCreateCouponPage } from "./app/pages/adminPages/AdminCreateCouponPage";
 import { WishlistPage } from "./app/pages/WishlistPage";
+import { WalletPage } from "./app/pages/WalletPage";
 
 export const router = createBrowserRouter([
   {
@@ -101,6 +102,10 @@ export const router = createBrowserRouter([
                   {
                     path: "wishlist",
                     element: <WishlistPage />,
+                  },
+                  {
+                    path: "wallet",
+                    element: <WalletPage />,
                   },
                 ],
               },

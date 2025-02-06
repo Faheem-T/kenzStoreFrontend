@@ -1,8 +1,8 @@
-import { apiSlice } from "../api";
+import { api } from "../api";
 import { updateUserProfileResponse } from "../types/apiResponseTypes";
 import { SafeUserType } from "../types/user";
 
-const userProfileApi = apiSlice.injectEndpoints({
+const userProfileApi = api.injectEndpoints({
   endpoints: (builder) => ({
     updateUserProfile: builder.mutation<
       updateUserProfileResponse,

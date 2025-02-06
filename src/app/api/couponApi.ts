@@ -1,4 +1,4 @@
-import { apiSlice } from "../api";
+import { api } from "../api";
 import {
   BaseResponse,
   baseResponseWithMessage,
@@ -10,7 +10,7 @@ import {
   UpdateCouponType,
 } from "../types/coupon";
 
-const couponApi = apiSlice.injectEndpoints({
+const couponApi = api.injectEndpoints({
   endpoints: (builder) => ({
     getAllCoupons: builder.query<BaseResponse<CouponType[]>, void>({
       query: () => "v1/coupons",

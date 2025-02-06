@@ -1,4 +1,4 @@
-import { apiSlice } from "../api";
+import { api } from "../api";
 import { loginFormValues } from "../pages/LoginPage";
 import { registerFormValues } from "../pages/RegisterPage";
 import {
@@ -8,7 +8,7 @@ import {
   refreshResponse,
 } from "../types/apiResponseTypes";
 
-export const authApi = apiSlice.injectEndpoints({
+export const authApi = api.injectEndpoints({
   endpoints: (builder) => ({
     register: builder.mutation<baseResponseWithMessage, any>({
       query: (data: registerFormValues) => ({
