@@ -91,6 +91,16 @@ export const orderApi = apiSlice.injectEndpoints({
         { type: "Order", _id: arg.orderId },
       ],
     }),
+    requestOrderReturn: build.mutation<any, { orderId: string }>({
+      query: ({ orderId }) => ({
+        url: `v1/orders/${orderId}/return`,
+        method: "PATCH",
+      }),
+      invalidatesTags: (_result, _error, arg) => [
+        { type: "Order", _id: arg.orderId },
+      ],
+    }),
+    // Admin routes
     adminGetAllOrders: build.query<getUserOrdersResponse, void>({
       query: () => "v1/orders/admin",
       providesTags: (result = { data: [], success: false }, _error) => [
@@ -111,6 +121,30 @@ export const orderApi = apiSlice.injectEndpoints({
         { type: "Order", _id: arg.orderId },
       ],
     }),
+    adminApproveOrderReturn: build.mutation<
+      baseResponseWithMessage,
+      { orderId: string }
+    >({
+      query: ({ orderId }) => ({
+        url: `v1/orders/admin/${orderId}/return/approve`,
+        method: "PATCH",
+      }),
+      invalidatesTags: (_result, _error, arg) => [
+        { type: "Order", _id: arg.orderId },
+      ],
+    }),
+    adminRejectOrderReturn: build.mutation<
+      baseResponseWithMessage,
+      { orderId: string }
+    >({
+      query: ({ orderId }) => ({
+        url: `v1/orders/admin/${orderId}/return/reject`,
+        method: "PATCH",
+      }),
+      invalidatesTags: (_result, _error, arg) => [
+        { type: "Order", _id: arg.orderId },
+      ],
+    }),
   }),
 });
 
@@ -119,6 +153,9 @@ export const {
   useVerifyPaymentMutation,
   useGetUserOrdersQuery,
   useCancelOrderMutation,
+  useRequestOrderReturnMutation,
   useAdminGetAllOrdersQuery,
   useAdminChangeOrderStatusMutation,
+  useAdminApproveOrderReturnMutation,
+  useAdminRejectOrderReturnMutation,
 } = orderApi;

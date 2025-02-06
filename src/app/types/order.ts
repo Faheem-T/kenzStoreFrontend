@@ -57,7 +57,8 @@ export const orderStatuses = [
   "pending",
   "completed",
   "cancelled",
-  // "payment incomplete",
+  "requesting return",
+  "returned",
 ] as const;
 export type OrderStatus = (typeof orderStatuses)[number];
 

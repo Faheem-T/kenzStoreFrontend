@@ -1,10 +1,11 @@
 import {
+  useAdminApproveOrderReturnMutation,
   useAdminChangeOrderStatusMutation,
   useAdminGetAllOrdersQuery,
+  useAdminRejectOrderReturnMutation,
 } from "@/app/api/orderApi";
 import { LoadingComponent } from "@/app/components/LoadingComponent";
-import { statusColor } from "@/app/components/OrderCard";
-import { GetUserOrder, OrderStatus } from "@/app/types/order";
+import { GetUserOrder, OrderStatus, orderStatuses } from "@/app/types/order";
 import {
   Table,
   TableBody,
@@ -17,6 +18,7 @@ import {
 import { cn } from "@/lib/utils";
 import {
   Box,
+  Button,
   MenuItem,
   Select,
   SelectChangeEvent,
@@ -52,7 +54,7 @@ export const AdminOrderOverviewPage = () => {
           </TableHeader>
           <TableBody>
             {orders.map((order) => (
-              <OrderRow order={order} />
+              <OrderRow order={order} key={order._id} />
             ))}
           </TableBody>
         </Table>
@@ -86,21 +88,91 @@ const OrderRow = ({ order }: { order: GetUserOrder }) => {
       <TableCell>{new Date(order.createdAt).toDateString()}</TableCell>
       <TableCell>{order.totalPrice}</TableCell>
       <TableCell>
-        <Select
-          value={order.status}
-          size="small"
-          onChange={handleStatusChange}
-          disabled={isLoading}
-          sx={{ textEmphasisColor: statusColor(order.status) }}
-        >
-          <MenuItem color="blue" value="pending">
+        {order.status === "requesting return" ? (
+          <ReturnRequestButtons
+            orderId={order._id}
+            orderStatus={order.status}
+          />
+        ) : (
+          <Select
+            value={order.status}
+            size="small"
+            onChange={handleStatusChange}
+            disabled={isLoading}
+            sx={{ textTransform: "capitalize" }}
+          >
+            {/* <MenuItem color="blue" value="pending">
             Pending
           </MenuItem>
           <MenuItem value="cancelled">Cancelled</MenuItem>
           <MenuItem value="completed">Completed</MenuItem>
-          <MenuItem value="payment incomplete">Payment Incomplete</MenuItem>
-        </Select>
+          <MenuItem value="payment incomplete">Payment Incomplete</MenuItem> */}
+            {...orderStatuses.map((status) => (
+              <MenuItem
+                key={status}
+                value={status}
+                sx={{ textTransform: "capitalize" }}
+              >
+                {status}
+              </MenuItem>
+            ))}
+          </Select>
+        )}
       </TableCell>
     </TableRow>
+  );
+};
+
+export const ReturnRequestButtons = ({
+  orderId,
+  orderStatus,
+}: {
+  orderStatus: string;
+  orderId: string;
+}) => {
+  const [approveReturn, { isLoading: loadingApprove }] =
+    useAdminApproveOrderReturnMutation();
+  const [rejectReturn, { isLoading: loadingReject }] =
+    useAdminRejectOrderReturnMutation();
+  return (
+    <Box>
+      <Typography variant="caption" textTransform={"capitalize"}>
+        {orderStatus}
+      </Typography>
+      <Box sx={{ display: "flex", gap: 1 }}>
+        <Button
+          color="success"
+          variant="outlined"
+          disabled={loadingApprove || loadingReject}
+          onClick={async () => {
+            try {
+              const data = await approveReturn({ orderId });
+              if (data.data) toast.success(data.data.message);
+            } catch (error) {
+              toast.error("That did not work.");
+              console.log(error);
+            }
+          }}
+        >
+          Approve
+        </Button>
+        <Button
+          color="error"
+          variant="outlined"
+          disabled={loadingApprove || loadingReject}
+          onClick={async () => {
+            try {
+              const data = await rejectReturn({ orderId });
+              if (data.data) toast.success(data.data.message);
+            } catch (error) {
+              toast.error("That did not work.");
+              console.log(error);
+            }
+          }}
+        >
+          Reject
+        </Button>
+      </Box>
+    </Box>
   );
 };

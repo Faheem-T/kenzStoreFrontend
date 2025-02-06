@@ -1,6 +1,9 @@
 import { Box, Button, Divider, Stack, Typography } from "@mui/material";
 import { GetUserOrder, OrderStatus, PaymentStatus } from "../types/order";
-import { useCancelOrderMutation } from "../api/orderApi";
+import {
+  useCancelOrderMutation,
+  useRequestOrderReturnMutation,
+} from "../api/orderApi";
 import toast from "react-hot-toast";
 
 export const OrderCard = ({ order }: { order: GetUserOrder }) => {
@@ -128,6 +131,9 @@ export const OrderCard = ({ order }: { order: GetUserOrder }) => {
             {order.status === "pending" && (
               <CancelOrderButton orderId={order._id} />
             )}
+            {order.status === "completed" && (
+              <ReturnOrderButton orderId={order._id} />
+            )}
           </Box>
         </Box>
       </Box>
@@ -161,7 +167,7 @@ const CancelOrderButton = ({ orderId }: { orderId: string }) => {
   const handleCancleClick = async () => {
     try {
       const data = await cancelOrder({ orderId }).unwrap();
-      if (data) toast.success("Order has been cancelled");
+      if (data) toast.success(data.message);
     } catch (error) {
       console.log(error);
       toast.error("That did not work...");
@@ -171,5 +177,29 @@ const CancelOrderButton = ({ orderId }: { orderId: string }) => {
     <Button onClick={handleCancleClick} disabled={isLoading} variant="outlined">
       {isLoading ? "Canceling..." : "Cancel Order"}
     </Button>
+  );
+};
+
+const ReturnOrderButton = ({ orderId }: { orderId: string }) => {
+  const [returnOrder, { isLoading }] = useRequestOrderReturnMutation();
+  const handleReturnClick = async () => {
+    try {
+      const data = await returnOrder({ orderId }).unwrap();
+      if (data) toast.success(data.message);
+    } catch (error) {
+      console.log(error);
+      toast.error("That did not work...");
+    }
+  };
+  return (
+    <>
+      <Button
+        onClick={handleReturnClick}
+        disabled={isLoading}
+        variant="outlined"
+      >
+        {isLoading ? "Requesting return..." : "Return Order"}
+      </Button>
+    </>
   );
 };
