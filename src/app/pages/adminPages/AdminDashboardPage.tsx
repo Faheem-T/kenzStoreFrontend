@@ -14,13 +14,25 @@ import {
   Typography,
 } from "@mui/material";
 import { LineChart } from "@mui/x-charts";
-import { useState } from "react";
+import { DatePicker } from "@mui/x-date-pickers";
+import dayjs from "dayjs";
+import React, { useState } from "react";
 
 export const AdminDashboardPage = () => {
   const [sTimeframe, setSTimeframe] = useState<Timeframe>("day");
+  const [dates, setDates] = useState<{
+    startDate: undefined | Date;
+    endDate: undefined | Date;
+  }>({
+    startDate: undefined,
+    endDate: undefined,
+  });
   const { data, isLoading: salesReportLoading } = useGetSalesReportQuery({
     timeframe: sTimeframe,
+    startDate: dates.startDate ? dates.startDate.toString() : undefined,
+    endDate: dates.endDate ? dates.endDate.toString() : undefined,
   });
+
   if (salesReportLoading) {
     return <LoadingComponent fullScreen />;
   }
@@ -82,6 +94,8 @@ export const AdminDashboardPage = () => {
         </Box>
       </Box>
       <SalesCountChart
+        dates={dates}
+        setDates={setDates}
         salesCount={salesCount}
         salesLabel={salesLabel}
         sTimeframe={sTimeframe}
@@ -93,16 +107,26 @@ export const AdminDashboardPage = () => {
 };
 
 const SalesCountChart = ({
+  dates,
+  setDates,
   salesCount,
   salesLabel,
   sTimeframe,
   setSTimeframe,
 }: {
+  dates: { startDate: undefined | Date; endDate: undefined | Date };
+  setDates: React.Dispatch<
+    React.SetStateAction<{
+      startDate: undefined | Date;
+      endDate: undefined | Date;
+    }>
+  >;
   salesCount: number[];
   salesLabel: string[];
   sTimeframe: string;
   setSTimeframe: React.Dispatch<React.SetStateAction<Timeframe>>;
 }) => {
+  const { endDate, startDate } = dates;
   return (
     <Box
       sx={{
@@ -144,6 +168,23 @@ const SalesCountChart = ({
           xAxis={[{ scaleType: "point", data: salesLabel }]}
           colors={["white"]}
           grid={{ vertical: true, horizontal: true }}
+        />
+      </Box>
+      <Box sx={{ display: "flex", gap: 1, justifyContent: "center" }}>
+        {/* <Typography>Start Date</Typography> */}
+        <DatePicker
+          label="Start Date"
+          value={startDate ? dayjs(startDate) : null}
+          onChange={(value) => {
+            setDates((prev) => ({ ...prev, startDate: value?.toDate() }));
+          }}
+        />
+        <DatePicker
+          label="End Date"
+          value={endDate ? dayjs(endDate) : null}
+          onChange={(value) => {
+            setDates((prev) => ({ ...prev, endDate: value?.toDate() }));
+          }}
         />
       </Box>
     </Box>

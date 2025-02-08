@@ -59,9 +59,17 @@ export const CheckoutPage = () => {
             toast.error(err.error);
           });
         }
+      } else if (
+        typeof error === "object" &&
+        error !== null &&
+        "message" in error &&
+        typeof error.message === "string"
+      ) {
+        toast.error(error.message);
       } else {
         toast.error("An unexpected error occured");
       }
+
       console.log(error);
     }
   };

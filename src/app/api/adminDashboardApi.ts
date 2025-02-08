@@ -13,11 +13,15 @@ type SalesReportBody = BaseResponse<{
 
 const adminDashboardApi = api.injectEndpoints({
   endpoints: (builder) => ({
-    getSalesReport: builder.query<SalesReportBody, { timeframe?: Timeframe }>({
-      query: ({ timeframe }) =>
-        `v1/admin/dashboard/sales-report?${
-          timeframe ? `timeframe=${timeframe}` : ""
-        }`,
+    getSalesReport: builder.query<
+      SalesReportBody,
+      { timeframe?: Timeframe; startDate?: string; endDate?: string }
+    >({
+      query: ({ timeframe, startDate, endDate }) =>
+        `v1/admin/dashboard/sales-report?` +
+        (timeframe ? `timeframe=${timeframe}` : "") +
+        (startDate ? `&startDate=${startDate}` : "") +
+        (endDate ? `&endDate=${endDate}` : ""),
     }),
   }),
 });
