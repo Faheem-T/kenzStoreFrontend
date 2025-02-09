@@ -19,12 +19,15 @@ export const AdminProductCard = ({
       sx={{
         display: "flex",
         flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        textAlign: "center",
         gap: 1,
         borderRadius: 1,
         boxShadow: 3,
         p: 4,
         bgcolor: "background.paper",
-        maxWidth: 200,
+        maxWidth: "16rem",
       }}
       component={Link}
       to={`/admin/products/${product._id}`}
@@ -34,8 +37,10 @@ export const AdminProductCard = ({
         component="img"
         src={product.images[0]}
       />
-      <Typography variant="body2">{product.name}</Typography>
-      <Typography>Total sale count: {saleCount}</Typography>
+      <Typography variant="h6">{product.name}</Typography>
+      <Typography variant="caption" textTransform={"uppercase"}>
+        {saleCount} sales
+      </Typography>
     </Box>
   );
 };

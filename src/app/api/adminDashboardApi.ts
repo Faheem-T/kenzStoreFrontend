@@ -9,6 +9,8 @@ type SalesReportBody = BaseResponse<{
   totalSaleAmount: number;
   orderCountByTimeframe: { _id: string; count: number }[];
   topSellingProducts: { _id: string /*ObjectId*/; count: number }[];
+  topSellingCategories: { _id: { name: string }; count: number }[];
+  topSellingBrands: { _id: string; count: number }[];
 }>;
 
 const adminDashboardApi = api.injectEndpoints({

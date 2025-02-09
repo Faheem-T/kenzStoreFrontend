@@ -45,6 +45,8 @@ export const AdminDashboardPage = () => {
     totalSaleAmount,
     totalSalesCount,
     topSellingProducts,
+    topSellingCategories,
+    topSellingBrands,
   } = salesReport;
   const salesCount = [];
   const salesLabel = [];
@@ -102,6 +104,8 @@ export const AdminDashboardPage = () => {
         setSTimeframe={setSTimeframe}
       />
       <TopSellingProductsSection products={topSellingProducts} />
+      <TopSellingCategoriesSection categories={topSellingCategories} />
+      <TopSellingBrandsSection brands={topSellingBrands} />
     </Box>
   );
 };
@@ -199,13 +203,75 @@ const TopSellingProductsSection = ({
   return (
     <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
       <Typography variant="h6">Top Selling Products</Typography>
-      <Box sx={{ display: "flex", gap: 1 }}>
+      <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1 }}>
         {...products.map((product) => (
           <AdminProductCard
             key={product._id}
             _id={product._id}
             saleCount={product.count}
           />
+        ))}
+      </Box>
+    </Box>
+  );
+};
+
+const TopSellingCategoriesSection = ({
+  categories,
+}: {
+  categories: { _id: { name: string }; count: number }[];
+}) => {
+  return (
+    <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
+      <Typography variant="h6">Top Selling Categories</Typography>
+      <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1 }}>
+        {categories.map((category) => (
+          <Box
+            key={category._id.name}
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              minWidth: "15rem",
+              gap: 1,
+              bgcolor: "background.paper",
+              p: 4,
+            }}
+          >
+            <Typography variant="h5">{category._id.name}</Typography>
+            <Typography variant="caption">{category.count} sales</Typography>
+          </Box>
+        ))}
+      </Box>
+    </Box>
+  );
+};
+
+const TopSellingBrandsSection = ({
+  brands,
+}: {
+  brands: { _id: string; count: number }[];
+}) => {
+  return (
+    <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
+      <Typography variant="h6">Top Selling Brands</Typography>
+      <Box sx={{ display: "flex", flexWrap: "wrap", gap: 2 }}>
+        {brands.map((brand) => (
+          <Box
+            key={brand._id}
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              minWidth: "15rem",
+              gap: 1,
+              bgcolor: "background.paper",
+              p: 4,
+            }}
+          >
+            <Typography variant="h5">{brand._id}</Typography>
+            <Typography variant="caption">{brand.count} sales</Typography>
+          </Box>
         ))}
       </Box>
     </Box>
