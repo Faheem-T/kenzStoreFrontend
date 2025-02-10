@@ -26,10 +26,12 @@ export async function displayRazorpay({
   amount,
   id,
   currency,
+  orderId,
 }: {
   amount: number;
   id: string;
   currency: string;
+  orderId?: string;
 }) {
   const res = await loadScript("https://checkout.razorpay.com/v1/checkout.js");
 
@@ -54,7 +56,7 @@ export async function displayRazorpay({
     }) => {
       try {
         await store.dispatch(
-          orderApi.endpoints.verifyPayment.initiate(response)
+          orderApi.endpoints.verifyPayment.initiate({ ...response, orderId })
         );
       } catch (error) {
         console.log(error);

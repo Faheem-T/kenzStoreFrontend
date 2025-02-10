@@ -1,7 +1,10 @@
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import { api } from "../api";
 import { GetUserOrder, OrderStatus } from "../types/order";
-import { baseResponseWithMessage } from "../types/apiResponseTypes";
+import {
+  BaseResponse,
+  baseResponseWithMessage,
+} from "../types/apiResponseTypes";
 
 interface placeOrderBody {
   cartId: string;
@@ -31,7 +34,6 @@ export interface getUserOrdersResponse {
   data: GetUserOrder[];
   message?: string;
 }
-
 export const orderApi = api.injectEndpoints({
   endpoints: (build) => ({
     placeOrder: build.mutation<PlaceOrderResponse, placeOrderBody>({
@@ -58,6 +60,7 @@ export const orderApi = api.injectEndpoints({
         razorpay_payment_id: string;
         razorpay_order_id: string;
         razorpay_signature: string;
+        orderId?: string;
       }
     >({
       query: (body) => ({
@@ -65,6 +68,19 @@ export const orderApi = api.injectEndpoints({
         method: "POST",
         body,
       }),
+      invalidatesTags: ["Order"],
+    }),
+    retryPayment: build.mutation<
+      BaseResponse<{
+        razorpayOrder: { id: string; amount: number; currency: string };
+      }>,
+      { orderId: string }
+    >({
+      query: ({ orderId }) => ({
+        url: `v1/orders/${orderId}/retry-payment`,
+        method: "PATCH",
+      }),
+      invalidatesTags: ["Order"],
     }),
     getUserOrders: build.query<getUserOrdersResponse, void>({
       query: () => "v1/orders",
@@ -151,6 +167,7 @@ export const orderApi = api.injectEndpoints({
 export const {
   usePlaceOrderMutation,
   useVerifyPaymentMutation,
+  useRetryPaymentMutation,
   useGetUserOrdersQuery,
   useCancelOrderMutation,
   useRequestOrderReturnMutation,

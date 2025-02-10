@@ -5,6 +5,7 @@ import {
   useRequestOrderReturnMutation,
 } from "../api/orderApi";
 import toast from "react-hot-toast";
+import { RetryPaymentButton } from "./RetryPaymentButton";
 
 export const OrderCard = ({ order }: { order: GetUserOrder }) => {
   return (
@@ -83,20 +84,9 @@ export const OrderCard = ({ order }: { order: GetUserOrder }) => {
             </Typography>
             {order.paymentStatus === "incomplete" &&
               order.paymentMethod !== "COD" &&
-              order.status !== "cancelled" && (
-                <Typography
-                  variant="caption"
-                  sx={{
-                    "&:hover": {
-                      textDecoration: "underline",
-                      cursor: "pointer",
-                    },
-                  }}
-                  // TODO Implement retry payment
-                  onClick={() => toast("TODO!")}
-                >
-                  Retry payment?
-                </Typography>
+              order.status !== "cancelled" &&
+              order.status !== "completed" && (
+                <RetryPaymentButton orderId={order._id} />
               )}
           </Box>
           <Box>
