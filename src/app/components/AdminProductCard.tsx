@@ -38,9 +38,7 @@ export const AdminProductCard = ({
         src={product.images[0]}
       />
       <Typography variant="h6">{product.name}</Typography>
-      <Typography variant="caption" textTransform={"uppercase"}>
-        {saleCount} sales
-      </Typography>
+      <Typography variant="caption">{saleCount} sales</Typography>
     </Box>
   );
 };

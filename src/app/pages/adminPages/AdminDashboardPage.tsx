@@ -11,6 +11,7 @@ import {
   FormHelperText,
   MenuItem,
   Select,
+  SelectChangeEvent,
   Typography,
 } from "@mui/material";
 import { LineChart } from "@mui/x-charts";
@@ -32,6 +33,7 @@ export const AdminDashboardPage = () => {
     startDate: dates.startDate ? dates.startDate.toString() : undefined,
     endDate: dates.endDate ? dates.endDate.toString() : undefined,
   });
+  // const [dateRange, setDateRange] = useState();
 
   if (salesReportLoading) {
     return <LoadingComponent fullScreen />;
@@ -67,6 +69,8 @@ export const AdminDashboardPage = () => {
       }}
     >
       <Typography variant="h5">Dashboard</Typography>
+      <DateRangeSelect dates={dates} setDates={setDates} />
+
       <Box sx={{ display: "flex", gap: 2 }}>
         <Box
           sx={{
@@ -96,8 +100,8 @@ export const AdminDashboardPage = () => {
         </Box>
       </Box>
       <SalesCountChart
-        dates={dates}
-        setDates={setDates}
+        // dates={dates}
+        // setDates={setDates}
         salesCount={salesCount}
         salesLabel={salesLabel}
         sTimeframe={sTimeframe}
@@ -110,27 +114,125 @@ export const AdminDashboardPage = () => {
   );
 };
 
-const SalesCountChart = ({
+const DateRangeSelect = ({
   dates,
   setDates,
-  salesCount,
-  salesLabel,
-  sTimeframe,
-  setSTimeframe,
 }: {
-  dates: { startDate: undefined | Date; endDate: undefined | Date };
+  dates: { startDate: Date | undefined; endDate: Date | undefined };
   setDates: React.Dispatch<
     React.SetStateAction<{
       startDate: undefined | Date;
       endDate: undefined | Date;
     }>
   >;
+}) => {
+  const date = new Date();
+  const y = date.getFullYear();
+  const m = date.getMonth();
+  interface DateRangeMapType {
+    label: string;
+    dates: {
+      startDate: Date | undefined;
+      endDate: Date | undefined;
+    };
+  }
+  const dateRangeMap: DateRangeMapType[] = [
+    {
+      label: "This month",
+      dates: {
+        startDate: new Date(y, m, 1),
+        endDate: new Date(y, m + 1, 0),
+      },
+    },
+    {
+      label: "This year",
+      dates: {
+        startDate: new Date(y, 0, 1),
+        endDate: new Date(y + 1, 0, 0),
+      },
+    },
+    {
+      label: "Custom",
+      dates: {
+        startDate: undefined,
+        endDate: new Date(y, m + 1, 0),
+      },
+    },
+    {
+      label: "All Time",
+      dates: {
+        startDate: undefined,
+        endDate: undefined,
+      },
+    },
+  ];
+
+  const handleSelectChange = (e: SelectChangeEvent<string>) => {
+    const label = e.target.value;
+    const foundDateRange = dateRangeMap.find((d) => d.label === label);
+    if (foundDateRange) {
+      setDates(foundDateRange.dates);
+    }
+  };
+
+  let selected = dateRangeMap.find(
+    (d) =>
+      d.dates.startDate?.getTime() === dates.startDate?.getTime() &&
+      d.dates.endDate?.getTime() === dates.endDate?.getTime()
+  )?.label;
+  return (
+    <>
+      <Select value={selected ?? "Custom"} onChange={handleSelectChange}>
+        {...dateRangeMap.map((d) => (
+          <MenuItem value={d.label} key={d.label}>
+            {d.label}
+          </MenuItem>
+        ))}
+      </Select>
+      {(selected === "Custom" || selected === undefined) && (
+        /* Date picker  */
+        <Box sx={{ display: "flex", gap: 1, justifyContent: "center" }}>
+          <DatePicker
+            label="Start Date"
+            value={dates.startDate ? dayjs(dates.startDate) : null}
+            onChange={(value) => {
+              setDates((prev) => ({ ...prev, startDate: value?.toDate() }));
+            }}
+          />
+          <DatePicker
+            label="End Date"
+            value={dates.endDate ? dayjs(dates.endDate) : null}
+            onChange={(value) => {
+              setDates((prev) => ({ ...prev, endDate: value?.toDate() }));
+            }}
+          />
+        </Box>
+      )}
+    </>
+  );
+};
+
+const SalesCountChart = ({
+  // dates,
+  // setDates,
+  salesCount,
+  salesLabel,
+  sTimeframe,
+  setSTimeframe,
+}: {
+  // dates: { startDate: undefined | Date; endDate: undefined | Date };
+  // setDates: React.Dispatch<
+  //   React.SetStateAction<{
+  //     startDate: undefined | Date;
+  //     endDate: undefined | Date;
+  //   }>
+  // >;
   salesCount: number[];
   salesLabel: string[];
   sTimeframe: string;
   setSTimeframe: React.Dispatch<React.SetStateAction<Timeframe>>;
 }) => {
-  const { endDate, startDate } = dates;
+  // const { endDate, startDate } = dates;
   return (
     <Box
       sx={{
@@ -172,23 +274,6 @@ const SalesCountChart = ({
           xAxis={[{ scaleType: "point", data: salesLabel }]}
           colors={["white"]}
           grid={{ vertical: true, horizontal: true }}
-        />
-      </Box>
-      <Box sx={{ display: "flex", gap: 1, justifyContent: "center" }}>
-        {/* <Typography>Start Date</Typography> */}
-        <DatePicker
-          label="Start Date"
-          value={startDate ? dayjs(startDate) : null}
-          onChange={(value) => {
-            setDates((prev) => ({ ...prev, startDate: value?.toDate() }));
-          }}
-        />
-        <DatePicker
-          label="End Date"
-          value={endDate ? dayjs(endDate) : null}
-          onChange={(value) => {
-            setDates((prev) => ({ ...prev, endDate: value?.toDate() }));
-          }}
         />
       </Box>
     </Box>
