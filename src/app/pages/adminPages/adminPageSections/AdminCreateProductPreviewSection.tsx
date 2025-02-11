@@ -63,9 +63,15 @@ export const AdminCreateProductPreviewSection = ({
     setIsUploadLoading(true);
     const images: string[] = [];
     for (let i = 0; i < imagePreviews.length; i++) {
-      let url = await uploadToCloudinary(imagePreviews[i].file);
-      setUploadProgressCount((prev) => prev + 1);
-      images.push(url);
+      try {
+        let url = await uploadToCloudinary(imagePreviews[i].file);
+        setUploadProgressCount((prev) => prev + 1);
+        images.push(url);
+      } catch (error) {
+        if (error instanceof Error) {
+          toast.error(error.message);
+        }
+      }
     }
     setIsUploadLoading(false);
     // send create product request to backend

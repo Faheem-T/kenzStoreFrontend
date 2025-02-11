@@ -77,8 +77,14 @@ export const AdminUpdateImagePage = () => {
     setIsUploading(true);
     const updatedImages: string[] = [];
     for (let i = 0; i < newImages.length; i++) {
-      let url = await uploadToCloudinary(newImages[i].file);
-      updatedImages.push(url);
+      try {
+        let url = await uploadToCloudinary(newImages[i].file);
+        updatedImages.push(url);
+      } catch (error) {
+        if (error instanceof Error) {
+          toast.error(error.message);
+        }
+      }
     }
     setIsUploading(false);
     // send update product request to backend

@@ -34,7 +34,7 @@ export const OrdersPage = () => {
           <Typography variant="h5">Your Orders</Typography>
         </Box>
         {orders.map((order) => (
-          <OrderCard order={order} />
+          <OrderCard order={order} key={order._id} />
         ))}
       </Box>
     </>

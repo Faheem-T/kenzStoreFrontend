@@ -1,3 +1,5 @@
+import { allowedFileTypes } from "./components/AddImageFileInputButton";
+
 const url = "https://api.cloudinary.com/v1_1/dlicxnblg/image/upload";
 const uploadPreset = "kenzStoreImages";
 
@@ -33,13 +35,13 @@ const convertToPng = async (file: File): Promise<Blob> => {
 export const uploadToCloudinary = async (
   file: FormDataEntryValue
 ): Promise<string> => {
-  if (!(file instanceof File)) {
+  if (!(file instanceof File && allowedFileTypes.includes(file.type))) {
     throw new Error("Invalid file type");
   }
 
   try {
     let pngFile;
-    if (!file.name.endsWith(".png")) {
+    if (!(file.type === "image/png")) {
       const pngBlob = await convertToPng(file);
       pngFile = new File([pngBlob], file.name.replace(/\.[^.]+$/, ".png"), {
         type: "image/png",
@@ -56,6 +58,10 @@ export const uploadToCloudinary = async (
     });
 
     const data = await res.json();
+    if (typeof data === "object" && data !== null && "error" in data) {
+      throw new Error(data.error.message);
+    }
+    console.log(data);
     return data.secure_url;
   } catch (error) {
     console.error("Error uploading to Cloudinary:", error);
