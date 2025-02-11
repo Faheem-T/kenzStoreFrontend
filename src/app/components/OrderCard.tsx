@@ -6,6 +6,8 @@ import {
 } from "../api/orderApi";
 import toast from "react-hot-toast";
 import { RetryPaymentButton } from "./RetryPaymentButton";
+import { InvoiceDocument } from "../utils/invoicePDF";
+import { PDFDownloadLink } from "@react-pdf/renderer";
 
 export const OrderCard = ({ order }: { order: GetUserOrder }) => {
   return (
@@ -105,7 +107,10 @@ export const OrderCard = ({ order }: { order: GetUserOrder }) => {
         <Box sx={{ display: "flex", gap: 2 }}>
           <Stack gap={4}>
             {order.items.map((item) => (
-              <Box sx={{ display: "flex", alignItems: "center", gap: 3 }}>
+              <Box
+                key={item._id}
+                sx={{ display: "flex", alignItems: "center", gap: 3 }}
+              >
                 <Box sx={{ flex: 0.3 }}>
                   <img src={item.productId.images[0]} width="100%" />
                 </Box>
@@ -117,12 +122,32 @@ export const OrderCard = ({ order }: { order: GetUserOrder }) => {
               </Box>
             ))}
           </Stack>
-          <Box>
+          <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
             {order.status === "pending" && (
               <CancelOrderButton orderId={order._id} />
             )}
             {order.status === "completed" && (
               <ReturnOrderButton orderId={order._id} />
+            )}
+            {order.status === "completed" && order.paymentStatus === "paid" && (
+              // <Typography
+              //   variant="caption"
+              //   sx={{ mt: "auto" }}
+              //   onClick={() => downloadInvoicePDF()}
+              // >
+              //   Download Invoice
+              // </Typography>
+              <Box sx={{ mt: "auto" }}>
+                <PDFDownloadLink
+                  document={<InvoiceDocument order={order} />}
+                  fileName="somename.pdf"
+                  style={{ fontSize: ".8rem" }}
+                >
+                  {({ blob: _blob, url: _url, loading, error: _error }) =>
+                    loading ? "Loading invoice..." : "Download invoice"
+                  }
+                </PDFDownloadLink>
+              </Box>
             )}
           </Box>
         </Box>

@@ -7,7 +7,7 @@ export interface OrderType {
   _id: string;
   userId: string; // ObjectId
   items: ItemType[];
-  coupon: string; // ObjectId
+  coupon: string | null; // ObjectId
   discountType: "percentage" | "fixed" | null;
   discountValue: number;
   status: OrderStatus;
@@ -18,7 +18,7 @@ export interface OrderType {
   >;
 
   // Cancel date
-  cancelledAt: Date;
+  cancelledAt?: Date;
 
   // payment related fields
   paymentOrder: any;
@@ -64,5 +64,8 @@ export type OrderStatus = (typeof orderStatuses)[number];
 
 // SHARED TYPE: Sync with backend
 export type GetUserOrder = ProductPopulatedOrderType<
-  Pick<ProductType, "name" | "description" | "images" | "_id">
+  Pick<
+    ProductType,
+    "name" | "description" | "images" | "_id" | "effectiveDiscount"
+  >
 >;

@@ -1,6 +1,7 @@
 import { Tooltip, IconButton } from "@mui/material";
 import { Add } from "@mui/icons-material";
 import React, { SetStateAction } from "react";
+import toast from "react-hot-toast";
 
 interface AddImageFileInputButtonProps {
   tooltipTitle?: string;
@@ -10,16 +11,14 @@ interface AddImageFileInputButtonProps {
   >;
 }
 
+export const allowedFileTypes = ["image/png", "image/jpeg", "image/gif"];
 export const AddImageFileInputButton = ({
   images,
   tooltipTitle = images.length > 0 ? "Upload another image" : "Upload an Image",
   setImages,
 }: AddImageFileInputButtonProps) => {
   return (
-    <Tooltip
-      //   title={images.length > 0 ? "Upload another image" : "Upload an Image"}
-      title={tooltipTitle}
-    >
+    <Tooltip title={tooltipTitle}>
       <IconButton
         component="label"
         sx={{
@@ -35,14 +34,17 @@ export const AddImageFileInputButton = ({
           multiple
           hidden
           onChange={(e) => {
-            // console.log(e.target.files[0]);
             if (e.target?.files?.length) {
               const newImages = images.slice();
               for (const file of e.target.files) {
-                newImages.push({
-                  url: URL.createObjectURL(file),
-                  file: file,
-                });
+                if (allowedFileTypes.includes(file.type)) {
+                  newImages.push({
+                    url: URL.createObjectURL(file),
+                    file: file,
+                  });
+                } else {
+                  toast.error("Please choose image files only");
+                }
               }
               setImages([...newImages]);
             }

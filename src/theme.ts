@@ -36,6 +36,7 @@ let theme = createTheme({
     mode: "dark",
     background: {
       default: "#1F0808",
+      // default: "#FFFFFF",
       paper: "#120303",
       // paper: "#000000",
     },
