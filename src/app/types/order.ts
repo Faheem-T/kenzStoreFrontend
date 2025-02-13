@@ -17,14 +17,16 @@ export interface OrderType {
     "address_line" | "city" | "state" | "pincode" | "landmark"
   >;
 
-  // Cancel date
-  cancelledAt?: Date;
+  // Cancel & complete date
+  cancelledAt?: string; // Date
+  completedAt?: string; // Date
 
   // payment related fields
   paymentOrder: any;
   paymentStatus: PaymentStatus;
 
   // Virtual fields
+  originalPrice: number;
   totalPrice: number;
 
   // Timestamp fields

@@ -1,12 +1,24 @@
+import relativeTime from "dayjs/plugin/relativeTime";
 import {
+  SalesReportBody,
   Timeframe,
   timeframes,
   useGetSalesReportQuery,
 } from "@/app/api/adminDashboardApi";
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { AdminProductCard } from "@/app/components/AdminProductCard";
 import { LoadingComponent } from "@/app/components/LoadingComponent";
 import {
   Box,
+  Button,
   FormControl,
   FormHelperText,
   MenuItem,
@@ -18,6 +30,8 @@ import { LineChart } from "@mui/x-charts";
 import { DatePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
 import React, { useState } from "react";
+import { PDFDownloadLink, PDFViewer } from "@react-pdf/renderer";
+import { SalesReportPDF } from "@/app/utils/SalesReportPDF";
 
 export const AdminDashboardPage = () => {
   const [sTimeframe, setSTimeframe] = useState<Timeframe>("day");
@@ -43,6 +57,7 @@ export const AdminDashboardPage = () => {
   }
   const salesReport = data.data;
   const {
+    orders,
     orderCountByTimeframe,
     totalSaleAmount,
     totalSalesCount,
@@ -110,7 +125,63 @@ export const AdminDashboardPage = () => {
       <TopSellingProductsSection products={topSellingProducts} />
       <TopSellingCategoriesSection categories={topSellingCategories} />
       <TopSellingBrandsSection brands={topSellingBrands} />
+      <RecentOrders orders={orders} />
+      <ReportDownloadButton salesReport={salesReport} />
     </Box>
+  );
+};
+
+const RecentOrders = ({
+  orders,
+}: {
+  orders: SalesReportBody["data"]["orders"];
+}) => {
+  dayjs.extend(relativeTime);
+  return (
+    <>
+      <Typography variant="h6">Recent Orders</Typography>
+
+      <Table>
+        <TableCaption>Recent Orders</TableCaption>
+        <TableHeader>
+          <TableRow>
+            <TableHead>Username</TableHead>
+            <TableHead>Price (QR)</TableHead>
+            <TableHead>Original Price (QR)</TableHead>
+            <TableHead></TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {orders.map((order) => (
+            <TableRow key={order._id}>
+              <TableCell>{order.userId.firstName}</TableCell>
+              <TableCell>{order.totalPrice}</TableCell>
+              {order.discountValue && order.discountType ? (
+                <TableCell>
+                  {order.originalPrice}
+                  <Typography
+                    component="span"
+                    variant="caption"
+                    color="textDisabled"
+                  >
+                    {" -" +
+                      order.discountValue +
+                      (order.discountType === "percentage" ? "%" : "QR")}
+                  </Typography>
+                </TableCell>
+              ) : (
+                <TableCell>-</TableCell>
+              )}
+              <TableCell>
+                <Typography variant="caption" color="textDisabled">
+                  {dayjs(order.completedAt).fromNow()}
+                </Typography>
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </>
   );
 };
 
@@ -213,26 +284,16 @@ const DateRangeSelect = ({
 };
 
 const SalesCountChart = ({
-  // dates,
-  // setDates,
   salesCount,
   salesLabel,
   sTimeframe,
   setSTimeframe,
 }: {
-  // dates: { startDate: undefined | Date; endDate: undefined | Date };
-  // setDates: React.Dispatch<
-  //   React.SetStateAction<{
-  //     startDate: undefined | Date;
-  //     endDate: undefined | Date;
-  //   }>
-  // >;
   salesCount: number[];
   salesLabel: string[];
   sTimeframe: string;
   setSTimeframe: React.Dispatch<React.SetStateAction<Timeframe>>;
 }) => {
-  // const { endDate, startDate } = dates;
   return (
     <Box
       sx={{
@@ -360,5 +421,45 @@ const TopSellingBrandsSection = ({
         ))}
       </Box>
     </Box>
+  );
+};
+
+const ReportDownloadButton = ({
+  salesReport,
+}: {
+  salesReport: SalesReportBody["data"];
+}) => {
+  const [visible, setVisible] = useState(false);
+
+  return (
+    <>
+      {visible ? (
+        <>
+          <Box sx={{ display: "flex", gap: 2 }}>
+            <PDFDownloadLink document={<SalesReportPDF data={salesReport} />}>
+              {({ blob: _blob, url: _url, loading, error: _error }) =>
+                loading ? (
+                  <Typography color="textDisabled">
+                    "Loading report..."
+                  </Typography>
+                ) : (
+                  <Button variant="contained"> Download sales report</Button>
+                )
+              }
+            </PDFDownloadLink>
+            <Button variant="outlined" onClick={() => setVisible(false)}>
+              Cancel
+            </Button>
+          </Box>
+          <PDFViewer width="70%" height="800px">
+            <SalesReportPDF data={salesReport} />
+          </PDFViewer>
+        </>
+      ) : (
+        <Button onClick={() => setVisible(true)} variant="contained">
+          Generate Sales Report PDF
+        </Button>
+      )}
+    </>
   );
 };

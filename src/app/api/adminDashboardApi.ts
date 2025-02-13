@@ -1,10 +1,26 @@
 import { api } from "../api";
 import { BaseResponse } from "../types/apiResponseTypes";
+import { OrderType } from "../types/order";
 
 // SHARED
 export const timeframes = ["day", "month", "year"] as const;
 export type Timeframe = (typeof timeframes)[number];
-type SalesReportBody = BaseResponse<{
+// SHARED TYPE
+export type SalesReportBody = BaseResponse<{
+  orders: (Pick<
+    OrderType,
+    | "_id"
+    | "userId"
+    | "items"
+    | "coupon"
+    | "discountType"
+    | "discountValue"
+    | "paymentMethod"
+    | "status"
+    | "completedAt"
+    | "totalPrice"
+    | "originalPrice"
+  > & { userId: { _id: string; firstName: string } })[];
   totalSalesCount: number;
   totalSaleAmount: number;
   orderCountByTimeframe: { _id: string; count: number }[];
