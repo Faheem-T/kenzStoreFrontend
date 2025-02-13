@@ -33,9 +33,9 @@ export const ProductCard = ({ product }: ProductCardProps) => {
     [product, wishlistProducts]
   );
   if (isLoading) return <LoadingComponent />;
-  if (!wishlistData) {
-    return <Box>Couldn't fetch wishlist</Box>;
-  }
+  // if (!wishlistData) {
+  //   return <Box>Couldn't fetch wishlist</Box>;
+  // }
 
   const handleAddToWishlist = async () => {
     try {
@@ -72,27 +72,29 @@ export const ProductCard = ({ product }: ProductCardProps) => {
           position: "relative",
         }}
       >
-        <Box sx={{ position: "absolute", top: 2, right: 2 }}>
-          {inWishlist ? (
-            <Tooltip title="Remove from wishlist">
-              <IconButton
-                onClick={handleRemoveFromWishlist}
-                disabled={removingFromWishlist}
-              >
-                <Heart fill="white" />
-              </IconButton>
-            </Tooltip>
-          ) : (
-            <Tooltip title="Add to wishlist">
-              <IconButton
-                onClick={handleAddToWishlist}
-                disabled={addingToWishlist}
-              >
-                <Heart />
-              </IconButton>
-            </Tooltip>
-          )}
-        </Box>
+        {wishlistData && (
+          <Box sx={{ position: "absolute", top: 2, right: 2 }}>
+            {inWishlist ? (
+              <Tooltip title="Remove from wishlist">
+                <IconButton
+                  onClick={handleRemoveFromWishlist}
+                  disabled={removingFromWishlist}
+                >
+                  <Heart fill="white" />
+                </IconButton>
+              </Tooltip>
+            ) : (
+              <Tooltip title="Add to wishlist">
+                <IconButton
+                  onClick={handleAddToWishlist}
+                  disabled={addingToWishlist}
+                >
+                  <Heart />
+                </IconButton>
+              </Tooltip>
+            )}
+          </Box>
+        )}
         <Box
           sx={{
             height: 0.7,
