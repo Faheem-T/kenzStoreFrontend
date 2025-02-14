@@ -21,7 +21,7 @@ export const AddToCartButton = ({
   productStock: number;
 }) => {
   const [quantity, setQuantity] = useState(1);
-  const [foundQuantity, setFoundQuantity] = useState(0);
+  const [foundQuantity, setFoundQuantity] = useState<number>(0);
   const timerId = useRef<NodeJS.Timeout>();
   const [addToCart, { isLoading: isAddToCartLoading }] = useAddToCartMutation();
   const { data, isLoading } = useGetMinimalCartQuery();
@@ -32,25 +32,11 @@ export const AddToCartButton = ({
       const fetchedQuantity = data.data.items.find(
         (item) => item.productId === productId
       )?.quantity;
-      if (!fetchedQuantity) return;
-      setFoundQuantity(fetchedQuantity);
+      setFoundQuantity(fetchedQuantity ?? 0);
     }
-  }, [data]);
-
-  // TODO see if it's possible to reduce the number of useEffects
-  // Effect to send request to add to cart on qty change
-  //   useEffect(() => {
-  //     clearTimeout(timerId.current);
-  //     timerId.current = setTimeout(async () => {
-  //       const { data } = await addToCart({ productId, quantity: foundQuantity });
-  //       if (data) {
-  //         toast.success(data.data.message);
-  //       }
-  //     }, 1500);
-  //   }, [foundQuantity]);
+  }, [data, productId]);
 
   if (isLoading) return <LoadingComponent fullScreen />;
-  //   if (!data) return <Box>Couldn't fetch minimal cart</Box>;
 
   const handleQuantityChange = (amount: number) => {
     setFoundQuantity((prev) => {
@@ -73,12 +59,6 @@ export const AddToCartButton = ({
       }, 1500);
       return nextAmount;
     });
-
-    // clearTimeout(timerId.current);
-    // timerId.current = setTimeout(async () => {
-    //   await addToCart({ productId, quantity: foundQuantity });
-    //   toast.success(`Added ${foundQuantity} to cart`);
-    // }, 2500);
   };
   const handleAddToCart = async ({
     productId,
