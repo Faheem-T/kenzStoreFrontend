@@ -67,7 +67,7 @@ OrderSummary.Items = function OrderSummaryItems({
             Your Cart is empty{" "}
             <Link
               component={RouterLink}
-              to="/home"
+              to="/"
               sx={{
                 color: "text.primary",
                 "&:hover": { textDecoration: "underline" },

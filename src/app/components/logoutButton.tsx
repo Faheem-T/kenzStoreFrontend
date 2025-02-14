@@ -18,7 +18,7 @@ export const LogoutButton = () => {
     }
     dispatch(loggedOut());
     toast.success("Logged out successfully");
-    navigate("/home");
+    navigate("/");
   };
 
   return (

@@ -40,6 +40,7 @@ import { AdminCouponPage } from "./app/pages/adminPages/AdminCouponPage";
 import { AdminCreateCouponPage } from "./app/pages/adminPages/AdminCreateCouponPage";
 import { WishlistPage } from "./app/pages/WishlistPage";
 import { WalletPage } from "./app/pages/WalletPage";
+import { ErrorPage } from "./app/pages/ErrorPage";
 
 export const router = createBrowserRouter([
   {
@@ -47,6 +48,7 @@ export const router = createBrowserRouter([
     loader: initialAuthLoader,
     hydrateFallbackElement: <LoadingComponent fullScreen />,
     element: <Root />,
+    errorElement: <ErrorPage />,
     children: [
       {
         element: <UserRoutes />,
@@ -120,7 +122,7 @@ export const router = createBrowserRouter([
             ],
           },
           {
-            path: "/home",
+            path: "/",
             // index: true,
             element: <Homepage />,
           },

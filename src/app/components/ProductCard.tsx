@@ -67,9 +67,11 @@ export const ProductCard = ({ product }: ProductCardProps) => {
           flex: 1,
           maxWidth: 250,
           minHeight: 350,
-          bgcolor: "background.paper",
-          padding: 4,
+          // bgcolor: "background.paper",
+          // padding: 4,
           position: "relative",
+          // borderRadius: 1,
+          // boxShadow: 8,
         }}
       >
         {wishlistData && (
@@ -102,6 +104,7 @@ export const ProductCard = ({ product }: ProductCardProps) => {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
+            bgcolor: "background.paper",
           }}
         >
           <Link to={`/products/${product._id}`}>

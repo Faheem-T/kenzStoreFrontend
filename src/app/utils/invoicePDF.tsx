@@ -7,24 +7,38 @@ import {
   Image,
 } from "@react-pdf/renderer";
 import { GetUserOrder } from "../types/order";
+import { themeOptions } from "@/theme";
+
+const backgroundDefault = themeOptions.palette?.background
+  ? themeOptions.palette.background.default
+  : "white";
+const backgroundPaper = themeOptions.palette?.background
+  ? themeOptions.palette.background.paper
+  : "white";
+
+const textPrimary = themeOptions.palette?.text
+  ? themeOptions.palette.text.primary
+  : "black";
 
 const styles = StyleSheet.create({
   page: {
-    backgroundColor: "#1F0808", // dark background matching theme
+    // backgroundColor: "#1F0808", // dark background matching theme
+    backgroundColor: backgroundDefault,
     padding: 40,
     fontFamily: "Helvetica",
   },
   section: {
     marginBottom: 20,
     padding: 15,
-    backgroundColor: "#120303", // paper color
+    // backgroundColor: "#120303", // paper color
+    backgroundColor: backgroundPaper,
     borderRadius: 5,
   },
   header: {
     fontSize: 32,
     fontWeight: "bold",
     marginBottom: 30,
-    color: "#F7E0E0", // text primary
+    color: textPrimary,
     textAlign: "center",
     textTransform: "uppercase",
     borderBottom: "2px solid #910D0D", // primary main
@@ -34,14 +48,14 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "bold",
     marginBottom: 15,
-    color: "#F7E0E0", // text primary
+    color: textPrimary,
     borderBottom: "1px solid #834620", // secondary main
     paddingBottom: 5,
   },
   text: {
     fontSize: 12,
     marginBottom: 8,
-    color: "#F7E0E0", // text primary
+    color: textPrimary,
     lineHeight: 1.4,
   },
   itemRow: {
@@ -67,7 +81,7 @@ const styles = StyleSheet.create({
   itemName: {
     fontSize: 14,
     fontWeight: "bold",
-    color: "#F7E0E0", // text primary
+    color: textPrimary,
   },
   itemPrice: {
     fontSize: 14,
@@ -84,7 +98,7 @@ const styles = StyleSheet.create({
   totalLabel: {
     fontSize: 16,
     fontWeight: "bold",
-    color: "#F7E0E0", // text primary
+    color: textPrimary,
     marginRight: 20,
   },
   totalAmount: {
@@ -93,14 +107,16 @@ const styles = StyleSheet.create({
     color: "#CE8B37", // accent main
   },
   discountSection: {
-    backgroundColor: "#1a0606", // slightly lighter than paper
+    // backgroundColor: "#1a0606", // slightly lighter than paper
+    backgroundColor: backgroundDefault,
     padding: 15,
     borderRadius: 5,
     marginBottom: 20,
     borderLeft: "3px solid #910D0D", // primary main
   },
   paymentSection: {
-    backgroundColor: "#1a0606", // slightly lighter than paper
+    // backgroundColor: "#1a0606", // slightly lighter than paper
+    backgroundColor: backgroundDefault,
     padding: 15,
     borderRadius: 5,
     borderLeft: "3px solid #834620", // secondary main

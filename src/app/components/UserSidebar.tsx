@@ -84,7 +84,7 @@ export const UserSidebar = () => {
         >
           <Link
             component={RouterLink}
-            to="/home"
+            to="/"
             sx={{
               width: "100%",
               height: "100%",

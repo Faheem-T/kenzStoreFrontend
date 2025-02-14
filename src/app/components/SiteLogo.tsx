@@ -1,6 +1,6 @@
-import { Typography } from "@mui/material";
+import { SxProps, Typography } from "@mui/material";
 
-export const SiteLogo = ({ sx }: { sx?: any }) => {
+export const SiteLogo = ({ sx }: { sx?: SxProps }) => {
   return (
     <Typography
       variant="h4"

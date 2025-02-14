@@ -32,7 +32,7 @@ export const OrderConfirmationPage = () => {
             fontWeight: "bold",
           }}
         >
-          <Link to="/home">Continue Shopping</Link>
+          <Link to="/">Continue Shopping</Link>
         </Typography>
       </Box>
     </>

@@ -30,7 +30,10 @@ export const Navbar = ({ transparent }: { transparent?: boolean }) => {
       return (
         <Tooltip title="Cart">
           <Badge badgeContent={cartData?.data.items.length}>
-            <IconButton onClick={() => navigate("/user/cart")}>
+            <IconButton
+              onClick={() => navigate("/user/cart")}
+              sx={{ color: "white" }}
+            >
               <ShoppingCartOutlined />
             </IconButton>
           </Badge>
@@ -46,18 +49,24 @@ export const Navbar = ({ transparent }: { transparent?: boolean }) => {
         alignItems: "center",
         display: "flex",
         padding: "8px 40px",
-        backgroundColor: transparent ? "" : "background.paper",
+        backgroundColor: transparent ? "" : "primary.main",
       }}
     >
-      <Link to="/home">
-        <SiteLogo />
+      <Link to="/">
+        <SiteLogo sx={{ color: "white" }} />
       </Link>
-      <Box sx={{ display: "flex", gap: "4px" }}>
-        <Navlink link="/home" label="Home" />
+      <Box
+        sx={{
+          display: "flex",
+          gap: "4px",
+          color: "white",
+        }}
+      >
+        <Navlink link="/" label="Home" />
         <Navlink link="/connectors" label="Connectors" />
         <Navlink link="/adapters" label="Adapters" />
       </Box>
-      <Box sx={{ display: "flex", gap: 2 }}>
+      <Box sx={{ display: "flex", gap: 2, "& > *": { color: "white" } }}>
         {user ? (
           <>
             {/* Search button */}

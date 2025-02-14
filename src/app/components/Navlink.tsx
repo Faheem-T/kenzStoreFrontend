@@ -23,7 +23,7 @@ export const Navlink = ({ label, link }: NavlinkProps) => {
             },
             textShadow: "0px 0px 15px #000000",
           }}
-          color="textPrimary"
+          color="white"
         >
           {label}
         </Typography>

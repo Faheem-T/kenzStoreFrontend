@@ -10,7 +10,7 @@ export const AdminOnlyRoutes = () => {
   const user = useAppSelector(selectUser);
   if (!isAdmin || !user) {
     toast("Admins only!");
-    return <Navigate to="/home" />;
+    return <Navigate to="/" />;
   }
 
   return (

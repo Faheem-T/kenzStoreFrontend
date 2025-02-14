@@ -2,24 +2,39 @@ import dayjs from "dayjs";
 import { SalesReportBody } from "../api/adminDashboardApi";
 
 import { Document, Page, StyleSheet, Text, View } from "@react-pdf/renderer";
+import { themeOptions } from "@/theme";
+
+const backgroundDefault = themeOptions.palette?.background
+  ? themeOptions.palette.background.default
+  : "white";
+const backgroundPaper = themeOptions.palette?.background
+  ? themeOptions.palette.background.paper
+  : "white";
+
+const textPrimary = themeOptions.palette?.text
+  ? themeOptions.palette.text.primary
+  : "black";
 
 const styles = StyleSheet.create({
   page: {
-    backgroundColor: "#1F0808",
+    // backgroundColor: "#1F0808",
+    // backgroundColor: "#ffffff",
+    backgroundColor: backgroundDefault,
     padding: 40,
     fontFamily: "Helvetica",
   },
   section: {
     marginBottom: 20,
     padding: 15,
-    backgroundColor: "#120303",
+    // backgroundColor: "#120303",
+    backgroundColor: backgroundPaper,
     borderRadius: 5,
   },
   header: {
     fontSize: 32,
     fontWeight: "bold",
     marginBottom: 30,
-    color: "#F7E0E0",
+    color: textPrimary,
     textAlign: "center",
     textTransform: "uppercase",
     borderBottom: "2px solid #910D0D",
@@ -29,14 +44,14 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "bold",
     marginBottom: 15,
-    color: "#F7E0E0",
+    color: textPrimary,
     borderBottom: "1px solid #834620",
     paddingBottom: 5,
   },
   text: {
     fontSize: 12,
     marginBottom: 8,
-    color: "#F7E0E0",
+    color: textPrimary,
     lineHeight: 1.4,
   },
   highlightText: {
@@ -74,7 +89,7 @@ const styles = StyleSheet.create({
   },
   barLabel: {
     fontSize: 6,
-    color: "#F7E0E0",
+    color: textPrimary,
     textAlign: "center",
     marginTop: 5,
   },

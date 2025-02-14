@@ -50,7 +50,7 @@ export const LoginPage = () => {
   // redirecting if user already exists
   useEffect(() => {
     if (user) {
-      navigate("/home");
+      navigate("/");
     }
   }, [user]);
 
@@ -73,7 +73,7 @@ export const LoginPage = () => {
       const { data: loginData } = await createLoginMutation(data).unwrap();
       dispatch(userLoggedIn(loginData));
       toast.success("Logged in successfully!");
-      navigate("/home");
+      navigate("/");
     } catch (error: any) {
       console.log(error);
       toast.error(error.data.message);
