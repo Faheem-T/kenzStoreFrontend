@@ -72,7 +72,7 @@ export const Navbar = ({ transparent }: { transparent?: boolean }) => {
             {/* Search button */}
             <Tooltip title="Search">
               <IconButton onClick={() => setSearchModalOpen(true)}>
-                <Search />
+                <Search sx={{ color: "background.default" }} />
               </IconButton>
             </Tooltip>
             <CartIcon />

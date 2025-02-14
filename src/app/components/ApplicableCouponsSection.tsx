@@ -24,16 +24,24 @@ export const ApplicableCoupons = () => {
         flexDirection: "column",
         gap: 0,
         borderRadius: 2,
-        bgcolor: "secondary.main",
+        bgcolor: "primary.main",
         p: 2,
         "& > *": { fontSize: 12 },
       }}
     >
-      <Typography sx={{ fontSize: 14 }}>{coupon.code}</Typography>
-      <Typography sx={{ fontWeight: "bold", fontSize: 12 }}>
+      <Typography sx={{ fontSize: 14, color: "background.default" }}>
+        {coupon.code}
+      </Typography>
+      <Typography
+        sx={{ fontWeight: "bold", fontSize: 12, color: "background.default" }}
+      >
         -{coupon.discountValue}%
       </Typography>
-      <Typography color="textDisabled" variant="caption">
+      <Typography
+        color="textDisabled"
+        variant="caption"
+        sx={{ color: "background.paper" }}
+      >
         {coupon.name}
       </Typography>
     </Box>

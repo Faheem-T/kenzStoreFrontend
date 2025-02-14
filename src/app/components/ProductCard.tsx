@@ -82,7 +82,7 @@ export const ProductCard = ({ product }: ProductCardProps) => {
                   onClick={handleRemoveFromWishlist}
                   disabled={removingFromWishlist}
                 >
-                  <Heart fill="white" />
+                  <Heart fill="#1f0808" />
                 </IconButton>
               </Tooltip>
             ) : (
