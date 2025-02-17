@@ -44,12 +44,20 @@ export const CheckoutPage = () => {
       if (data) {
         if (data.data?.razorpayOrder) {
           const { amount, currency, id } = data.data.razorpayOrder;
-          await displayRazorpay({ amount, currency, id });
+          console.log("OrdorID", data.data.orderId);
+          await displayRazorpay({
+            amount,
+            currency,
+            id,
+            orderId: data.data.orderId,
+            navigate,
+          });
+        } else {
+          toast.success(data.message);
+          navigate("/order-confirmation", {
+            state: { orderId: data.data?.orderId },
+          });
         }
-        toast.success(data.message);
-        navigate("/order-confirmation", {
-          state: { orderId: data.data?.orderId },
-        });
       }
     } catch (error) {
       if (isOrderError(error)) {

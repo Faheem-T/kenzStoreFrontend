@@ -3,7 +3,10 @@ import { Link, useLocation } from "react-router";
 import { Navbar } from "../components/Navbar";
 
 export const OrderConfirmationPage = () => {
-  const { orderId } = useLocation().state as { orderId: string };
+  const { orderId, error = false } = useLocation().state as {
+    orderId: string;
+    error?: boolean;
+  };
 
   if (!orderId) {
     return <Box>Order ID not found</Box>;
@@ -23,7 +26,9 @@ export const OrderConfirmationPage = () => {
         }}
       >
         <Typography variant="h4">
-          Your order has been placed successfully!
+          {error
+            ? "There was an error during payment"
+            : "Your order has been placed successfully!"}
         </Typography>
         <Typography variant="caption">Order ID: {orderId}</Typography>
         <Typography
@@ -32,7 +37,11 @@ export const OrderConfirmationPage = () => {
             fontWeight: "bold",
           }}
         >
-          <Link to="/">Continue Shopping</Link>
+          {error ? (
+            <Link to="/user/orders">Retry payment on orders page</Link>
+          ) : (
+            <Link to="/">Continue Shopping</Link>
+          )}
         </Typography>
       </Box>
     </>

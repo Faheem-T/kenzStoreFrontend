@@ -1,5 +1,7 @@
+import toast from "react-hot-toast";
 import { orderApi } from "../api/orderApi";
 import { store } from "../store";
+import { NavigateFunction } from "react-router";
 
 const RAZORPAY_KEY_ID = import.meta.env.VITE_RAZORPAY_KEY_ID;
 
@@ -10,6 +12,10 @@ if (!RAZORPAY_KEY_ID)
 
 function loadScript(src: string) {
   return new Promise((resolve) => {
+    if (document.querySelector(`script[src="${src}"]`)) {
+      console.log("script already loaded");
+      return;
+    }
     const script = document.createElement("script");
     script.src = src;
     script.onload = () => {
@@ -27,16 +33,20 @@ export async function displayRazorpay({
   id,
   currency,
   orderId,
+  navigate,
 }: {
   amount: number;
   id: string;
   currency: string;
-  orderId?: string;
+  orderId: string;
+  navigate: NavigateFunction;
 }) {
   const res = await loadScript("https://checkout.razorpay.com/v1/checkout.js");
 
   if (!res) {
-    alert("Razropay failed to load!!");
+    toast.error(
+      "Falide to load Razorpay. Please check your internet connection."
+    );
     return;
   }
 
@@ -58,55 +68,62 @@ export async function displayRazorpay({
         await store.dispatch(
           orderApi.endpoints.verifyPayment.initiate({ ...response, orderId })
         );
+        navigate("/order-confirmation", { state: { orderId, error: false } });
       } catch (error) {
         console.log(error);
       }
     },
-    config: {
-      display: {
-        blocks: {
-          utib: {
-            //name for Axis block
-            name: "Pay Using Axis Bank",
-            instruments: [
-              {
-                method: "card",
-                // issuers: ["UTIB"],
-              },
-              {
-                method: "netbanking",
-                // banks: ["UTIB"],
-              },
-            ],
-          },
-          other: {
-            //  name for other block
-            name: "Other Payment Methods",
-            instruments: [
-              {
-                method: "card",
-                // issuers: ["ICIC"],
-              },
-              {
-                method: "netbanking",
-              },
-              {
-                method: "upi",
-                flows: ["qr"],
-                apps: ["google_pay", "phonepe"],
-              },
-            ],
-          },
-        },
-        // hide: [
-        //   {
-        //     method: "upi",
-        //   },
-        // ],
-        sequence: ["block.utib", "block.other"],
-        preferences: {
-          show_default_blocks: false, // Should Checkout show its default blocks?
-        },
+    // config: {
+    //   display: {
+    //     blocks: {
+    //       utib: {
+    //         //name for Axis block
+    //         name: "Pay Using Axis Bank",
+    //         instruments: [
+    //           {
+    //             method: "card",
+    //             // issuers: ["UTIB"],
+    //           },
+    //           {
+    //             method: "netbanking",
+    //             // banks: ["UTIB"],
+    //           },
+    //         ],
+    //       },
+    //       other: {
+    //         //  name for other block
+    //         name: "Other Payment Methods",
+    //         instruments: [
+    //           {
+    //             method: "card",
+    //             // issuers: ["ICIC"],
+    //           },
+    //           {
+    //             method: "netbanking",
+    //           },
+    //           {
+    //             method: "upi",
+    //             flows: ["qr", "intent"],
+    //             apps: ["google_pay", "phonepe", "paytm", "amazonpay"],
+    //           },
+    //         ],
+    //       },
+    //     },
+    // hide: [
+    //   {
+    //     method: "upi",
+    //   },
+    // ],
+    // sequence: ["block.utib", "block.other"],
+    // preferences: {
+    //   show_default_blocks: false, // Should Checkout show its default blocks?
+    // },
+    // },
+    // },
+    modal: {
+      escape: false,
+      ondismiss: function () {
+        navigate("/order-confirmation", { state: { orderId, error: true } });
       },
     },
     // notes: {
@@ -117,14 +134,21 @@ export async function displayRazorpay({
     // },
   };
   const paymentObject = new (window as any).Razorpay(options);
-  // paymentObject.on("payment.failed", function (response: any) {
-  //   alert(response.error.code);
-  //   alert(response.error.description);
-  //   alert(response.error.source);
-  //   alert(response.error.step);
-  //   alert(response.error.reason);
-  //   alert(response.error.metadata.order_id);
-  //   alert(response.error.metadata.payment_id);
-  // });
+  paymentObject.on("payment.failed", function (response: any) {
+    console.error("Payment failed:", response);
+    toast.error("Payment failed! Please try again.");
+
+    // Show specific error details in the console for debugging
+    console.table({
+      "Error Code": response.error.code,
+      Description: response.error.description,
+      Source: response.error.source,
+      Step: response.error.step,
+      Reason: response.error.reason,
+      "Order ID": response.error.metadata.order_id,
+      "Payment ID": response.error.metadata.payment_id,
+    });
+  });
+
   paymentObject.open();
 }

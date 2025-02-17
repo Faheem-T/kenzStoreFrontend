@@ -4,7 +4,10 @@ import { WalletType } from "../types/wallet";
 
 const walletApi = api.injectEndpoints({
   endpoints: (builder) => ({
-    getWallet: builder.query<BaseResponse<Pick<WalletType, "balance">>, void>({
+    getWallet: builder.query<
+      BaseResponse<Pick<WalletType, "balance" | "history">>,
+      void
+    >({
       query: () => "v1/wallets",
       providesTags: ["Wallet"],
     }),

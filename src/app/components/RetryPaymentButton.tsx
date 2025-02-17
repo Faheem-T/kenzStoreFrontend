@@ -3,8 +3,10 @@ import { useRetryPaymentMutation } from "../api/orderApi";
 import toast from "react-hot-toast";
 import { displayRazorpay } from "../utils/razorpayUtils";
 import { useState } from "react";
+import { useNavigate } from "react-router";
 
 export const RetryPaymentButton = ({ orderId }: { orderId: string }) => {
+  const navigate = useNavigate();
   const [retryPayment, { isLoading }] = useRetryPaymentMutation();
   const [paymentLoading, setPaymentLoading] = useState(false);
   const handleRetryClick = async () => {
@@ -14,7 +16,9 @@ export const RetryPaymentButton = ({ orderId }: { orderId: string }) => {
       const data = await retryPayment({ orderId }).unwrap();
       const { razorpayOrder } = data.data;
       const { amount, currency, id } = razorpayOrder;
-      await displayRazorpay({ amount, currency, id, orderId });
+      console.log("OrdorID", orderId);
+      console.log("rzrID", id);
+      await displayRazorpay({ amount, currency, id, orderId, navigate });
     } catch (error) {
       if (
         typeof error === "object" &&
