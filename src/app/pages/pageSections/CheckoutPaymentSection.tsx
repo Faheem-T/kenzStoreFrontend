@@ -31,16 +31,14 @@ export const CheckoutPaymentSection = ({
       </Typography>
       <Select value={paymentMethod} onChange={handlePaymentMethodChange}>
         {cartTotal > 1000 ? (
-          <MenuItem value="COD" disabled>
+          <MenuItem value="cod" disabled>
             Cash on Delivery (Not available for orders above 1000 QR)
           </MenuItem>
         ) : (
-          <MenuItem value="COD">Cash on Delivery</MenuItem>
+          <MenuItem value="cod">Cash on Delivery</MenuItem>
         )}
-        <MenuItem value="Credit Card">Credit Card</MenuItem>
-        <MenuItem value="Debit Card" disabled>
-          Debit Card
-        </MenuItem>
+        <MenuItem value="online">Online Payment</MenuItem>
+        <MenuItem value="wallet">Wallet</MenuItem>
       </Select>
     </Box>
   );

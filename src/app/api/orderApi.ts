@@ -52,7 +52,7 @@ export const orderApi = api.injectEndpoints({
           message: "An unexpected error occured during order placement",
         };
       },
-      invalidatesTags: ["Cart", "Product", { type: "Product" }],
+      invalidatesTags: ["Cart", "Product", { type: "Product" }, "Wallet"],
     }),
     verifyPayment: build.mutation<
       baseResponseWithMessage,

@@ -62,6 +62,53 @@ export async function displayRazorpay({
         console.log(error);
       }
     },
+    config: {
+      display: {
+        blocks: {
+          utib: {
+            //name for Axis block
+            name: "Pay Using Axis Bank",
+            instruments: [
+              {
+                method: "card",
+                // issuers: ["UTIB"],
+              },
+              {
+                method: "netbanking",
+                // banks: ["UTIB"],
+              },
+            ],
+          },
+          other: {
+            //  name for other block
+            name: "Other Payment Methods",
+            instruments: [
+              {
+                method: "card",
+                // issuers: ["ICIC"],
+              },
+              {
+                method: "netbanking",
+              },
+              {
+                method: "upi",
+                flows: ["qr"],
+                apps: ["google_pay", "phonepe"],
+              },
+            ],
+          },
+        },
+        // hide: [
+        //   {
+        //     method: "upi",
+        //   },
+        // ],
+        sequence: ["block.utib", "block.other"],
+        preferences: {
+          show_default_blocks: false, // Should Checkout show its default blocks?
+        },
+      },
+    },
     // notes: {
     //   address: "Razorpay Corporate Office",
     // },
@@ -70,5 +117,14 @@ export async function displayRazorpay({
     // },
   };
   const paymentObject = new (window as any).Razorpay(options);
+  // paymentObject.on("payment.failed", function (response: any) {
+  //   alert(response.error.code);
+  //   alert(response.error.description);
+  //   alert(response.error.source);
+  //   alert(response.error.step);
+  //   alert(response.error.reason);
+  //   alert(response.error.metadata.order_id);
+  //   alert(response.error.metadata.payment_id);
+  // });
   paymentObject.open();
 }

@@ -24,7 +24,7 @@ const isOrderError = (error: unknown): error is PlaceOrderResponse => {
 export const CheckoutPage = () => {
   const navigate = useNavigate();
   const [addressId, setAddressId] = useState<string>("");
-  const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>("COD");
+  const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>("cod");
   const [errors, setErrors] = useState<CartValidationErrorType[]>([]);
   const { data, isLoading: isCartLoading } = useGetCartQuery();
   const [placeOrder, { isLoading: isPlacingOrder }] = usePlaceOrderMutation();

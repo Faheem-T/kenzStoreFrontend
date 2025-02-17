@@ -333,7 +333,7 @@ const SalesCountChart = ({
           height={500}
           series={[{ data: salesCount }]}
           xAxis={[{ scaleType: "point", data: salesLabel }]}
-          colors={["white"]}
+          colors={["black"]}
           grid={{ vertical: true, horizontal: true }}
         />
       </Box>

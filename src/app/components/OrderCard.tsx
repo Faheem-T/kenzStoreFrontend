@@ -85,7 +85,7 @@ export const OrderCard = ({ order }: { order: GetUserOrder }) => {
               {order.paymentStatus}
             </Typography>
             {order.paymentStatus === "incomplete" &&
-              order.paymentMethod !== "COD" &&
+              order.paymentMethod === "online" &&
               order.status !== "cancelled" &&
               order.status !== "completed" && (
                 <RetryPaymentButton orderId={order._id} />

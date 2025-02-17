@@ -46,15 +46,15 @@ export interface PlaceOrderType extends Pick<OrderType, "paymentMethod"> {
   addressId: string; // Address ID
 }
 
-// SHARED TYPE: Sync with frontend
-export const paymentMethods = ["COD", "Credit Card", "Debit Card"] as const;
+// SHARED TYPE: Sync with backend
+export const paymentMethods = ["cod", "online", "wallet"] as const;
 export type PaymentMethod = (typeof paymentMethods)[number];
 
-// SHARED TYPE: Sync with frontend
+// SHARED TYPE: Sync with backend
 export const paymentStatuses = ["incomplete", "paid", "refunded"] as const;
 export type PaymentStatus = (typeof paymentStatuses)[number];
 
-// SHARED TYPE: Sync with frontend
+// SHARED TYPE: Sync with backend
 export const orderStatuses = [
   "pending",
   "completed",
