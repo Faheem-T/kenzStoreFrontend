@@ -60,40 +60,50 @@ export const AdminProductOffersPage = () => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {...offerProducts.map((product) => (
-              <TableRow
-                className={cn(
-                  "hover:bg-accent cursor-pointer",
-                  "border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted"
-                )}
-                onClick={() => navigate(`/admin/products/${product._id}`)}
-                key={product._id}
-              >
-                <TableCell>{product.name}</TableCell>
-                {/* <TableCell>{product.price}</TableCell> */}
-                {product.finalPrice ? (
+            {...offerProducts.map((product) => {
+              const daysToOfferEnd = calculateDaysToToday(
+                product.discountEndDate
+              );
+              const daysToOfferStart = calculateDaysToToday(
+                product.discountStartDate
+              );
+              return (
+                <TableRow
+                  className={cn(
+                    "hover:bg-accent cursor-pointer",
+                    "border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted"
+                  )}
+                  onClick={() => navigate(`/admin/products/${product._id}`)}
+                  key={product._id}
+                >
+                  <TableCell>{product.name}</TableCell>
+                  {/* <TableCell>{product.price}</TableCell> */}
+                  {product.finalPrice ? (
+                    <TableCell>
+                      -{product.discountValue}
+                      {product.discountType === "percentage" ? "%" : "QR"}
+                    </TableCell>
+                  ) : (
+                    <TableCell>None</TableCell>
+                  )}
+                  {/* <TableCell>{product.finalPrice}</TableCell> */}
+                  <TableCell>{product.discountName}</TableCell>
+                  <TableCell>{`${
+                    daysToOfferStart > 0
+                      ? daysToOfferStart + " days"
+                      : "Started"
+                  }`}</TableCell>
                   <TableCell>
-                    -{product.discountValue}
-                    {product.discountType === "percentage" ? "%" : "QR"}
+                    {daysToOfferEnd < 0
+                      ? `Ended ${-daysToOfferEnd} days ago`
+                      : daysToOfferEnd + " days"}
                   </TableCell>
-                ) : (
-                  <TableCell>None</TableCell>
-                )}
-                {/* <TableCell>{product.finalPrice}</TableCell> */}
-                <TableCell>{product.discountName}</TableCell>
-                <TableCell>{`${
-                  calculateDaysToToday(product.discountStartDate) > 0
-                    ? calculateDaysToToday(product.discountStartDate) + " days"
-                    : "Started"
-                }`}</TableCell>
-                <TableCell>
-                  {calculateDaysToToday(product.discountEndDate) + " days"}
-                </TableCell>
-                <TableCell>
-                  <DeleteOfferButton type="product" id={product._id} />
-                </TableCell>
-              </TableRow>
-            ))}
+                  <TableCell>
+                    <DeleteOfferButton type="product" id={product._id} />
+                  </TableCell>
+                </TableRow>
+              );
+            })}
           </TableBody>
         </Table>
       </Box>

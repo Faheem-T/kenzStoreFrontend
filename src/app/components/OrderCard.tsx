@@ -1,4 +1,11 @@
-import { Box, Button, Divider, Stack, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Divider,
+  Stack,
+  Tooltip,
+  Typography,
+} from "@mui/material";
 import { GetUserOrder, OrderStatus, PaymentStatus } from "../types/order";
 import {
   useCancelOrderMutation,
@@ -10,6 +17,44 @@ import { InvoiceDocument } from "../utils/invoicePDF";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 
 export const OrderCard = ({ order }: { order: GetUserOrder }) => {
+  const OrderTotal = () => (
+    <Box>
+      <Typography variant="caption" color="textDisabled">
+        Order Total:
+      </Typography>
+      <Typography variant="body1" sx={{ fontWeight: "bold" }}>
+        QR {order.totalPrice} /-
+      </Typography>
+    </Box>
+  );
+
+  const OrderPriceBreakup = () => (
+    <Box
+      sx={{ display: "flex", flexDirection: "column", alignItems: "flex-end" }}
+    >
+      <Typography variant="caption">
+        Order Amount:{" "}
+        <Typography variant="caption" fontWeight={700} component="span">
+          {order.originalPrice} QR
+        </Typography>
+      </Typography>
+      <Typography variant="caption">
+        Coupon Discount:{" "}
+        <Typography variant="caption" fontWeight={700} component="span">
+          {(order.totalPrice - order.originalPrice).toFixed(2)} QR (
+          {-order.discountValue}
+          {order.discountType === "percentage" ? "%" : "QR"})
+        </Typography>
+      </Typography>
+      <Typography variant="caption">
+        Final Price:{" "}
+        <Typography variant="caption" fontWeight={700} component="span">
+          {order.totalPrice} QR
+        </Typography>
+      </Typography>
+    </Box>
+  );
+
   return (
     <>
       <Box
@@ -29,19 +74,12 @@ export const OrderCard = ({ order }: { order: GetUserOrder }) => {
               py: 1,
               px: 3,
               backgroundColor: "background.default",
-              boxShadow: 3,
+              boxShadow: 1,
               borderRadius: 1,
             },
           }}
         >
-          <Box>
-            <Typography variant="caption" color="textDisabled">
-              Order Total:
-            </Typography>
-            <Typography variant="body1" sx={{ fontWeight: "bold" }}>
-              QR {order.totalPrice} /-
-            </Typography>
-          </Box>
+          <OrderTotal />
           <Box>
             <Typography variant="caption" color="textDisabled">
               Ordered On:
@@ -144,6 +182,8 @@ export const OrderCard = ({ order }: { order: GetUserOrder }) => {
             )}
           </Box>
         </Box>
+        <Divider />
+        <OrderPriceBreakup />
       </Box>
     </>
   );

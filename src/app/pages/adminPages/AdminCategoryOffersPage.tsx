@@ -58,33 +58,45 @@ export const AdminCategoryOffersPage = () => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {...offerCategories.map((category) => (
-              <TableRow
-                className={cn(
-                  "hover:bg-accent cursor-pointer",
-                  "border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted"
-                )}
-                key={category._id}
-              >
-                <TableCell>{category.name}</TableCell>
-                <TableCell>
-                  -{category.discountValue}
-                  {category.discountType === "percentage" ? "%" : "QR"}
-                </TableCell>
-                <TableCell>{category.discountName}</TableCell>
-                <TableCell>{`${
-                  calculateDaysToToday(category.discountStartDate) > 0
-                    ? calculateDaysToToday(category.discountStartDate) + " days"
-                    : "Started"
-                }`}</TableCell>
-                <TableCell>
-                  {calculateDaysToToday(category.discountEndDate) + " days"}
-                </TableCell>
-                <TableCell>
-                  <DeleteOfferButton type="category" id={category._id} />
-                </TableCell>
-              </TableRow>
-            ))}
+            {...offerCategories.map((category) => {
+              const daysToOfferEnd = calculateDaysToToday(
+                category.discountEndDate
+              );
+              const daysToOfferStart = calculateDaysToToday(
+                category.discountStartDate
+              );
+              return (
+                <TableRow
+                  className={cn(
+                    "hover:bg-accent cursor-pointer",
+                    "border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted"
+                  )}
+                  key={category._id}
+                >
+                  <TableCell>{category.name}</TableCell>
+                  <TableCell>
+                    -{category.discountValue}
+                    {category.discountType === "percentage" ? "%" : "QR"}
+                  </TableCell>
+                  <TableCell>{category.discountName}</TableCell>
+                  <TableCell>{`${
+                    daysToOfferStart > 0
+                      ? daysToOfferStart + " days"
+                      : "Started"
+                  }`}</TableCell>
+                  <TableCell>
+                    {isNaN(daysToOfferEnd)
+                      ? "-"
+                      : daysToOfferEnd > 0
+                      ? daysToOfferEnd + " days"
+                      : "Ended " + -daysToOfferEnd + " days ago"}
+                  </TableCell>
+                  <TableCell>
+                    <DeleteOfferButton type="category" id={category._id} />
+                  </TableCell>
+                </TableRow>
+              );
+            })}
           </TableBody>
         </Table>
       </Box>
