@@ -89,8 +89,9 @@ const styles = StyleSheet.create({
     color: "#CE8B37", // accent main
   },
   totalRow: {
-    flexDirection: "row",
-    justifyContent: "flex-end",
+    flexDirection: "column",
+    // justifyContent: "flex-end",
+    alignItems: "flex-end",
     marginTop: 20,
     paddingTop: 15,
     borderTop: "2px solid #910D0D", // primary main
@@ -121,6 +122,10 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     borderLeft: "3px solid #834620", // secondary main
   },
+  subText: {
+    fontSize: 10,
+    // color: "#",
+  },
 });
 
 export const InvoiceDocument = ({ order }: { order: GetUserOrder }) => {
@@ -131,8 +136,10 @@ export const InvoiceDocument = ({ order }: { order: GetUserOrder }) => {
     discountValue,
     items,
     paymentMethod,
+    originalPrice,
     totalPrice,
   } = order;
+  console.log(order);
 
   return (
     <Document>
@@ -158,7 +165,12 @@ export const InvoiceDocument = ({ order }: { order: GetUserOrder }) => {
                 style={styles.itemImage}
               />
               <View style={styles.itemDetails}>
-                <Text style={styles.itemName}>{item.productId.name}</Text>
+                <Text style={styles.itemName}>
+                  {item.productId.name}{" "}
+                  <Text style={{ ...styles.itemName, fontSize: 8 }}>
+                    x {item.quantity}
+                  </Text>
+                </Text>
               </View>
               <Text style={styles.itemPrice}>QR {item.price.toFixed(2)}</Text>
             </View>
@@ -166,7 +178,7 @@ export const InvoiceDocument = ({ order }: { order: GetUserOrder }) => {
         </View>
 
         {/* Discount Section */}
-        {coupon && (
+        {/* {coupon && (
           <View style={styles.discountSection}>
             <Text style={styles.subHeader}>Discount Applied</Text>
             <Text style={styles.text}>Coupon Code: {coupon}</Text>
@@ -177,7 +189,7 @@ export const InvoiceDocument = ({ order }: { order: GetUserOrder }) => {
                 : `QR ${discountValue.toFixed(2)}`}
             </Text>
           </View>
-        )}
+        )} */}
 
         {/* Payment Method Section */}
         <View style={styles.paymentSection}>
@@ -187,8 +199,24 @@ export const InvoiceDocument = ({ order }: { order: GetUserOrder }) => {
 
         {/* Total Price Section */}
         <View style={styles.totalRow}>
-          <Text style={styles.totalLabel}>Total Amount:</Text>
-          <Text style={styles.totalAmount}>QR {totalPrice.toFixed(2)}</Text>
+          <Text style={styles.subText}>
+            Order Total: {originalPrice}
+            {" QR"}
+          </Text>
+          <Text style={{ ...styles.subText, color: coupon ? "black" : "gray" }}>
+            Coupon Discount: {(totalPrice - originalPrice).toFixed(2)}
+            {" QR "}
+            <Text>
+              ({-discountValue}
+              {discountType === "percentage" ? "%" : "QR"})
+            </Text>
+          </Text>
+          <Text style={styles.totalLabel}>
+            Total Amount:{" "}
+            <Text style={{ ...styles.totalAmount }}>
+              QR {totalPrice.toFixed(2)}
+            </Text>
+          </Text>
         </View>
       </Page>
     </Document>

@@ -41,6 +41,8 @@ import { AdminCreateCouponPage } from "./app/pages/adminPages/AdminCreateCouponP
 import { WishlistPage } from "./app/pages/WishlistPage";
 import { WalletPage } from "./app/pages/WalletPage";
 import { ErrorPage } from "./app/pages/ErrorPage";
+import { PDFViewer } from "@react-pdf/renderer";
+import { InvoiceDocument } from "./app/utils/invoicePDF";
 
 export const router = createBrowserRouter([
   {
@@ -128,7 +130,53 @@ export const router = createBrowserRouter([
           },
           {
             path: "/test",
-            element: <></>,
+            element: (
+              <PDFViewer height="800px" width="100%">
+                <InvoiceDocument
+                  order={{
+                    address: {
+                      address_line: "Dafnah",
+                      city: "Al Khor",
+                      state: "Qatar",
+                      pincode: 773555,
+                    },
+                    _id: "67b40d0f6180b02724a23e08",
+                    userId: "6785d7239dbfaa808380aa32",
+                    items: [
+                      {
+                        productId: {
+                          _id: "6776c13a8b6c48fdcb191814",
+                          name: "Logitech C505 HD Webcam",
+                          description:
+                            "HD 720p webcam with long-range microphone, supporting clear conversations up to 3 meters away",
+                          images: [
+                            "https://res.cloudinary.com/dlicxnblg/image/upload/v1737720148/z4vfghqsz80r5t3stumn.png",
+                            "https://res.cloudinary.com/dlicxnblg/image/upload/v1736698909/siv9ioyvcxduhk6dticg.webp",
+                            "https://res.cloudinary.com/dlicxnblg/image/upload/v1735835309/t8eohjybmwehxkgxfdyz.png",
+                          ],
+                          effectiveDiscount: null,
+                        },
+                        price: 49.99,
+                        quantity: 1,
+                        _id: "67b40abfc7fa5ae46f60974c",
+                      },
+                    ],
+                    coupon: "679e1712534d52f3196dc27b",
+                    discountType: "percentage",
+                    discountValue: 44,
+                    status: "completed",
+                    paymentMethod: "wallet",
+                    paymentOrder: null,
+                    paymentStatus: "paid",
+                    createdAt: "2025-02-18T04:31:11.720Z",
+                    updatedAt: "2025-02-18T04:31:23.572Z",
+                    completedAt: "2025-02-18T04:31:23.571Z",
+                    originalPrice: 49.99,
+                    totalPrice: 27.99,
+                  }}
+                />
+              </PDFViewer>
+            ),
           },
           {
             path: "/products/:id",

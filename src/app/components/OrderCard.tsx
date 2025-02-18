@@ -130,17 +130,10 @@ export const OrderCard = ({ order }: { order: GetUserOrder }) => {
               <ReturnOrderButton orderId={order._id} />
             )}
             {order.status === "completed" && order.paymentStatus === "paid" && (
-              // <Typography
-              //   variant="caption"
-              //   sx={{ mt: "auto" }}
-              //   onClick={() => downloadInvoicePDF()}
-              // >
-              //   Download Invoice
-              // </Typography>
               <Box sx={{ mt: "auto" }}>
                 <PDFDownloadLink
                   document={<InvoiceDocument order={order} />}
-                  fileName="somename.pdf"
+                  fileName={`invoice ${order._id}.pdf`}
                   style={{ fontSize: ".8rem" }}
                 >
                   {({ blob: _blob, url: _url, loading, error: _error }) =>

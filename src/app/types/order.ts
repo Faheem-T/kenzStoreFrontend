@@ -30,8 +30,8 @@ export interface OrderType {
   totalPrice: number;
 
   // Timestamp fields
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: string; //Date
+  updatedAt: string; //Date
 }
 
 // SHARED TYPE: Sync with backend
