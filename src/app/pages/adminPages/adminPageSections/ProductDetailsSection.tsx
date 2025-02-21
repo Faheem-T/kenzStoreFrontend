@@ -28,7 +28,7 @@ export const ProductDetailsSection = ({
         <Typography variant="caption" color="textDisabled">
           Product Price:
         </Typography>
-        <Typography variant="h6">QR {product.price}/-</Typography>
+        <Typography variant="h6">₹ {product.price}/-</Typography>
       </Box>
       {isDiscountActive && product.effectiveDiscount && (
         <Box>
@@ -37,13 +37,13 @@ export const ProductDetailsSection = ({
           </Typography>
           <Chip
             label={`-${product.effectiveDiscount.value} ${
-              product.effectiveDiscount.type === "percentage" ? "%" : "QR"
+              product.effectiveDiscount.type === "percentage" ? "%" : "₹"
             }`}
             size="small"
             sx={{ color: "primary" }}
           />
           <Typography variant="h6" color="accent">
-            QR {product.finalPrice}/-
+            ₹ {product.finalPrice}/-
           </Typography>
         </Box>
       )}

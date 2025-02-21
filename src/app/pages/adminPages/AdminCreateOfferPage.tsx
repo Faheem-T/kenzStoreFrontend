@@ -188,7 +188,7 @@ export const AdminCreateOfferPage = ({
                 input: {
                   endAdornment: (
                     <InputAdornment position="end">
-                      {discountType === "percentage" ? "%" : "QR"}
+                      {discountType === "percentage" ? "%" : "₹"}
                     </InputAdornment>
                   ),
                 },

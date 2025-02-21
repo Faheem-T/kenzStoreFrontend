@@ -23,7 +23,7 @@ export const OrderCard = ({ order }: { order: GetUserOrder }) => {
         Order Total:
       </Typography>
       <Typography variant="body1" sx={{ fontWeight: "bold" }}>
-        QR {order.totalPrice} /-
+        ₹ {order.totalPrice} /-
       </Typography>
     </Box>
   );
@@ -35,21 +35,21 @@ export const OrderCard = ({ order }: { order: GetUserOrder }) => {
       <Typography variant="caption">
         Order Amount:{" "}
         <Typography variant="caption" fontWeight={700} component="span">
-          {order.originalPrice} QR
+          {order.originalPrice} ₹
         </Typography>
       </Typography>
       <Typography variant="caption">
         Coupon Discount:{" "}
         <Typography variant="caption" fontWeight={700} component="span">
-          {(order.totalPrice - order.originalPrice).toFixed(2)} QR (
+          {(order.totalPrice - order.originalPrice).toFixed(2)} ₹ (
           {-order.discountValue}
-          {order.discountType === "percentage" ? "%" : "QR"})
+          {order.discountType === "percentage" ? "%" : "₹"})
         </Typography>
       </Typography>
       <Typography variant="caption">
         Final Price:{" "}
         <Typography variant="caption" fontWeight={700} component="span">
-          {order.totalPrice} QR
+          {order.totalPrice} ₹
         </Typography>
       </Typography>
     </Box>
@@ -155,7 +155,7 @@ export const OrderCard = ({ order }: { order: GetUserOrder }) => {
                 <Box sx={{ flex: 1 }}>
                   <Typography>{item.productId.name}</Typography>
                   <Typography>Quantity: {item.quantity}</Typography>
-                  <Typography fontWeight="bold">QR {item.price} /-</Typography>
+                  <Typography fontWeight="bold">₹ {item.price} /-</Typography>
                 </Box>
               </Box>
             ))}

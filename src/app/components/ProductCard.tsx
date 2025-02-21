@@ -117,7 +117,7 @@ export const ProductCard = ({ product }: ProductCardProps) => {
             fontWeight="bold"
             color={isProductDiscountActive ? "accent.main" : ""}
           >
-            QR {product.finalPrice}/-
+            ₹ {Math.floor(product.finalPrice * 100) / 100}/-
           </Typography>
           {isProductDiscountActive && (
             <Typography
@@ -125,7 +125,7 @@ export const ProductCard = ({ product }: ProductCardProps) => {
               variant="caption"
               color="textDisabled"
             >
-              QR {product.price}/-
+              ₹ {Math.floor(product.price * 100) / 100}/-
             </Typography>
           )}
           <Rating

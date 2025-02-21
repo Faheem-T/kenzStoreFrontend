@@ -50,9 +50,9 @@ export const AdminProductOffersPage = () => {
           <TableHeader>
             <TableRow>
               <TableHead>Name</TableHead>
-              {/* <TableHead>Price (QR)</TableHead> */}
+              {/* <TableHead>Price (₹)</TableHead> */}
               <TableHead>Discount</TableHead>
-              {/* <TableHead>Discounted Price (QR)</TableHead> */}
+              {/* <TableHead>Discounted Price (₹)</TableHead> */}
               <TableHead>Discount Name</TableHead>
               <TableHead>Starts in</TableHead>
               <TableHead>Ends in</TableHead>
@@ -81,7 +81,7 @@ export const AdminProductOffersPage = () => {
                   {product.finalPrice ? (
                     <TableCell>
                       -{product.discountValue}
-                      {product.discountType === "percentage" ? "%" : "QR"}
+                      {product.discountType === "percentage" ? "%" : "₹"}
                     </TableCell>
                   ) : (
                     <TableCell>None</TableCell>

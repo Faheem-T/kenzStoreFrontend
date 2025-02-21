@@ -23,7 +23,7 @@ export const DiscountedPriceDisplay = ({
         }}
         color={isDiscountActive ? "textDisabled" : "textPrimary"}
       >
-        QR {price}/-
+        ₹ {price}/-
       </Typography>
       {isDiscountActive && (
         <Typography
@@ -31,7 +31,7 @@ export const DiscountedPriceDisplay = ({
           color="accent.main"
           sx={{ fontWeight: "bold", fontSize }}
         >
-          QR {finalPrice}/-
+          ₹ {finalPrice}/-
         </Typography>
       )}
     </Box>

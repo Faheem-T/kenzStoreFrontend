@@ -100,25 +100,29 @@ OrderSummary.Total = function OrderSummaryTotal() {
       }}
     >
       <Typography variant="body2">
-        Items price: <Box component="span">QR {totalItemPrice}</Box>
+        Items price: <Box component="span">₹ {totalItemPrice}</Box>
       </Typography>
-      <Typography variant="body2">
-        Coupon discount:{" "}
-        <Typography variant="body2" component="span">
-          {"- QR "}
-          {couponDiscountAmount}{" "}
+      {cart.discountValue ? (
+        <Typography variant="body2">
+          Coupon discount:{" "}
+          <Typography variant="body2" component="span">
+            {"- ₹ "}
+            {couponDiscountAmount}{" "}
+          </Typography>
+          <Typography variant="caption" color="textDisabled" component="span">
+            {"(-"}
+            {cart.discountValue +
+              (cart.discountType && cart.discountType === "percentage"
+                ? "%"
+                : "₹")}
+            {")"}
+          </Typography>
         </Typography>
-        <Typography variant="caption" color="textDisabled" component="span">
-          {"(-"}
-          {cart.discountValue +
-            (cart.discountType && cart.discountType === "percentage"
-              ? "%"
-              : "QR")}
-          {")"}
-        </Typography>
-      </Typography>
+      ) : (
+        <></>
+      )}
       <Typography sx={{ fontWeight: "bold" }}>
-        Order Total: QR {cart.cartTotal} /-
+        Order Total: ₹ {cart.cartTotal} /-
       </Typography>
     </Box>
   );

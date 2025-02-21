@@ -48,7 +48,7 @@ export const AdminOrderOverviewPage = () => {
           <TableHeader>
             <TableRow>
               <TableHead>Ordered At</TableHead>
-              <TableHead>Order Amount (QR)</TableHead>
+              <TableHead>Order Amount (₹)</TableHead>
               <TableHead>Status</TableHead>
             </TableRow>
           </TableHeader>

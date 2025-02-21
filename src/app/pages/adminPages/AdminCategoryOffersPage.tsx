@@ -76,7 +76,7 @@ export const AdminCategoryOffersPage = () => {
                   <TableCell>{category.name}</TableCell>
                   <TableCell>
                     -{category.discountValue}
-                    {category.discountType === "percentage" ? "%" : "QR"}
+                    {category.discountType === "percentage" ? "%" : "₹"}
                   </TableCell>
                   <TableCell>{category.discountName}</TableCell>
                   <TableCell>{`${

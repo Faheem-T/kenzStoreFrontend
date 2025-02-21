@@ -32,7 +32,7 @@ export const AdminCouponPage = () => {
       <TableCell>
         {coupon.discountValue + coupon.discountType === "percentage"
           ? " %"
-          : " QR"}
+          : " ₹"}
       </TableCell>
       {coupon.validUntil ? (
         <>

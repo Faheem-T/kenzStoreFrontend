@@ -114,38 +114,10 @@ const styles = StyleSheet.create({
   },
 });
 
-// interface SalesReportProps {
-//   data: {
-//     totalSalesCount: number;
-//     totalSaleAmount: number;
-//     orderCountByTimeframe: Array<{
-//       _id: string;
-//       count: number;
-//     }>;
-//     topSellingProducts: Array<{
-//       _id: string;
-//       count: number;
-//     }>;
-//     topSellingCategories: Array<{
-//       _id: {
-//         name: string;
-//       };
-//       count: number;
-//     }>;
-//     topSellingBrands: Array<{
-//       _id: string;
-//       count: number;
-//     }>;
-//   };
-// }
-
 export const SalesReportPDF = ({ data }: { data: SalesReportBody["data"] }) => {
-  console.log(data);
-
-  // export const SalesReportPDF = ({ data }: SalesReportProps) => {
   // Format currency
   const formatCurrency = (amount: number) => {
-    return `QR ${amount.toFixed(2)}`;
+    return `₹ ${amount.toFixed(2)}`;
   };
 
   // Get max count for scaling bars

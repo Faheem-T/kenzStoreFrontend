@@ -192,7 +192,7 @@ export const AdminUpdateProductPage = () => {
               slotProps={{
                 input: {
                   startAdornment: (
-                    <InputAdornment position="start">QR</InputAdornment>
+                    <InputAdornment position="start">₹</InputAdornment>
                   ),
                 },
               }}

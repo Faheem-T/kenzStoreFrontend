@@ -172,7 +172,7 @@ export const InvoiceDocument = ({ order }: { order: GetUserOrder }) => {
                   </Text>
                 </Text>
               </View>
-              <Text style={styles.itemPrice}>QR {item.price.toFixed(2)}</Text>
+              <Text style={styles.itemPrice}>₹ {item.price.toFixed(2)}</Text>
             </View>
           ))}
         </View>
@@ -186,7 +186,7 @@ export const InvoiceDocument = ({ order }: { order: GetUserOrder }) => {
               Discount Amount:{" "}
               {discountType === "percentage"
                 ? `${discountValue}%`
-                : `QR ${discountValue.toFixed(2)}`}
+                : `₹ ${discountValue.toFixed(2)}`}
             </Text>
           </View>
         )} */}
@@ -201,20 +201,20 @@ export const InvoiceDocument = ({ order }: { order: GetUserOrder }) => {
         <View style={styles.totalRow}>
           <Text style={styles.subText}>
             Order Total: {originalPrice}
-            {" QR"}
+            {" ₹"}
           </Text>
           <Text style={{ ...styles.subText, color: coupon ? "black" : "gray" }}>
             Coupon Discount: {(totalPrice - originalPrice).toFixed(2)}
-            {" QR "}
+            {" ₹ "}
             <Text>
               ({-discountValue}
-              {discountType === "percentage" ? "%" : "QR"})
+              {discountType === "percentage" ? "%" : "₹"})
             </Text>
           </Text>
           <Text style={styles.totalLabel}>
             Total Amount:{" "}
             <Text style={{ ...styles.totalAmount }}>
-              QR {totalPrice.toFixed(2)}
+              ₹ {totalPrice.toFixed(2)}
             </Text>
           </Text>
         </View>

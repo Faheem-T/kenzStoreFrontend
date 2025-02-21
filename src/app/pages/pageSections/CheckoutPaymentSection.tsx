@@ -32,7 +32,7 @@ export const CheckoutPaymentSection = ({
       <Select value={paymentMethod} onChange={handlePaymentMethodChange}>
         {cartTotal > 1000 ? (
           <MenuItem value="cod" disabled>
-            Cash on Delivery (Not available for orders above 1000 QR)
+            Cash on Delivery (Not available for orders above 1000 ₹)
           </MenuItem>
         ) : (
           <MenuItem value="cod">Cash on Delivery</MenuItem>

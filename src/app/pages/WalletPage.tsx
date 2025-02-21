@@ -74,7 +74,7 @@ export const WalletPage = () => {
       >
         <Typography variant="h5">Wallet Balance:</Typography>
         <Typography variant="h4" sx={{ m: 4 }}>
-          QR {Math.floor(balance * 100) / 100} /-
+          ₹ {Math.floor(balance * 100) / 100} /-
         </Typography>
       </Box>
       <WalletHistorySection />

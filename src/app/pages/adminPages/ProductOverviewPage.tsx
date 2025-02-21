@@ -52,9 +52,9 @@ export const ProductOverviewPage = () => {
           <TableHeader>
             <TableRow>
               <TableHead>Name</TableHead>
-              <TableHead>Price (QR)</TableHead>
+              <TableHead>Price (₹)</TableHead>
               <TableHead>Discount</TableHead>
-              <TableHead>Discounted Price (QR)</TableHead>
+              <TableHead>Discounted Price (₹)</TableHead>
               <TableHead>Category</TableHead>
               <TableHead />
             </TableRow>
@@ -77,7 +77,7 @@ export const ProductOverviewPage = () => {
                     {product.effectiveDiscount.value}
                     {product.effectiveDiscount.type === "percentage"
                       ? "%"
-                      : "QR"}
+                      : "₹"}
                   </TableCell>
                 ) : (
                   <TableCell>None</TableCell>

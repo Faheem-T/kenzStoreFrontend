@@ -1,5 +1,6 @@
 import { Box, Typography } from "@mui/material";
 import { Navbar } from "../components/Navbar";
+import { Link } from "react-router";
 
 export const ErrorPage = () => {
   return (
@@ -14,8 +15,10 @@ export const ErrorPage = () => {
           justifyContent: "center",
         }}
       >
-        <Typography variant="h3">Something went wrong</Typography>
-        <Typography variant="h4">Go back home</Typography>
+        <Typography variant="h3">404 Page Not Found</Typography>
+        <Typography variant="h4">
+          <Link to="/">Go back home</Link>
+        </Typography>
       </Box>
     </>
   );

@@ -58,7 +58,7 @@ export async function displayRazorpay({
     description: "Test Transaction",
     //   image: "https://example.com/your_logo",
     order_id: id,
-    // callback_url: "http://localhost:3001/api/v1/orders/verify",
+
     handler: async (response: {
       razorpay_payment_id: string;
       razorpay_order_id: string;
@@ -73,53 +73,6 @@ export async function displayRazorpay({
         console.log(error);
       }
     },
-    // config: {
-    //   display: {
-    //     blocks: {
-    //       utib: {
-    //         //name for Axis block
-    //         name: "Pay Using Axis Bank",
-    //         instruments: [
-    //           {
-    //             method: "card",
-    //             // issuers: ["UTIB"],
-    //           },
-    //           {
-    //             method: "netbanking",
-    //             // banks: ["UTIB"],
-    //           },
-    //         ],
-    //       },
-    //       other: {
-    //         //  name for other block
-    //         name: "Other Payment Methods",
-    //         instruments: [
-    //           {
-    //             method: "card",
-    //             // issuers: ["ICIC"],
-    //           },
-    //           {
-    //             method: "netbanking",
-    //           },
-    //           {
-    //             method: "upi",
-    //             flows: ["qr", "intent"],
-    //             apps: ["google_pay", "phonepe", "paytm", "amazonpay"],
-    //           },
-    //         ],
-    //       },
-    //     },
-    // hide: [
-    //   {
-    //     method: "upi",
-    //   },
-    // ],
-    // sequence: ["block.utib", "block.other"],
-    // preferences: {
-    //   show_default_blocks: false, // Should Checkout show its default blocks?
-    // },
-    // },
-    // },
     modal: {
       escape: false,
       ondismiss: function () {

@@ -32,6 +32,7 @@ import dayjs from "dayjs";
 import React, { useState } from "react";
 import { PDFDownloadLink, PDFViewer } from "@react-pdf/renderer";
 import { SalesReportPDF } from "@/app/utils/SalesReportPDF";
+import { SalesReportCSV } from "@/app/utils/SalesReportCSV";
 
 export const AdminDashboardPage = () => {
   const [sTimeframe, setSTimeframe] = useState<Timeframe>("day");
@@ -110,7 +111,7 @@ export const AdminDashboardPage = () => {
         >
           <Typography variant="caption">Total Sales Amount:</Typography>
           <Typography variant="h4">
-            QR {Math.round(totalSaleAmount * 100) / 100} /-
+            ₹ {Math.round(totalSaleAmount * 100) / 100} /-
           </Typography>
         </Box>
       </Box>
@@ -146,8 +147,8 @@ const RecentOrders = ({
         <TableHeader>
           <TableRow>
             <TableHead>Username</TableHead>
-            <TableHead>Price (QR)</TableHead>
-            <TableHead>Original Price (QR)</TableHead>
+            <TableHead>Price (₹)</TableHead>
+            <TableHead>Original Price (₹)</TableHead>
             <TableHead></TableHead>
           </TableRow>
         </TableHeader>
@@ -166,7 +167,7 @@ const RecentOrders = ({
                   >
                     {" -" +
                       order.discountValue +
-                      (order.discountType === "percentage" ? "%" : "QR")}
+                      (order.discountType === "percentage" ? "%" : "₹")}
                   </Typography>
                 </TableCell>
               ) : (
@@ -430,6 +431,7 @@ const ReportDownloadButton = ({
   salesReport: SalesReportBody["data"];
 }) => {
   const [visible, setVisible] = useState(false);
+  const [pdfVisible, setPdfVisible] = useState(false);
 
   return (
     <>
@@ -443,21 +445,31 @@ const ReportDownloadButton = ({
                     "Loading report..."
                   </Typography>
                 ) : (
-                  <Button variant="contained"> Download sales report</Button>
+                  <Button variant="contained"> Download PDF</Button>
                 )
               }
             </PDFDownloadLink>
+            <SalesReportCSV body={salesReport} />
             <Button variant="outlined" onClick={() => setVisible(false)}>
               Cancel
             </Button>
           </Box>
-          <PDFViewer width="70%" height="800px">
-            <SalesReportPDF data={salesReport} />
-          </PDFViewer>
+          {pdfVisible ? (
+            <>
+              <Button onClick={() => setPdfVisible(false)}>Hide Preview</Button>
+              <PDFViewer width="70%" height="800px">
+                <SalesReportPDF data={salesReport} />
+              </PDFViewer>
+            </>
+          ) : (
+            <Button onClick={() => setPdfVisible(true)}>
+              Show PDF Preview
+            </Button>
+          )}
         </>
       ) : (
         <Button onClick={() => setVisible(true)} variant="contained">
-          Generate Sales Report PDF
+          Generate Sales Report Download
         </Button>
       )}
     </>

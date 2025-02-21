@@ -150,7 +150,7 @@ export const CreateProductDetailsSection = ({
               slotProps={{
                 input: {
                   startAdornment: (
-                    <InputAdornment position="start">QR</InputAdornment>
+                    <InputAdornment position="start">₹</InputAdornment>
                   ),
                 },
               }}

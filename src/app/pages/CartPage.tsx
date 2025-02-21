@@ -132,12 +132,12 @@ const CartSummary = ({ cart }: { cart: PopulatedCartType }) => {
         {cart.coupon && (
           <>
             <Typography variant="body2">
-              Items price: <Box component="span">QR {totalItemPrice}</Box>
+              Items price: <Box component="span">₹ {totalItemPrice}</Box>
             </Typography>
             <Typography variant="body2">
               Coupon discount:{" "}
               <Typography variant="body2" component="span">
-                {"- QR "}
+                {"- ₹ "}
                 {couponDiscountAmount}{" "}
               </Typography>
               <Typography
@@ -149,7 +149,7 @@ const CartSummary = ({ cart }: { cart: PopulatedCartType }) => {
                 {cart.discountValue +
                   (cart.discountType && cart.discountType === "percentage"
                     ? "%"
-                    : "QR")}
+                    : "₹")}
                 {")"}
               </Typography>
             </Typography>
@@ -168,7 +168,7 @@ const CartSummary = ({ cart }: { cart: PopulatedCartType }) => {
         <Typography variant="body1">
           Total Price:{" "}
           <Box component="span" sx={{ fontWeight: "bold" }}>
-            QR {cart.cartTotal}
+            ₹ {cart.cartTotal}
           </Box>
         </Typography>
         <Button variant="contained" onClick={handleCheckoutClick}>

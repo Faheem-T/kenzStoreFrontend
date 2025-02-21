@@ -41,9 +41,7 @@ export const OrderItemCard = ({
           }}
         >
           <Typography>{item.productId.name}</Typography>
-          <Typography sx={{ fontWeight: "bold" }}>
-            QR {item.price} /-
-          </Typography>
+          <Typography sx={{ fontWeight: "bold" }}>₹ {item.price} /-</Typography>
           <Typography sx={{ mt: "auto" }}>
             <Box component="span" sx={{ fontWeight: "bold" }}>
               Quantity:
