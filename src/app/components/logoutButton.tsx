@@ -25,7 +25,7 @@ export const LogoutButton = () => {
     <Link
       onClick={clickHandler}
       sx={{ width: 1, height: 1, cursor: "pointer" }}
-      color="textPrimary"
+      color="#ffff"
     >
       {isLoading ? "Logging out..." : "Log Out"}
     </Link>

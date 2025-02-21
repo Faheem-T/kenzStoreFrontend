@@ -77,7 +77,7 @@ export const UserProfilePage = () => {
           noValidate
           onSubmit={handleSubmit(submitHandler)}
           bgcolor="background.paper"
-          sx={{ p: 2, boxShadow: 24 }}
+          sx={{ p: 2, boxShadow: 2 }}
         >
           <Box
             sx={{
@@ -158,6 +158,22 @@ export const UserProfilePage = () => {
             value={user.DOB?.toDateString() ?? ""}
             name="DOB"
           /> */}
+        </Box>
+        <Box sx={{ boxShadow: 2, bgcolor: "background.paper", p: 2 }}>
+          <Typography>Your Referral Code</Typography>
+          <Typography
+            sx={{
+              fontWeight: "bold",
+              textAlign: "center",
+              my: 2,
+              fontSize: "1.5rem",
+            }}
+          >
+            {user.referralCode}
+          </Typography>
+          <Typography variant="caption" color="textDisabled">
+            Get other users to register with this code to win upto ₹200!
+          </Typography>
         </Box>
       </Stack>
     </>

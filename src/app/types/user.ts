@@ -10,6 +10,8 @@ export interface UserType {
   expiresAt: Date;
   isVerified: boolean;
   isBlocked: boolean;
+  referralCode: string;
+  referredBy: string; // ObjectId
   // timestamp fields
   createdAt: Date;
   updatedAt: Date;

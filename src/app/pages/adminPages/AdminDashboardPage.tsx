@@ -155,7 +155,7 @@ const RecentOrders = ({
         <TableBody>
           {orders.map((order) => (
             <TableRow key={order._id}>
-              <TableCell>{order.userId.firstName}</TableCell>
+              <TableCell>{order.userId?.firstName ?? ""}</TableCell>
               <TableCell>{order.totalPrice}</TableCell>
               {order.discountValue && order.discountType ? (
                 <TableCell>

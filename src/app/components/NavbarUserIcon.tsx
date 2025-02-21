@@ -33,7 +33,7 @@ export const NavbarUserIcon = () => {
               height: "100%",
               width: "100%",
             }}
-            color="textPrimary"
+            color="#ffff"
           >
             Profile
           </Link>

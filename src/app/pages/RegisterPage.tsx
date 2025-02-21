@@ -22,6 +22,7 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import { Link, useNavigate } from "react-router";
 
+// SHARED
 const registerSchema = z.object({
   firstName: z
     .string()
@@ -33,14 +34,10 @@ const registerSchema = z.object({
     .email("Email format is not valid"),
   password: z.string().nonempty("Password is required"),
   confirmPassword: z.string().nonempty("Confirmation is required"),
+  referralCode: z.string().trim().optional(),
 });
 
-export type registerFormValues = {
-  firstName: string;
-  password: string;
-  confirmPassword: string;
-  email: string;
-};
+export type registerFormValues = z.infer<typeof registerSchema>;
 export const RegisterPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
@@ -50,6 +47,7 @@ export const RegisterPage = () => {
       email: "",
       password: "",
       confirmPassword: "",
+      referralCode: "",
     },
     resolver: zodResolver(registerSchema),
   });
@@ -160,6 +158,18 @@ export const RegisterPage = () => {
               {!!errors.confirmPassword && (
                 <FormHelperText error>
                   {errors.confirmPassword?.message}
+                </FormHelperText>
+              )}
+            </FormControl>
+            <FormControl variant="standard">
+              <InputLabel>Referral Code</InputLabel>
+              <Input
+                {...register("referralCode")}
+                error={!!errors.referralCode}
+              />
+              {!!errors.referralCode && (
+                <FormHelperText error>
+                  {errors.referralCode?.message}
                 </FormHelperText>
               )}
             </FormControl>
