@@ -22,6 +22,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Search } from "@mui/icons-material";
 import { useGetCategoriesQuery } from "../api/categoriesApi";
+import { Footer } from "../components/Footer";
 
 const searchFormSchema = z.object({
   query: z.string().optional(),
@@ -196,6 +197,7 @@ export const SearchProductPage = () => {
           </Box>
         </Box>
       </Box>
+      <Footer />
     </>
   );
 };

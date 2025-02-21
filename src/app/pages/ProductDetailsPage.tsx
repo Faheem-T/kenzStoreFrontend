@@ -12,6 +12,7 @@ import { SpecificationSection } from "./pageSections/SpecificationSection";
 import { Navbar } from "../components/Navbar";
 import { StockDisplay } from "../components/ProductStockDisplay";
 import { DiscountedPriceDisplay } from "../components/ProductDiscountedPriceDisplay";
+import { Footer } from "../components/Footer";
 
 export const ProductDetailsPage = () => {
   const productId = useParams().id?.trim();
@@ -98,6 +99,7 @@ export const ProductDetailsPage = () => {
         {/* Related Products Section */}
         <RelatedProductsSection productId={productId} />
       </Stack>
+      <Footer />
     </>
   );
 };
