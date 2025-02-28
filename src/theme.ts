@@ -116,7 +116,8 @@ export const themeOptions: ThemeOptions = {
       default: "#ffffff",
       paper: "#f3f1f1",
     },
-    // text: { primary: "green" },
+    text: { primary: "#000000" },
+    
   },
 };
 

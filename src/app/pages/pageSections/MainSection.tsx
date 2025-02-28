@@ -1,4 +1,3 @@
-import { Navbar } from "@/app/components/Navbar";
 import { FlipWords } from "@/components/ui/flip-words";
 import { Box } from "@mui/material";
 import { motion } from "framer-motion";
@@ -105,7 +104,6 @@ export const MainSection = () => {
         px: 0,
       }}
     >
-      <Navbar />
       <Box
         sx={{
           display: "flex",
