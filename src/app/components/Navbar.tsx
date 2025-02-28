@@ -67,7 +67,14 @@ export const Navbar = ({ transparent }: { transparent?: boolean }) => {
         <Navlink link="/categories/adapters" label="Adapters" />
         <Navlink link="/categories/webcam" label="Webcams" />
       </Box>
-      <Box sx={{ display: "flex", gap: 2, "& > *": { color: "white" } }}>
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          gap: 2,
+          "& > *": { color: "white" },
+        }}
+      >
         {user ? (
           <>
             {/* Search button */}
@@ -80,7 +87,15 @@ export const Navbar = ({ transparent }: { transparent?: boolean }) => {
             <NavbarUserIcon />
           </>
         ) : (
-          <Navlink link="/login" label="Login" />
+          <>
+            {/* Search button */}
+            <Tooltip title="Search">
+              <IconButton onClick={() => setSearchModalOpen(true)}>
+                <Search sx={{ color: "background.default" }} />
+              </IconButton>
+            </Tooltip>
+            <Navlink link="/login" label="Login" />
+          </>
         )}
       </Box>
       <SearchModal
