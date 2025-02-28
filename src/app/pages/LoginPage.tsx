@@ -24,6 +24,7 @@ import toast from "react-hot-toast";
 import { selectUser, userLoggedIn } from "../features/auth/authSlice";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { GoogleLogin } from "@react-oauth/google";
+import { Navbar } from "../components/Navbar";
 
 const loginSchema = z.object({
   email: z
@@ -82,6 +83,7 @@ export const LoginPage = () => {
 
   return (
     <>
+      <Navbar />
       <Box
         sx={{
           height: "100vh",

@@ -8,7 +8,7 @@ export const Homepage = () => {
   return (
     <>
       <Stack sx={{ width: "100%", "& > *": { px: 12 } }}>
-        <Navbar />
+        <Navbar sx={{ px: 0 }} />
         {/* <MainSection /> */}
         <CategoryHeroComponent
           categorySlug="webcam"

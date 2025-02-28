@@ -1,172 +1,203 @@
-import {
-  Badge,
-  Box,
-  IconButton,
-  Modal,
-  TextField,
-  Tooltip,
-} from "@mui/material";
-import { Navlink } from "./Navlink";
-import { useAppSelector } from "../hooks";
-import { selectUser } from "../features/auth/authSlice";
-import { Link, useNavigate } from "react-router";
-import { SafeUserType } from "../types/user";
-import { NavbarUserIcon } from "./NavbarUserIcon";
-import { useGetMinimalCartQuery } from "../api/cartApi";
-import { LoadingComponent } from "./LoadingComponent";
+import * as React from "react";
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import Toolbar from "@mui/material/Toolbar";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
+import Menu from "@mui/material/Menu";
+import MenuIcon from "@mui/icons-material/Menu";
+import Container from "@mui/material/Container";
+import Avatar from "@mui/material/Avatar";
+import Button from "@mui/material/Button";
+import Tooltip from "@mui/material/Tooltip";
+import MenuItem from "@mui/material/MenuItem";
 import { SiteLogo } from "./SiteLogo";
-import { useState } from "react";
-import { Search, ShoppingCartOutlined } from "@mui/icons-material";
+import { useNavigate } from "react-router";
+import { SxProps } from "@mui/material";
 
-export const Navbar = ({ transparent }: { transparent?: boolean }) => {
-  const user = useAppSelector(selectUser) as SafeUserType;
+// const pages = ["Products", "Pricing", "Blog"];
+const pages = [
+  {
+    title: "Home",
+    url: "/",
+  },
+  {
+    title: "Shop",
+    url: "/search",
+  },
+  {
+    title: "Webcams",
+    url: "/categories/webcam",
+  },
+];
+const settings = [
+  {
+    title: "Profile",
+    url: "/user/profile",
+  },
+  {
+    title: "Cart",
+    url: "/user/cart",
+  },
+  {
+    title: "Wallet",
+    url: "/user/wallet",
+  },
+  {
+    title: "Wishlist",
+    url: "/user/wishlist",
+  },
+];
+
+export const Navbar = ({ sx }: { sx?: SxProps }) => {
   const navigate = useNavigate();
-  let CartIcon: () => React.ReactElement;
-  const { data: cartData, isLoading: cartLoading } = useGetMinimalCartQuery();
-  const [isSearchModalOpen, setSearchModalOpen] = useState(false);
-  if (cartLoading) CartIcon = () => <LoadingComponent />;
-  else {
-    CartIcon = () => {
-      return (
-        <Tooltip title="Cart">
-          <Badge badgeContent={cartData?.data.items.length}>
-            <IconButton
-              onClick={() => navigate("/user/cart")}
-              sx={{ color: "white" }}
-            >
-              <ShoppingCartOutlined />
-            </IconButton>
-          </Badge>
-        </Tooltip>
-      );
-    };
-  }
-
-  return (
-    <Box
-      sx={{
-        justifyContent: "space-between",
-        alignItems: "center",
-        display: "flex",
-        padding: "8px 40px",
-        backgroundColor: transparent ? "" : "primary.main",
-      }}
-    >
-      <Link to="/">
-        <SiteLogo sx={{ color: "white" }} />
-      </Link>
-      <Box
-        sx={{
-          display: "flex",
-          gap: "4px",
-          color: "white",
-        }}
-      >
-        <Navlink link="/" label="Home" />
-        <Navlink link="/categories/connectors" label="Connectors" />
-        <Navlink link="/categories/adapters" label="Adapters" />
-        <Navlink link="/categories/webcam" label="Webcams" />
-      </Box>
-      <Box
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          gap: 2,
-          "& > *": { color: "white" },
-        }}
-      >
-        {user ? (
-          <>
-            {/* Search button */}
-            <Tooltip title="Search">
-              <IconButton onClick={() => setSearchModalOpen(true)}>
-                <Search sx={{ color: "background.default" }} />
-              </IconButton>
-            </Tooltip>
-            <CartIcon />
-            <NavbarUserIcon />
-          </>
-        ) : (
-          <>
-            {/* Search button */}
-            <Tooltip title="Search">
-              <IconButton onClick={() => setSearchModalOpen(true)}>
-                <Search sx={{ color: "background.default" }} />
-              </IconButton>
-            </Tooltip>
-            <Navlink link="/login" label="Login" />
-          </>
-        )}
-      </Box>
-      <SearchModal
-        isOpen={isSearchModalOpen}
-        onClose={() => setSearchModalOpen(false)}
-      />
-    </Box>
+  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
+    null
   );
-};
+  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
+    null
+  );
 
-const SearchModal = ({
-  isOpen,
-  onClose,
-}: {
-  isOpen: boolean;
-  onClose: () => void;
-}) => {
-  const navigate = useNavigate();
-  const handleSearchSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const query = (e.target as any).query.value;
-    navigate(`/search/?q=${query}`);
-    onClose();
+  const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorElNav(event.currentTarget);
   };
+  const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorElUser(event.currentTarget);
+  };
+
+  const handleCloseNavMenu = () => {
+    setAnchorElNav(null);
+  };
+
+  const handleCloseUserMenu = () => {
+    setAnchorElUser(null);
+  };
+
   return (
-    <Modal
-      open={isOpen}
-      onClose={onClose}
-      sx={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-      }}
-    >
-      <Box
-        component="form"
-        onSubmit={handleSearchSubmit}
-        sx={{
-          width: 350,
-          display: "flex",
-          gap: 1,
-          alignItems: "center",
-          position: "relative",
-        }}
-      >
-        <TextField
-          name="query"
-          // label="Search for a product"
-          placeholder="Search for a product"
-          variant="standard"
-          fullWidth
-          sx={{ fontSize: 20 }}
-          autoFocus
-        />
-        <IconButton type="submit">
-          <Search />
-        </IconButton>
-        <Box
-          sx={{
-            // width: 20,
-            // height: 20,
-            backgroundColor: "text.disabled",
-            position: "absolute",
-            right: "50%",
-            top: "50%",
-            zIndex: -1,
-            borderRadius: "100%",
-            boxShadow: "0 0 140px 100px #000000",
-          }}
-        />
-      </Box>
-    </Modal>
+    <AppBar position="static" sx={sx}>
+      <Container maxWidth="xl">
+        <Toolbar disableGutters>
+          {/* <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} /> */}
+          <Typography
+            variant="h6"
+            noWrap
+            component="a"
+            href="#app-bar-with-responsive-menu"
+            sx={{
+              mr: 2,
+              display: { xs: "none", md: "flex" },
+              fontFamily: "monospace",
+              fontWeight: 700,
+              letterSpacing: ".3rem",
+              color: "inherit",
+              textDecoration: "none",
+            }}
+          >
+            <SiteLogo />
+          </Typography>
+
+          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+            <IconButton
+              size="large"
+              aria-label="account of current user"
+              aria-controls="menu-appbar"
+              aria-haspopup="true"
+              onClick={handleOpenNavMenu}
+              color="inherit"
+            >
+              <MenuIcon />
+            </IconButton>
+            <Menu
+              id="menu-appbar"
+              anchorEl={anchorElNav}
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "left",
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "left",
+              }}
+              open={Boolean(anchorElNav)}
+              onClose={handleCloseNavMenu}
+              sx={{ display: { xs: "block", md: "none" } }}
+            >
+              {pages.map((page) => (
+                <MenuItem key={page.title} onClick={() => navigate(page.url)}>
+                  <Typography sx={{ textAlign: "center" }}>
+                    {page.title}
+                  </Typography>
+                </MenuItem>
+              ))}
+            </Menu>
+          </Box>
+          <Typography
+            variant="h5"
+            noWrap
+            component="a"
+            href="#app-bar-with-responsive-menu"
+            sx={{
+              mr: 2,
+              display: { xs: "flex", md: "none" },
+              flexGrow: 1,
+              fontFamily: "monospace",
+              fontWeight: 700,
+              letterSpacing: ".3rem",
+              color: "inherit",
+              textDecoration: "none",
+            }}
+          >
+            <SiteLogo full />
+          </Typography>
+          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+            {pages.map((page) => (
+              <Button
+                key={page.title}
+                // onClick={handleCloseNavMenu}
+                onClick={() => navigate(page.url)}
+                sx={{ my: 2, color: "white", display: "block" }}
+              >
+                {page.title}
+              </Button>
+            ))}
+          </Box>
+          <Box sx={{ flexGrow: 0 }}>
+            <Tooltip title="Open settings">
+              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                <Avatar />
+              </IconButton>
+            </Tooltip>
+            <Menu
+              sx={{ mt: "45px" }}
+              id="menu-appbar"
+              anchorEl={anchorElUser}
+              anchorOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+              open={Boolean(anchorElUser)}
+              onClose={handleCloseUserMenu}
+            >
+              {settings.map((setting) => (
+                <MenuItem
+                  key={setting.title}
+                  onClick={() => navigate(setting.url)}
+                >
+                  <Typography sx={{ textAlign: "center" }}>
+                    {setting.title}
+                  </Typography>
+                </MenuItem>
+              ))}
+            </Menu>
+          </Box>
+        </Toolbar>
+      </Container>
+    </AppBar>
   );
 };

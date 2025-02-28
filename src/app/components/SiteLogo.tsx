@@ -1,6 +1,12 @@
 import { SxProps, Typography } from "@mui/material";
 
-export const SiteLogo = ({ sx }: { sx?: SxProps }) => {
+export const SiteLogo = ({
+  sx,
+  full = false,
+}: {
+  sx?: SxProps;
+  full?: boolean;
+}) => {
   return (
     <Typography
       variant="h4"
@@ -13,7 +19,7 @@ export const SiteLogo = ({ sx }: { sx?: SxProps }) => {
         ...sx,
       }}
     >
-      K
+      {full ? "Kenz Store" : "K"}
     </Typography>
   );
 };
