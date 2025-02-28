@@ -1,44 +1,35 @@
 import {
   Box,
-  Button,
-  FormControl,
-  FormControlLabel,
-  FormLabel,
   IconButton,
   MenuItem,
-  Radio,
-  RadioGroup,
   Select,
   TextField,
   Typography,
 } from "@mui/material";
-import { useSearchParams } from "react-router";
-import { Navbar } from "../components/Navbar";
-import {
-  SortByField,
-  sortOptions,
-  useLazyGetProductsQuery,
-} from "../api/productsApi";
+import { useLazyGetCategoryProductsQuery } from "../api/categoriesApi";
 import { LoadingComponent } from "../components/LoadingComponent";
+import { useParams, useSearchParams } from "react-router";
 import { ProductCard } from "../components/ProductCard";
+import { Navbar } from "../components/Navbar";
+import { Footer } from "../components/Footer";
 import { useEffect, useMemo } from "react";
+import { SortByField, sortOptions } from "../api/productsApi";
+import { Search } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { Search } from "@mui/icons-material";
-import { useGetCategoriesQuery } from "../api/categoriesApi";
-import { Footer } from "../components/Footer";
 
 const searchFormSchema = z.object({
   query: z.string().optional(),
 });
 
 type SearchFormType = z.infer<typeof searchFormSchema>;
-
-export const SearchProductPage = () => {
-  const [getProducts, { data, isFetching, isLoading }] =
-    useLazyGetProductsQuery();
+export const CategoryProductsPage = () => {
+  const categorySlug = useParams().slug;
   const [searchParams, setSearchParams] = useSearchParams();
+  if (!categorySlug) throw new Error("Slug is required");
   const { handleSubmit, register } = useForm();
+  const [getCategoryProducts, { data, isLoading, isFetching }] =
+    useLazyGetCategoryProductsQuery();
 
   // Querying when searchParams change
   useEffect(() => {
@@ -47,8 +38,8 @@ export const SearchProductPage = () => {
     const sort: "asc" | "desc" = searchParams.get("sort") as "asc" | "desc";
     const query = searchParams.get("q") || "";
     const category = searchParams.get("category") ?? "";
-    getProducts({ sortBy, sort, query, category });
-  }, [searchParams]);
+    getCategoryProducts({ slug: categorySlug, sortBy, sort, query, category });
+  }, [searchParams, categorySlug]);
 
   // Search submit handler
   const handleSearchSubmit = async (data: SearchFormType) => {
@@ -68,21 +59,33 @@ export const SearchProductPage = () => {
     [searchParams]
   );
 
-  if (isLoading) return <LoadingComponent fullScreen />;
+  if (isLoading) return <LoadingComponent />;
   if (!data) return <Box>Couldn't fetch products</Box>;
-
-  const products = data.data;
+  const { category, products } = data.data;
   return (
     <>
       <Navbar />
-      <Box sx={{ p: 4 }}>
-        <Typography
-          variant="h4"
-          sx={{ textTransform: "uppercase", textAlign: "center", mb: 2 }}
+      <Box sx={{ p: 8 }}>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            flexWrap: "wrap",
+            gap: 2,
+            mb: 4,
+          }}
         >
-          Search Results
-        </Typography>
-        <Box sx={{ display: "flex", gap: 2, alignItems: "center" }}>
+          {category?.image && (
+            <Box component="img" src={category.image} width="20%" />
+          )}
+
+          <Typography variant="h4" sx={{ textTransform: "uppercase" }}>
+            {category?.name}
+          </Typography>
+        </Box>
+        <Box sx={{ display: "flex", alignItems: "space-between", p: 2 }}>
           <Box
             sx={{ display: "flex", alignItems: "center", gap: 2 }}
             component="form"
@@ -91,14 +94,13 @@ export const SearchProductPage = () => {
             <TextField
               variant="standard"
               {...register("query")}
-              placeholder="Search for a product..."
+              placeholder={`Search for ${categorySlug}...`}
               defaultValue={searchParams.get("q")}
             />
             <IconButton type="submit" disabled={isFetching}>
               <Search />
             </IconButton>
           </Box>
-
           <Select
             value={
               currentSort?.label ||
@@ -134,73 +136,15 @@ export const SearchProductPage = () => {
             ))}
           </Select>
         </Box>
-        <Box sx={{ display: "flex", gap: 2, p: 2 }}>
-          <CategoryRadioGroup
-            value={searchParams.get("category") ?? ""}
-            handleChange={(e) => {
-              setSearchParams({
-                ...Object.fromEntries(searchParams),
-                category: e.target.value,
-              });
-            }}
-            handleClear={() => {
-              setSearchParams({
-                ...Object.fromEntries(searchParams),
-                category: "",
-              });
-            }}
-          />
-          <Box sx={{ display: "flex", gap: 2, p: 2 }}>
-            {isFetching ? (
-              <Box sx={{ width: "100%", height: "30vh" }}>
-                <LoadingComponent />
-              </Box>
-            ) : (
-              products.map((product) => (
-                <ProductCard product={product} key={product._id} />
-              ))
-            )}
-          </Box>
+        <Box sx={{ display: "flex", gap: 2 }}>
+          {products.map((product) => (
+            <ProductCard product={product} key={product._id} />
+          ))}
         </Box>
       </Box>
-      <Footer />
+      <Box sx={{ mt: 80 }}>
+        <Footer />
+      </Box>
     </>
-  );
-};
-
-const CategoryRadioGroup = ({
-  value,
-  handleChange,
-  handleClear,
-}: {
-  value: string;
-  handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  handleClear: () => void;
-}) => {
-  const { data, isLoading } = useGetCategoriesQuery();
-  if (isLoading) return <LoadingComponent />;
-  if (!data) return <Box>Couldn't fetch categories</Box>;
-  const categories = data.data;
-  return (
-    <FormControl>
-      <FormLabel>Shop by category</FormLabel>
-      <RadioGroup value={value} onChange={handleChange}>
-        {...categories.map((category) => (
-          <FormControlLabel
-            // sx={{ fontSize: "1px" }}
-            sx={{ "& > *": { fontSize: "14px" } }}
-            key={category._id}
-            value={category._id}
-            control={<Radio size="small" />}
-            label={category.name}
-          />
-        ))}
-      </RadioGroup>
-      {value && (
-        <Button onClick={handleClear} variant="text" color="text">
-          Clear category filter
-        </Button>
-      )}
-    </FormControl>
   );
 };

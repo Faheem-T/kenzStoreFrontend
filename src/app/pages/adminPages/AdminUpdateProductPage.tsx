@@ -62,8 +62,7 @@ export const AdminUpdateProductPage = () => {
   // let categories: { _id: string; name: string }[] = [];
 
   const { data, isLoading } = useGetProductQuery(productId || "");
-  const { data: categoriesData, isLoading: categoriesLoading } =
-    useGetCategoriesQuery();
+  const { data: categoriesData } = useGetCategoriesQuery();
 
   if (categoriesData) {
     // categories = categoriesData.data.map((category) => ({

@@ -2,7 +2,7 @@ import {
   useGetProductQuery,
   useUpdateProductMutation,
 } from "@/app/api/productsApi";
-import { AddImageFileInputButton } from "@/app/components/AddImageFileInputButton";
+import { AddImageFilesInputButton } from "@/app/components/AddImageFileInputButton";
 import { ImageCardComponent } from "@/app/components/ImageCardComponent";
 import { LoadingComponent } from "@/app/components/LoadingComponent";
 import { uploadToCloudinary } from "@/app/uploadToCloudinary";
@@ -145,7 +145,7 @@ export const AdminUpdateImagePage = () => {
         <Typography variant="h5">New Images</Typography>
         <Box sx={{ display: "flex", gap: 2, flexWrap: "wrap", p: 2 }}>
           {newImageComponents}
-          <AddImageFileInputButton
+          <AddImageFilesInputButton
             images={newImages}
             setImages={setNewImages}
           />

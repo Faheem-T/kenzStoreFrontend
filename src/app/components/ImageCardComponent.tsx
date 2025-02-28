@@ -1,5 +1,8 @@
 import { Delete } from "@mui/icons-material";
 import { Box, Button, IconButton, Tooltip, Typography } from "@mui/material";
+import { allowedFileTypes } from "./AddImageFileInputButton";
+import toast from "react-hot-toast";
+import { SetStateAction } from "react";
 
 interface ImageCardComponentProps {
   imageUrl: string;
@@ -10,14 +13,13 @@ interface ImageCardComponentProps {
 
 export const ImageCardComponent = ({
   imageUrl,
-  onDelete = () => {},
+  onDelete,
   markedForDeletion = false,
   handleDeleteCancel = () => {},
 }: ImageCardComponentProps) => {
   return (
     <Box
       sx={{
-        // border: 1
         p: 2,
         display: "flex",
         alignItems: "center",
@@ -53,13 +55,10 @@ export const ImageCardComponent = ({
           </Button>
         </Box>
       )}
-      {!markedForDeletion && (
+      {!markedForDeletion && onDelete && (
         <Tooltip title="Delete image">
           <IconButton
             sx={{ position: "absolute", top: 0, right: 0 }}
-            //   onClick={() =>
-            //     setImages(images.filter((img) => img.url !== image.url))
-            //   }
             onClick={onDelete}
           >
             <Delete />
@@ -69,3 +68,68 @@ export const ImageCardComponent = ({
     </Box>
   );
 };
+
+interface ChangeableImageCardComponentProps extends ImageCardComponentProps {
+  setImage: React.Dispatch<
+    SetStateAction<{ url: string; file: FormDataEntryValue } | undefined>
+  >;
+}
+export const ChangeableImageCardComponent = ({
+  imageUrl,
+  setImage,
+  handleDeleteCancel,
+  markedForDeletion,
+  onDelete,
+}: ChangeableImageCardComponentProps) => {
+  return (
+    <Box>
+      <ImageCardComponent
+        imageUrl={imageUrl}
+        handleDeleteCancel={handleDeleteCancel}
+        markedForDeletion={markedForDeletion}
+        onDelete={onDelete}
+      />
+      <Box
+        component="label"
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          gap: 1,
+          justifyContent: "center",
+        }}
+      >
+        <ImageInput setImage={setImage} />
+        <Typography
+          variant="caption"
+          sx={{ "&:hover": { cursor: "pointer", textDecoration: "underline" } }}
+        >
+          Change Image
+        </Typography>
+      </Box>
+    </Box>
+  );
+};
+
+const ImageInput = ({
+  setImage,
+}: {
+  setImage: React.Dispatch<
+    SetStateAction<{ url: string; file: FormDataEntryValue } | undefined>
+  >;
+}) => (
+  <input
+    type="file"
+    multiple
+    hidden
+    onChange={(e) => {
+      if (e.target?.files?.length) {
+        const file = e.target.files[0];
+        if (allowedFileTypes.includes(file.type)) {
+          setImage({ url: URL.createObjectURL(file), file: file });
+        } else {
+          toast.error("Please choose image files only");
+        }
+      }
+    }}
+  />
+);

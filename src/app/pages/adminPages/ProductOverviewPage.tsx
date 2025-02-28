@@ -1,7 +1,7 @@
 import { useGetProductsQuery } from "@/app/api/productsApi";
 import { LoadingComponent } from "@/app/components/LoadingComponent";
 import { Box, Button, Typography } from "@mui/material";
-import { useState } from "react";
+// import { useState } from "react";
 import {
   Table,
   TableBody,
@@ -18,7 +18,7 @@ import { DeleteProductButton } from "@/app/components/adminComponents/DeleteProd
 
 export const ProductOverviewPage = () => {
   // TODO add pagination
-  const [page, setPage] = useState(1);
+  // const [page, setPage] = useState(1);
   const navigate = useNavigate();
   const { data, isLoading } = useGetProductsQuery({});
 

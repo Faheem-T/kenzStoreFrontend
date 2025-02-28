@@ -19,22 +19,28 @@ import toast from "react-hot-toast";
 import { CategoryAutocomplete } from "@/app/components/adminComponents/CategoryAutocomplete";
 import { DevTool } from "@hookform/devtools";
 import { z } from "zod";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import {
+  ChangeableImageCardComponent,
+  ImageCardComponent,
+} from "@/app/components/ImageCardComponent";
+import { AddSingleImageFileInputButton } from "@/app/components/AddImageFileInputButton";
+import { uploadToCloudinary } from "@/app/uploadToCloudinary";
+import { UpdateCategoryType } from "@/app/types/category";
 
 const updateCategorySchema = z.object({
   name: z.string().trim().nonempty("Category Name is required"),
   description: z.string().trim(),
   parentCategory: z.string().optional(),
-  // TODO: Add images
 });
 
-type updateCategoryType = z.infer<typeof updateCategorySchema>;
+type updateCategoryFormType = z.infer<typeof updateCategorySchema>;
 
 export const AdminUpdateCategoryPage = () => {
   const categoryId = useParams().categoryId;
   const { data, isLoading } = useGetCategoryQuery(categoryId || "");
   const navigate = useNavigate();
-  const form = useForm<updateCategoryType>({
+  const form = useForm<updateCategoryFormType>({
     resolver: zodResolver(updateCategorySchema),
   });
   const {
@@ -48,8 +54,18 @@ export const AdminUpdateCategoryPage = () => {
   const [updateCategoryMutation, { isLoading: isUpdateLoading }] =
     useUpdateCategoryMutation();
 
+  const [image, setImage] = useState<{
+    url: string;
+    file: FormDataEntryValue;
+  }>();
+
+  const [existingImage, setExistingImage] = useState<string | null>(null);
+
+  const [isUploading, setIsUploading] = useState(false);
+
   useEffect(() => {
     if (data) {
+      console.log(data.data);
       setValue("name", data.data.name);
       if (data.data.description) {
         setValue("description", data.data.description);
@@ -57,15 +73,43 @@ export const AdminUpdateCategoryPage = () => {
       if (data.data.parentCategory) {
         setValue("parentCategory", data.data.parentCategory._id);
       }
+      if (data.data.image) {
+        setExistingImage(data.data.image);
+      }
     }
   }, [data]);
 
   if (isLoading) return <LoadingComponent fullScreen />;
   if (!data || !categoryId) return <Box>Category Not Found!</Box>;
 
-  const submitHandler = async (data: updateCategoryType) => {
+  const submitHandler = async (data: updateCategoryFormType) => {
     console.log(data);
-    await updateCategoryMutation({ categoryId, patch: data });
+    const { description, name, parentCategory } = data;
+    const patch: UpdateCategoryType = { description, name, parentCategory };
+    if (image) {
+      try {
+        setIsUploading(true);
+        const imageUrl = await uploadToCloudinary(image.file);
+        setIsUploading(false);
+        patch.image = imageUrl;
+      } catch (error) {
+        if (error instanceof Error) {
+          toast(error.message);
+        } else {
+          toast("Something went wrong");
+          return;
+        }
+        setIsUploading(false);
+        return;
+      }
+    } else if (!existingImage) {
+      patch.image = null;
+    }
+
+    await updateCategoryMutation({
+      categoryId,
+      patch,
+    });
     toast.success("Category updated successfully");
     navigate("/admin/categories");
   };
@@ -81,9 +125,32 @@ export const AdminUpdateCategoryPage = () => {
       >
         <FormLabel>
           <Typography variant="h5" textAlign="center">
-            Create New Category
+            Update Category
           </Typography>
         </FormLabel>
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          {image ? (
+            <ImageCardComponent
+              imageUrl={image.url}
+              onDelete={() => setImage(undefined)}
+            />
+          ) : existingImage ? (
+            // <ImageCardComponent imageUrl={existingImage} />
+            <ChangeableImageCardComponent
+              imageUrl={existingImage}
+              setImage={setImage}
+              onDelete={() => setExistingImage(null)}
+            />
+          ) : (
+            <AddSingleImageFileInputButton setImage={setImage} />
+          )}
+        </Box>
         <TextField
           {...register("name")}
           label="Category Name"
@@ -105,8 +172,16 @@ export const AdminUpdateCategoryPage = () => {
           label="Parent Category"
           multiple={false}
         />
-        <Button variant="contained" type="submit">
-          {isUpdateLoading ? "Updating..." : "Update"}
+        <Button
+          variant="contained"
+          type="submit"
+          disabled={isUploading || isUpdateLoading}
+        >
+          {isUpdateLoading
+            ? "Updating..."
+            : isUploading
+            ? "Uploading Image..."
+            : "Update"}
         </Button>
       </Stack>
       <DevTool control={control} />

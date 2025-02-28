@@ -1,4 +1,4 @@
-import { Box, Button, Link } from "@mui/material";
+import { Link } from "@mui/material";
 import { useLogoutMutation } from "../api/authApi";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router";

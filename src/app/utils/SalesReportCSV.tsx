@@ -1,10 +1,10 @@
-import { Box, Button } from "@mui/material";
+import { Button } from "@mui/material";
 import { SalesReportBody } from "../api/adminDashboardApi";
 import { CSVLink } from "react-csv";
 
 export const SalesReportCSV = ({ body }: { body: SalesReportBody["data"] }) => {
   const {
-    orderCountByTimeframe,
+    // orderCountByTimeframe,
     orders,
     topSellingBrands,
     topSellingCategories,
@@ -35,11 +35,11 @@ export const SalesReportCSV = ({ body }: { body: SalesReportBody["data"] }) => {
       //   items,
       paymentMethod,
       status,
-      userId: { firstName },
+      userId,
       completedAt,
     } = order;
     return [
-      firstName,
+      userId?.firstName ?? "",
       totalPrice,
       originalPrice,
       `-${

@@ -14,6 +14,7 @@ function loadScript(src: string) {
   return new Promise((resolve) => {
     if (document.querySelector(`script[src="${src}"]`)) {
       console.log("script already loaded");
+      resolve(true);
       return;
     }
     const script = document.createElement("script");

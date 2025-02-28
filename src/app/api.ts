@@ -8,8 +8,16 @@ import {
 import { RootState } from "./store";
 import { loggedOut, tokenRefreshed } from "./features/auth/authSlice";
 
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+
+if (!BACKEND_URL) {
+  throw new Error(
+    "`VITE_BACKEND_URL` is not defined. Please set it in your .env"
+  );
+}
+
 const baseQuery = fetchBaseQuery({
-  baseUrl: "http://localhost:3001/api/",
+  baseUrl: BACKEND_URL,
   credentials: "include",
   prepareHeaders: async (headers, { getState }) => {
     headers.set("Accept", "application/json");

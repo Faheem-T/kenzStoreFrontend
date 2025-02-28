@@ -72,6 +72,9 @@ export interface CreateProductType
     | "isHero"
     | "category" // changing from populated to id
     | "isDeleted"
+    | "avgRating"
+    | "ratingsCount"
+    | "effectiveDiscount"
   > {
   category: string;
 }

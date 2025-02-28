@@ -8,7 +8,7 @@ const reviewsApi = api.injectEndpoints({
   endpoints: (builder) => ({
     getReview: builder.query<getReviewResponse, string>({
       query: (id) => `v1/reviews/${id}`,
-      providesTags: (result, error, arg) => [{ type: "Review", id: arg }],
+      providesTags: (_result, _error, arg) => [{ type: "Review", id: arg }],
     }),
     getProductReviews: builder.query<getProductReviewsResponse, string>({
       query: (productId) => `v1/reviews/product/${productId}`,
@@ -17,7 +17,7 @@ const reviewsApi = api.injectEndpoints({
           data: { productReviews: [], ratingsCount: 0, averageRating: 0 },
           success: false,
         },
-        error,
+        _error,
         arg
       ) => [
         ...result.data.productReviews.map(

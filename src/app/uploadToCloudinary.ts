@@ -48,6 +48,11 @@ export const uploadToCloudinary = async (
       });
     } else pngFile = file;
 
+    console.log(pngFile.size);
+    if (pngFile.size > 10000000) {
+      throw new Error("File size exceeds 10MB");
+    }
+
     const formData = new FormData();
     formData.append("file", pngFile);
     formData.append("upload_preset", uploadPreset);
@@ -65,6 +70,9 @@ export const uploadToCloudinary = async (
     return data.secure_url;
   } catch (error) {
     console.error("Error uploading to Cloudinary:", error);
+    if (error instanceof Error) {
+      throw new Error(error.message);
+    }
     throw new Error("Failed to upload image to Cloudinary");
   }
 };

@@ -63,8 +63,9 @@ export const Navbar = ({ transparent }: { transparent?: boolean }) => {
         }}
       >
         <Navlink link="/" label="Home" />
-        <Navlink link="/connectors" label="Connectors" />
-        <Navlink link="/adapters" label="Adapters" />
+        <Navlink link="/categories/connectors" label="Connectors" />
+        <Navlink link="/categories/adapters" label="Adapters" />
+        <Navlink link="/categories/webcam" label="Webcams" />
       </Box>
       <Box sx={{ display: "flex", gap: 2, "& > *": { color: "white" } }}>
         {user ? (

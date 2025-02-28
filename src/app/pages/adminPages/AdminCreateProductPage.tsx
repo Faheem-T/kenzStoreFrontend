@@ -7,10 +7,6 @@ import { AdminCreateProductPreviewSection } from "./adminPageSections/AdminCreat
 export const AdminCreateProductPage = () => {
   const [value, setValue] = useState(0);
 
-  const handleChange = (e: React.SyntheticEvent, newValue: number) => {
-    setValue(newValue);
-  };
-
   const nextTab = () => {
     setValue((current) => current + 1);
   };

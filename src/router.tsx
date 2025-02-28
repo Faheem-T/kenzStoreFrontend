@@ -43,6 +43,7 @@ import { WalletPage } from "./app/pages/WalletPage";
 import { ErrorPage } from "./app/pages/ErrorPage";
 import { PDFViewer } from "@react-pdf/renderer";
 import { InvoiceDocument } from "./app/utils/invoicePDF";
+import { CategoryProductsPage } from "./app/pages/CategoryProductsPage";
 
 export const router = createBrowserRouter([
   {
@@ -186,6 +187,10 @@ export const router = createBrowserRouter([
             // path: "/search?sort=:sort&sortBy=:sortBy",
             path: "/search",
             element: <SearchProductPage />,
+          },
+          {
+            path: "categories/:slug",
+            element: <CategoryProductsPage />,
           },
         ],
       },

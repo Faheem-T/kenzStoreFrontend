@@ -10,14 +10,14 @@ import {
 interface SpecificationSectionProps {
   specifications: ProductSpecificationType[];
   marginRight?: string;
-  displayHeader?: boolean;
+  // displayHeader?: boolean;
 }
 
 export const SpecificationSection = ({
   specifications,
   marginRight = "40rem",
-  displayHeader = true,
-}: SpecificationSectionProps) => {
+}: // displayHeader = true,
+SpecificationSectionProps) => {
   const features: ProductSpecificationType[] = [];
   const physical: ProductSpecificationType[] = [];
   const technical: ProductSpecificationType[] = [];

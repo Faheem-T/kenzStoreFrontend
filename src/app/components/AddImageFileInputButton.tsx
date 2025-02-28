@@ -12,7 +12,7 @@ interface AddImageFileInputButtonProps {
 }
 
 export const allowedFileTypes = ["image/png", "image/jpeg", "image/gif"];
-export const AddImageFileInputButton = ({
+export const AddImageFilesInputButton = ({
   images,
   tooltipTitle = images.length > 0 ? "Upload another image" : "Upload an Image",
   setImages,
@@ -47,6 +47,49 @@ export const AddImageFileInputButton = ({
                 }
               }
               setImages([...newImages]);
+            }
+          }}
+        />
+      </IconButton>
+    </Tooltip>
+  );
+};
+
+interface AddSingleImageFileInputButtonProps {
+  tooltipTitle?: string;
+  setImage: React.Dispatch<
+    SetStateAction<{ url: string; file: FormDataEntryValue } | undefined>
+  >;
+}
+
+export const AddSingleImageFileInputButton = ({
+  tooltipTitle = "Upload an Image",
+  setImage,
+}: AddSingleImageFileInputButtonProps) => {
+  return (
+    <Tooltip title={tooltipTitle}>
+      <IconButton
+        component="label"
+        sx={{
+          width: 250,
+          height: 150,
+          backgroundColor: "background.paper",
+          borderRadius: 0,
+        }}
+      >
+        <Add fontSize="large" />
+        <input
+          type="file"
+          multiple
+          hidden
+          onChange={(e) => {
+            if (e.target?.files?.length) {
+              const file = e.target.files[0];
+              if (allowedFileTypes.includes(file.type)) {
+                setImage({ url: URL.createObjectURL(file), file: file });
+              } else {
+                toast.error("Please choose image files only");
+              }
             }
           }}
         />

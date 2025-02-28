@@ -1,4 +1,4 @@
-import { AddImageFileInputButton } from "@/app/components/AddImageFileInputButton";
+import { AddImageFilesInputButton } from "@/app/components/AddImageFileInputButton";
 import { ImageCardComponent } from "@/app/components/ImageCardComponent";
 import { savedNewProductImages } from "@/app/features/admin/adminCreateProductSlice";
 import { useAppDispatch } from "@/app/hooks";
@@ -43,7 +43,7 @@ export const CreateProductImagesSection = ({
     <>
       <Box sx={{ display: "flex", gap: 2, flexWrap: "wrap" }}>
         {imageComponents}
-        <AddImageFileInputButton images={images} setImages={setImages} />
+        <AddImageFilesInputButton images={images} setImages={setImages} />
       </Box>
       <Box
         sx={{

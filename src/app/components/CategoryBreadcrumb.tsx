@@ -17,6 +17,7 @@ export const CategoryBreadCrumb = ({ categories }: CategoryBreadCrumbProps) => {
   while (true) {
     categoryArray.unshift({
       name: currentCategory.name,
+      slug: currentCategory.slug,
       _id: currentCategory._id,
     });
     if (currentCategory.parentCategory) {
@@ -29,7 +30,7 @@ export const CategoryBreadCrumb = ({ categories }: CategoryBreadCrumbProps) => {
   return (
     <Box sx={{ padding: 4, display: "flex", gap: 1 }}>
       {categoryArray.map((category, i) => (
-        <Link to={`category/${category._id}`} key={category.name}>
+        <Link to={`/categories/${category.slug}`} key={category.name}>
           <Box sx={{ display: "inline-flex", gap: 1 }}>
             <Typography
               sx={{

@@ -3,7 +3,14 @@ import { CreateProductType } from "@/app/types/product";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface initialStateType
-  extends Omit<CreateProductType, "specifications" | "images"> {
+  extends Omit<
+    CreateProductType,
+    | "specifications"
+    | "images"
+    | "effectiveDiscount"
+    | "ratingsCount"
+    | "avgRating"
+  > {
   features: { name: string; value: string }[];
   physical: { name: string; value: string }[];
   technical: { name: string; value: string }[];

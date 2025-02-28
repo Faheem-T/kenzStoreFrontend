@@ -1,8 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { SafeUserType, UserType } from "../../types/user";
+import { SafeUserType } from "../../types/user";
 import { RootState } from "../../store";
 import { SafeAdminType } from "@/app/types/admin";
-import { authApi } from "@/app/api/authApi";
 
 interface initialStateType {
   accessToken: null | string;

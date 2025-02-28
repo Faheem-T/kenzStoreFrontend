@@ -6,7 +6,7 @@ const userManagementApi = api.injectEndpoints({
     // Get all users
     getUsers: builder.query<getUsersResponse, void>({
       query: () => "v1/admin/users",
-      providesTags: (result = { data: [], success: false }, error, arg) => [
+      providesTags: (result = { data: [], success: false }, _error, _arg) => [
         ...result.data.map(({ _id }) => ({ type: "Users", id: _id } as const)),
         "Users",
       ],
@@ -16,7 +16,7 @@ const userManagementApi = api.injectEndpoints({
         url: `v1/admin/users/${userId}/block`,
         method: "PATCH",
       }),
-      invalidatesTags: (result, error, arg) => [{ type: "Users", id: arg }],
+      invalidatesTags: (_result, _error, arg) => [{ type: "Users", id: arg }],
     }),
   }),
 });

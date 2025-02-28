@@ -200,7 +200,7 @@ export const SalesReportPDF = ({ data }: { data: SalesReportBody["data"] }) => {
                 {dayjs(order.completedAt).format("D MMM YY")}
               </Text>
               <Text style={[styles.text, { flex: 1 }]}>
-                {order.userId.firstName}
+                {order.userId?.firstName ?? ""}
               </Text>
               <Text style={[styles.text, { flex: 1 }]}>
                 {order.paymentMethod}

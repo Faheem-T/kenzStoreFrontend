@@ -17,7 +17,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { DevTool } from "@hookform/devtools";
 import { z } from "zod";
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 import toast from "react-hot-toast";
 import { selectUser, userLoggedIn } from "../../features/auth/authSlice";
 import { useAppDispatch, useAppSelector } from "../../hooks";

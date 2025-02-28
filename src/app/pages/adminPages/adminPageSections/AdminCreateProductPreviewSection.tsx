@@ -119,6 +119,9 @@ export const AdminCreateProductPreviewSection = ({
             `${uploadProgressCount} / ${imagePreviews.length}`
           : "Confirm"}
       </Button>
+      <Button onClick={prevTab} disabled={isLoading || isUploadLoading}>
+        Go back
+      </Button>
     </Stack>
   );
 };

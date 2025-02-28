@@ -13,6 +13,39 @@ export const sortByFields = [
 ] as const;
 export type SortByField = (typeof sortByFields)[number];
 
+export interface SortOption {
+  label: string;
+  sortBy: SortByField;
+  sort: "asc" | "desc";
+}
+export const sortOptions: SortOption[] = [
+  {
+    label: "Price: Low to High",
+    sortBy: "finalPrice",
+    sort: "asc",
+  },
+  {
+    label: "Price: High to Low",
+    sortBy: "finalPrice",
+    sort: "desc",
+  },
+  {
+    label: "Newest",
+    sortBy: "createdAt",
+    sort: "desc",
+  },
+  {
+    label: "Oldest",
+    sortBy: "createdAt",
+    sort: "asc",
+  },
+  {
+    label: "Average Rating",
+    sortBy: "avgRating",
+    sort: "desc",
+  },
+];
+
 const productsApi = api.injectEndpoints({
   endpoints: (builder) => ({
     // get a product by its ID

@@ -1,5 +1,3 @@
-import { useGetCategoriesQuery } from "@/app/api/categoriesApi";
-import { useCreateProductMutation } from "@/app/api/productsApi";
 import { CategoryAutocomplete } from "@/app/components/adminComponents/CategoryAutocomplete";
 import { SpecificationsArrayField } from "@/app/components/adminComponents/SpecificationsArrayField";
 import {
@@ -7,8 +5,6 @@ import {
   selectCreateProductDetails,
 } from "@/app/features/admin/adminCreateProductSlice";
 import { useAppDispatch, useAppSelector } from "@/app/hooks";
-import { ProductSpecificationType } from "@/app/types/product";
-import { DevTool } from "@hookform/devtools";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Box,
@@ -17,10 +13,8 @@ import {
   InputAdornment,
   Stack,
   TextField,
-  Typography,
 } from "@mui/material";
 import { useForm } from "react-hook-form";
-import toast from "react-hot-toast";
 import { useNavigate } from "react-router";
 import { z } from "zod";
 
@@ -71,18 +65,6 @@ export const CreateProductDetailsSection = ({
   const defaultValues = {
     ...savedProductDetails,
   };
-
-  let categories: { _id: string; name: string }[] = [];
-
-  const { data: categoriesData, isLoading: categoriesLoading } =
-    useGetCategoriesQuery();
-
-  if (categoriesData) {
-    categories = categoriesData.data.map((category) => ({
-      _id: category._id,
-      name: category.name,
-    }));
-  }
 
   const form = useForm<CreateProductDetailsType>({
     resolver: zodResolver(createProductDetailsSchema),
@@ -225,7 +207,6 @@ export const CreateProductDetailsSection = ({
           </Box>
         </Stack>
       </form>
-      <DevTool control={control} />
     </Box>
   );
 };
