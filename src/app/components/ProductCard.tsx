@@ -15,7 +15,6 @@ import toast from "react-hot-toast";
 interface ProductCardProps {
   product: ProductType;
 }
-
 export const ProductCard = ({ product }: ProductCardProps) => {
   const isProductDiscountActive = product.finalPrice !== product.price;
   const [addToWishlist, { isLoading: addingToWishlist }] =
@@ -58,102 +57,201 @@ export const ProductCard = ({ product }: ProductCardProps) => {
   };
 
   return (
-    <>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        gap: 1,
+        width: "100%",
+        height: "100%",
+        maxWidth: {
+          xs: "100%",
+          sm: "220px",
+          md: "250px",
+          lg: "280px",
+        },
+        minHeight: { xs: 280, sm: 320, md: 350 },
+        position: "relative",
+        transition: "transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out",
+        borderRadius: 1,
+        overflow: "hidden",
+        "&:hover": {
+          transform: "translateY(-4px)",
+          boxShadow: 2,
+        },
+        mx: "auto", // This centers the card if it's smaller than its container
+      }}
+    >
+      {/* Wishlist Button */}
+      {wishlistData && (
+        <Box
+          sx={{
+            position: "absolute",
+            top: 8,
+            right: 8,
+            zIndex: 2,
+            backgroundColor: "rgba(255, 255, 255, 0.7)",
+            borderRadius: "50%",
+          }}
+        >
+          {inWishlist ? (
+            <Tooltip title="Remove from wishlist">
+              <IconButton
+                onClick={handleRemoveFromWishlist}
+                disabled={removingFromWishlist}
+                size="small"
+                sx={{
+                  fontSize: { xs: "0.85rem", sm: "1rem" },
+                }}
+              >
+                <Heart fill="#1f0808" />
+              </IconButton>
+            </Tooltip>
+          ) : (
+            <Tooltip title="Add to wishlist">
+              <IconButton
+                onClick={handleAddToWishlist}
+                disabled={addingToWishlist}
+                size="small"
+                sx={{
+                  fontSize: { xs: "0.85rem", sm: "1rem" },
+                }}
+              >
+                <Heart />
+              </IconButton>
+            </Tooltip>
+          )}
+        </Box>
+      )}
+
+      {/* Product Image */}
+      <Box
+        sx={{
+          position: "relative",
+          pt: "100%", // 1:1 aspect ratio
+          overflow: "hidden",
+          bgcolor: "background.paper",
+          borderRadius: 1,
+        }}
+      >
+        <Link
+          to={`/products/${product._id}`}
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <img
+            src={product.images[0]}
+            alt={product.name}
+            style={{
+              width: "100%",
+              objectFit: "cover",
+              transition: "transform 0.3s ease",
+            }}
+            onMouseOver={(e) => {
+              e.currentTarget.style.transform = "scale(1.05)";
+            }}
+            onMouseOut={(e) => {
+              e.currentTarget.style.transform = "scale(1)";
+            }}
+          />
+        </Link>
+      </Box>
+
+      {/* Product Details */}
       <Box
         sx={{
           display: "flex",
           flexDirection: "column",
-          gap: 1,
           flex: 1,
-          maxWidth: 250,
-          minHeight: 350,
-          // bgcolor: "background.paper",
-          // padding: 4,
-          position: "relative",
-          // borderRadius: 1,
-          // boxShadow: 8,
+          p: { xs: 1, sm: 1.5 },
         }}
       >
-        {wishlistData && (
-          <Box sx={{ position: "absolute", top: 2, right: 2 }}>
-            {inWishlist ? (
-              <Tooltip title="Remove from wishlist">
-                <IconButton
-                  onClick={handleRemoveFromWishlist}
-                  disabled={removingFromWishlist}
-                >
-                  <Heart fill="#1f0808" />
-                </IconButton>
-              </Tooltip>
-            ) : (
-              <Tooltip title="Add to wishlist">
-                <IconButton
-                  onClick={handleAddToWishlist}
-                  disabled={addingToWishlist}
-                >
-                  <Heart />
-                </IconButton>
-              </Tooltip>
-            )}
-          </Box>
-        )}
-        <Box
-          sx={{
-            height: 0.7,
-            overflow: "hidden",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            bgcolor: "background.paper",
-          }}
-        >
-          <Link to={`/products/${product._id}`}>
-            <img src={product.images[0]} width="100%" />
-          </Link>
-        </Box>
-        <Box sx={{ display: "flex", flexDirection: "column", flex: 1 }}>
+        {/* Price Section */}
+        <Box sx={{ display: "flex", alignItems: "baseline", gap: 1, mb: 0.5 }}>
           <Typography
             variant="body1"
             fontWeight="bold"
             color={isProductDiscountActive ? "accent.main" : ""}
+            sx={{ fontSize: { xs: "0.95rem", sm: "1rem", md: "1.1rem" } }}
           >
             ₹ {Math.floor(product.finalPrice * 100) / 100}/-
           </Typography>
+
           {isProductDiscountActive && (
             <Typography
-              sx={{ textDecoration: "line-through" }}
+              sx={{
+                textDecoration: "line-through",
+                fontSize: { xs: "0.7rem", sm: "0.75rem" },
+              }}
               variant="caption"
               color="textDisabled"
             >
               ₹ {Math.floor(product.price * 100) / 100}/-
             </Typography>
           )}
-          <Rating
-            size="small"
-            value={product.avgRating}
-            precision={0.5}
-            readOnly
-          />
-          <Link to={`/products/${product._id}`}>
-            <Typography variant="body1">{product.name}</Typography>
-          </Link>
-          <Box
+        </Box>
+
+        {/* Rating */}
+        <Rating
+          size="small"
+          value={product.avgRating}
+          precision={0.5}
+          readOnly
+          sx={{ fontSize: { xs: "0.85rem", sm: "1rem" } }}
+        />
+
+        {/* Product Name */}
+        <Link
+          to={`/products/${product._id}`}
+          style={{ textDecoration: "none" }}
+        >
+          <Typography
+            variant="body1"
             sx={{
-              mt: "auto",
-              py: 1,
-              display: "flex",
-              gap: 0.5,
-              flexWrap: "wrap",
+              mt: 0.5,
+              fontSize: { xs: "0.9rem", sm: "0.95rem", md: "1rem" },
+              fontWeight: 500,
+              display: "-webkit-box",
+              WebkitLineClamp: 2,
+              WebkitBoxOrient: "vertical",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              height: { xs: "2.5rem", sm: "3rem" },
+              color: "text.primary",
+              "&:hover": {
+                color: "primary.main",
+              },
             }}
           >
-            <CategoryChipGroup
-              categories={[product.category]}
-              maxChips={2}
-              chipSize="small"
-            />
-          </Box>
+            {product.name}
+          </Typography>
+        </Link>
+
+        {/* Category Chips */}
+        <Box
+          sx={{
+            mt: "auto",
+            pt: 1,
+            display: "flex",
+            gap: 0.5,
+            flexWrap: "wrap",
+          }}
+        >
+          <CategoryChipGroup
+            categories={[product.category]}
+            maxChips={2}
+            chipSize="small"
+          />
         </Box>
       </Box>
-    </>
+    </Box>
   );
 };

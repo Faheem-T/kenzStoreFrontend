@@ -1,6 +1,6 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, Grid2 as Grid } from "@mui/material";
 import { ProductSpecificationType } from "../../types/product";
-import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
+import { TableCell, TableRow } from "@/components/ui/table";
 import {
   Accordion,
   AccordionItem,
@@ -15,9 +15,7 @@ interface SpecificationSectionProps {
 
 export const SpecificationSection = ({
   specifications,
-  marginRight = "40rem",
-}: // displayHeader = true,
-SpecificationSectionProps) => {
+}: SpecificationSectionProps) => {
   const features: ProductSpecificationType[] = [];
   const physical: ProductSpecificationType[] = [];
   const technical: ProductSpecificationType[] = [];
@@ -40,43 +38,34 @@ SpecificationSectionProps) => {
   });
 
   return (
-    <>
-      <Box>
-        <Typography variant="h6" sx={{ textTransform: "uppercase" }}>
-          Product Specifications
-        </Typography>
-        <Accordion
-          type="single"
-          style={{ marginRight, marginLeft: "1rem" }}
-          collapsible
-        >
-          {features.length ? (
-            <SpecificationAccordionItem
-              specifications={features}
-              itemName="Features"
-            />
-          ) : null}
-          {physical.length ? (
-            <SpecificationAccordionItem
-              specifications={physical}
-              itemName="Physical Specifications"
-            />
-          ) : null}
-          {technical.length ? (
-            <SpecificationAccordionItem
-              specifications={technical}
-              itemName="Technical Specifications"
-            />
-          ) : null}
-          {other.length ? (
-            <SpecificationAccordionItem
-              specifications={other}
-              itemName="Other"
-            />
-          ) : null}
-        </Accordion>
-      </Box>
-    </>
+    <Box sx={{ px: { xs: 2, sm: 4, md: 6, lg: 12 } }}>
+      <Typography variant="h6" sx={{ textTransform: "uppercase", mb: 2 }}>
+        Product Specifications
+      </Typography>
+      <Accordion type="single" collapsible>
+        {features.length > 0 && (
+          <SpecificationAccordionItem
+            specifications={features}
+            itemName="Features"
+          />
+        )}
+        {physical.length > 0 && (
+          <SpecificationAccordionItem
+            specifications={physical}
+            itemName="Physical Specifications"
+          />
+        )}
+        {technical.length > 0 && (
+          <SpecificationAccordionItem
+            specifications={technical}
+            itemName="Technical Specifications"
+          />
+        )}
+        {other.length > 0 && (
+          <SpecificationAccordionItem specifications={other} itemName="Other" />
+        )}
+      </Accordion>
+    </Box>
   );
 };
 
@@ -97,13 +86,13 @@ const SpecificationAccordionItem = ({
         </Typography>
       </AccordionTrigger>
       <AccordionContent>
-        <Table>
-          <TableBody>
-            {...specifications.map((feature) => (
-              <SpecificationRow specification={feature} key={feature.name} />
-            ))}
-          </TableBody>
-        </Table>
+        <Grid container spacing={2}>
+          {specifications.map((feature) => (
+            <Grid size={{ xs: 12, sm: 6 }} key={feature.name}>
+              <SpecificationRow specification={feature} />
+            </Grid>
+          ))}
+        </Grid>
       </AccordionContent>
     </AccordionItem>
   );
@@ -116,7 +105,7 @@ interface SpecificationRowProps {
 const SpecificationRow = ({ specification }: SpecificationRowProps) => {
   return (
     <TableRow>
-      <TableCell>{specification.name}</TableCell>
+      <TableCell className="font-bold">{specification.name}</TableCell>
       <TableCell>{specification.value}</TableCell>
     </TableRow>
   );

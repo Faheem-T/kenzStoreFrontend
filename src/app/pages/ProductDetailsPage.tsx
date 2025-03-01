@@ -1,4 +1,11 @@
-import { Box, Divider, Rating, Stack, Typography } from "@mui/material";
+import {
+  Box,
+  Divider,
+  Rating,
+  Stack,
+  Typography,
+  Grid2 as Grid,
+} from "@mui/material";
 import { useParams } from "react-router";
 import { AddToCartButton } from "../components/AddToCartButton";
 import { useGetProductQuery } from "../api/productsApi";
@@ -51,19 +58,25 @@ export const ProductDetailsPage = () => {
   return (
     <>
       <Navbar />
-      <Stack sx={{ px: 18 }} spacing={4} divider={<Divider />}>
+      <Stack
+        sx={{
+          px: { xs: 2, sm: 4, md: 8, lg: 18 }, // Responsive padding
+          spacing: 4,
+        }}
+        divider={<Divider />}
+      >
         <Box>
           {/* Category Breadcrumb */}
           <CategoryBreadCrumb categories={[product.category]} />
           {/* Main Section */}
-          <Box sx={{ display: "flex", gap: 4 }}>
-            <Box sx={{ width: 1 / 2 }}>
+          <Grid container spacing={4} sx={{ alignItems: "center" }}>
+            <Grid size={{ xs: 12, md: 6 }}>
               <ImageViewComponent images={product.images} />
-            </Box>
-            <Box
+            </Grid>
+            <Grid
+              size={{ xs: 12, md: 6 }}
               sx={{
-                width: 1 / 2,
-                padding: 4,
+                p: { xs: 2, md: 4 }, // Smaller padding for mobile
                 display: "flex",
                 flexDirection: "column",
                 gap: 2,
@@ -89,8 +102,8 @@ export const ProductDetailsPage = () => {
                   This product is currently out of stock
                 </Typography>
               )}
-            </Box>
-          </Box>
+            </Grid>
+          </Grid>
         </Box>
         {/* Product Specifications Section */}
         <SpecificationSection specifications={product.specifications} />
