@@ -79,7 +79,6 @@ export const UserSidebar = () => {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            "&:hover": { backgroundColor: "background.default" },
           }}
         >
           <Link
@@ -91,10 +90,9 @@ export const UserSidebar = () => {
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              "&:hover": { fontSize: "20%" },
             }}
           >
-            <SiteLogo />
+            <SiteLogo sx={{ color: "white" }} />
           </Link>
         </Box>
       </SidebarHeader>

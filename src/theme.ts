@@ -117,7 +117,6 @@ export const themeOptions: ThemeOptions = {
       paper: "#f3f1f1",
     },
     text: { primary: "#000000" },
-    
   },
 };
 

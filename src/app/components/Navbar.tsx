@@ -13,7 +13,8 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import { SiteLogo } from "./SiteLogo";
 import { useNavigate } from "react-router";
-import { SxProps } from "@mui/material";
+import { Modal, SxProps, TextField } from "@mui/material";
+import { Search } from "@mui/icons-material";
 
 // const pages = ["Products", "Pricing", "Blog"];
 const pages = [
@@ -51,6 +52,7 @@ const settings = [
 
 export const Navbar = ({ sx }: { sx?: SxProps }) => {
   const navigate = useNavigate();
+  const [isSearchModalOpen, setSearchModalOpen] = React.useState(false);
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
   );
@@ -162,7 +164,17 @@ export const Navbar = ({ sx }: { sx?: SxProps }) => {
               </Button>
             ))}
           </Box>
+
           <Box sx={{ flexGrow: 0 }}>
+            <Tooltip title="Search">
+              <IconButton onClick={() => setSearchModalOpen(true)}>
+                <Search sx={{ color: "background.default" }} />
+              </IconButton>
+            </Tooltip>
+            <SearchModal
+              isOpen={isSearchModalOpen}
+              onClose={() => setSearchModalOpen(false)}
+            />
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar />
@@ -199,5 +211,79 @@ export const Navbar = ({ sx }: { sx?: SxProps }) => {
         </Toolbar>
       </Container>
     </AppBar>
+  );
+};
+const SearchModal = ({
+  isOpen,
+
+  onClose,
+}: {
+  isOpen: boolean;
+
+  onClose: () => void;
+}) => {
+  const navigate = useNavigate();
+
+  const handleSearchSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const query = (e.target as any).query.value;
+
+    navigate(`/search/?q=${query}`);
+
+    onClose();
+  };
+
+  return (
+    <Modal
+      open={isOpen}
+      onClose={onClose}
+      sx={{
+        display: "flex",
+
+        alignItems: "center",
+
+        justifyContent: "center",
+      }}
+    >
+      <Box
+        component="form"
+        onSubmit={handleSearchSubmit}
+        sx={{
+          width: 350,
+          display: "flex",
+          gap: 1,
+          alignItems: "center",
+          position: "relative",
+          color: "white",
+        }}
+      >
+        <TextField
+          name="query"
+          // label="Search for a product"
+          placeholder="Search for a product"
+          variant="standard"
+          fullWidth
+          sx={{ fontSize: 20, input: { color: "white" } }}
+          autoFocus
+        />
+
+        <IconButton type="submit">
+          <Search sx={{ color: "white" }} />
+        </IconButton>
+
+        <Box
+          sx={{
+            backgroundColor: "text.disabled",
+            position: "absolute",
+            right: "50%",
+            top: "50%",
+            zIndex: -1,
+            borderRadius: "100%",
+            boxShadow: "0 0 240px 150px #000000",
+          }}
+        />
+      </Box>
+    </Modal>
   );
 };
