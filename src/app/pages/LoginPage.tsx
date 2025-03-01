@@ -98,7 +98,7 @@ export const LoginPage = () => {
         <Tooltip title="Go back">
           <IconButton
             sx={{ position: "absolute", left: 20, top: 20 }}
-            onClick={() => navigate(-1)}
+            onClick={() => navigate("/")}
           >
             <ArrowBack fontSize="large" />
           </IconButton>

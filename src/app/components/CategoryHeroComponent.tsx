@@ -1,4 +1,4 @@
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Button, Typography, Grid2 as Grid } from "@mui/material";
 import { useNavigate } from "react-router";
 
 export const CategoryHeroComponent = ({
@@ -24,12 +24,15 @@ export const CategoryHeroComponent = ({
       categorySlug.at(-1) === "s" ? categorySlug : categorySlug + "s";
   }
   const navigate = useNavigate();
+  const gridSize = { xs: 11, sm: 12, md: 6 };
   return (
-    <Box
+    <Grid
+      container
+      spacing={12}
       sx={{
         p: 8,
-        display: "flex",
-        gap: 12,
+        // display: "flex",
+        // gap: 12,
         justifyContent: "space-between",
         alignItems: "center",
         height: "600px",
@@ -37,13 +40,13 @@ export const CategoryHeroComponent = ({
         color: dark ? "white" : "",
       }}
     >
-      <Box
+      <Grid
+        size={gridSize}
         sx={{
           order: imageSide === "left" ? 1 : 0,
           display: "flex",
           flexDirection: "column",
           gap: 2,
-          flex: 1,
         }}
       >
         <Typography variant="h4">{heroText}</Typography>
@@ -60,19 +63,15 @@ export const CategoryHeroComponent = ({
         >
           Browse {categoryName}
         </Button>
-      </Box>
-      <Box
+      </Grid>
+      <Grid
+        size={gridSize}
         sx={{
-          height: "100%",
-          width: "400px",
+          height: { xs: "50%", md: "100%" },
           overflow: "hidden",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          flex: 1,
-          //   border: 1,
-          //   position: "relative",
-          //   borderRadius: "50%",
         }}
       >
         <Box
@@ -88,7 +87,7 @@ export const CategoryHeroComponent = ({
             // overflow: "hidden",
           }}
         />
-      </Box>
-    </Box>
+      </Grid>
+    </Grid>
   );
 };
