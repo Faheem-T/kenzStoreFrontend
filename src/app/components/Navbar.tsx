@@ -12,7 +12,7 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import { SiteLogo } from "./SiteLogo";
-import { useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { Modal, SxProps, TextField } from "@mui/material";
 import { Search } from "@mui/icons-material";
 import { selectUser } from "../features/auth/authSlice";
@@ -92,8 +92,8 @@ export const Navbar = ({ sx }: { sx?: SxProps }) => {
           <Typography
             variant="h6"
             noWrap
-            component="a"
-            href="#app-bar-with-responsive-menu"
+            component={Link}
+            to="/"
             sx={{
               mr: 2,
               display: { xs: "none", md: "flex" },
@@ -146,8 +146,8 @@ export const Navbar = ({ sx }: { sx?: SxProps }) => {
           <Typography
             variant="h5"
             noWrap
-            component="a"
-            href="#app-bar-with-responsive-menu"
+            component={Link}
+            to="/"
             sx={{
               mr: 2,
               display: { xs: "flex", md: "none" },
