@@ -76,7 +76,6 @@ export const SearchProductPage = () => {
 
   const products = data.data;
   const totalPages = data.totalPages;
-  const currentPage = data.currentPage;
   return (
     <>
       <Navbar />
