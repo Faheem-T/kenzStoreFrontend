@@ -5,10 +5,16 @@ import { WalletType } from "../types/wallet";
 const walletApi = api.injectEndpoints({
   endpoints: (builder) => ({
     getWallet: builder.query<
-      BaseResponse<Pick<WalletType, "balance" | "history">>,
-      void
+      BaseResponse<Pick<WalletType, "balance" | "history">> & {
+        currentPage: number;
+        totalPages: number;
+      },
+      { page?: number; limit?: number }
     >({
-      query: () => "v1/wallets",
+      query: ({ page, limit }) =>
+        "v1/wallets?" +
+        (page ? `page=${page}` : "") +
+        (limit ? `&limit=${limit}` : ""),
       providesTags: ["Wallet"],
     }),
   }),

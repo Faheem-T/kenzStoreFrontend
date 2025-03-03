@@ -12,13 +12,17 @@ import {
 import { useGetWalletQuery } from "../api/walletApi";
 import { LoadingComponent } from "../components/LoadingComponent";
 import dayjs from "dayjs";
+import { useState } from "react";
+import { Paginator } from "../components/Pagination";
 
 export const WalletPage = () => {
-  const { data, isLoading } = useGetWalletQuery();
+  const [page, setPage] = useState(1);
+  const { data, isLoading, isFetching } = useGetWalletQuery({ page });
   dayjs.extend(relativeTime);
   if (isLoading) return <LoadingComponent fullScreen />;
   if (!data) return <Box>Couldn't fetch wallet</Box>;
   const { balance } = data.data;
+  const totalPages = data.totalPages;
   let history = data.data.history
     .slice()
     .sort((a, b) => dayjs(b.timestamp).diff(dayjs(a.timestamp)));
@@ -78,6 +82,12 @@ export const WalletPage = () => {
         </Typography>
       </Box>
       <WalletHistorySection />
+      <Paginator
+        currentPage={page}
+        setPage={setPage}
+        totalPages={totalPages}
+        disabled={isFetching || isLoading}
+      />
     </Box>
   );
 };
