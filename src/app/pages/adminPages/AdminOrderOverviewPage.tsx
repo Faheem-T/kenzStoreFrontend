@@ -1,3 +1,4 @@
+import relativeTime from "dayjs/plugin/relativeTime";
 import {
   useAdminApproveOrderReturnMutation,
   useAdminChangeOrderStatusMutation,
@@ -5,6 +6,7 @@ import {
   useAdminRejectOrderReturnMutation,
 } from "@/app/api/orderApi";
 import { LoadingComponent } from "@/app/components/LoadingComponent";
+import { Paginator } from "@/app/components/Pagination";
 import { GetUserOrder, OrderStatus, orderStatuses } from "@/app/types/order";
 import {
   Table,
@@ -22,15 +24,22 @@ import {
   MenuItem,
   Select,
   SelectChangeEvent,
+  Stack,
+  Tooltip,
   Typography,
 } from "@mui/material";
+import dayjs from "dayjs";
+import { useState } from "react";
 import toast from "react-hot-toast";
 
+dayjs.extend(relativeTime);
 export const AdminOrderOverviewPage = () => {
-  const { data, isLoading } = useAdminGetAllOrdersQuery();
+  const [page, setPage] = useState(1);
+  const { data, isLoading, isFetching } = useAdminGetAllOrdersQuery({ page });
   if (isLoading) return <LoadingComponent fullScreen />;
   if (!data) return <Box>Orders not found</Box>;
   const orders = data.data;
+  const totalPages = data.totalPages;
   return (
     <>
       <Box sx={{ width: "100%", px: 12 }}>
@@ -43,11 +52,12 @@ export const AdminOrderOverviewPage = () => {
             Orders Overview
           </Typography>
         </Box>
-        <Table>
+        <Box component={Table} sx={{ opacity: isFetching ? "60%" : "100%" }}>
           <TableCaption>Overview of all past orders</TableCaption>
           <TableHeader>
             <TableRow>
-              <TableHead>Ordered At</TableHead>
+              <TableHead>Updated</TableHead>
+              <TableHead>Ordered</TableHead>
               <TableHead>Order Amount (₹)</TableHead>
               <TableHead>Status</TableHead>
             </TableRow>
@@ -57,7 +67,15 @@ export const AdminOrderOverviewPage = () => {
               <OrderRow order={order} key={order._id} />
             ))}
           </TableBody>
-        </Table>
+        </Box>
+        <Stack sx={{ my: 2 }}>
+          <Paginator
+            currentPage={page}
+            setPage={setPage}
+            disabled={isFetching || isLoading}
+            totalPages={totalPages}
+          />
+        </Stack>
       </Box>
     </>
   );
@@ -83,9 +101,20 @@ const OrderRow = ({ order }: { order: GetUserOrder }) => {
     }
   };
 
+  const createdAt = new Date(order.createdAt).toDateString();
+  const updatedAt = new Date(order.updatedAt).toDateString();
+
+  const createdAtFromNow = dayjs(createdAt).fromNow();
+  const updatedAtFromNow = dayjs(updatedAt).fromNow();
+
   return (
     <TableRow className={cn(isLoading ? "opacity-80 bg-white" : "")}>
-      <TableCell>{new Date(order.createdAt).toDateString()}</TableCell>
+      <Tooltip title={updatedAt}>
+        <TableCell>{updatedAtFromNow}</TableCell>
+      </Tooltip>
+      <Tooltip title={createdAt}>
+        <TableCell>{createdAtFromNow}</TableCell>
+      </Tooltip>
       <TableCell>{order.totalPrice}</TableCell>
       <TableCell>
         {order.status === "requesting return" ? (

@@ -137,14 +137,22 @@ export const orderApi = api.injectEndpoints({
       ],
     }),
     // Admin routes
-    adminGetAllOrders: build.query<getUserOrdersResponse, void>({
-      query: () => "v1/orders/admin",
+    adminGetAllOrders: build.query<
+      getUserOrdersResponse,
+      { page?: number; sort?: "asc" | "desc"; sortBy?: string; limit?: number }
+    >({
+      query: ({ limit, page, sort, sortBy }) =>
+        `v1/orders/admin?` +
+        (sort ? `sort=${sort}` : "") +
+        (sortBy ? `&sortBy=${sortBy}` : "") +
+        (page ? `&page=${page}` : "") +
+        (limit ? `&limit=${limit}` : ""),
+
       providesTags: (
-        result = { data: [], success: false, currentPage: 1, totalPages: 1 },
-        _error
+        result = { data: [], success: false, currentPage: 1, totalPages: 1 }
       ) => [
         ...result.data.map(({ _id }) => ({ type: "Order", id: _id } as const)),
-        "Order",
+        { type: "Order" },
       ],
     }),
     adminChangeOrderStatus: build.mutation<
