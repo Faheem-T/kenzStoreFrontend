@@ -56,7 +56,9 @@ const productsApi = api.injectEndpoints({
     // Get products for the hero section
     getHeroProducts: builder.query<getMultipleProductsResponse, void>({
       query: () => "v1/products/hero",
-      providesTags: (result = { data: [], success: false }) => [
+      providesTags: (
+        result = { data: [], success: false, currentPage: 1, totalPages: 1 }
+      ) => [
         ...result.data.map(
           ({ _id }) => ({ type: "Product", id: _id } as const)
         ),
@@ -65,7 +67,11 @@ const productsApi = api.injectEndpoints({
     // fetch products related to a product
     getRelatedProducts: builder.query<getMultipleProductsResponse, string>({
       query: (productId) => `v1/products/${productId}/related`,
-      providesTags: (result = { data: [], success: false }, _error, arg) => [
+      providesTags: (
+        result = { data: [], success: false, currentPage: 1, totalPages: 1 },
+        _error,
+        arg
+      ) => [
         ...result.data.map(
           ({ _id }) => ({ type: "Product", id: _id } as const)
         ),
