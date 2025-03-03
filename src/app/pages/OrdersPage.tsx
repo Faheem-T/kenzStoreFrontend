@@ -3,9 +3,12 @@ import { useGetUserOrdersQuery } from "../api/orderApi";
 import { LoadingComponent } from "../components/LoadingComponent";
 import { OrderCard } from "../components/OrderCard";
 import { Package } from "lucide-react";
+import { useState } from "react";
+import { Paginator } from "../components/Pagination";
 
 export const OrdersPage = () => {
-  const { data, isLoading } = useGetUserOrdersQuery();
+  const [page, setPage] = useState(1);
+  const { data, isLoading, isFetching } = useGetUserOrdersQuery({ page });
   if (isLoading) return <LoadingComponent fullScreen />;
   if (!data)
     return (
@@ -25,6 +28,7 @@ export const OrdersPage = () => {
     );
 
   const orders = data.data;
+  const totalPages = data.totalPages;
 
   return (
     <>
@@ -33,9 +37,32 @@ export const OrdersPage = () => {
           <Package size={40} />
           <Typography variant="h5">Your Orders</Typography>
         </Box>
-        {orders.map((order) => (
-          <OrderCard order={order} key={order._id} />
-        ))}
+        <Paginator
+          sx={{ alignSelf: "center" }}
+          currentPage={page}
+          setPage={setPage}
+          totalPages={totalPages}
+          disabled={isFetching || isLoading}
+        />
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            gap: 2,
+            opacity: isFetching ? "60%" : "100%",
+          }}
+        >
+          {orders.map((order) => (
+            <OrderCard order={order} key={order._id} />
+          ))}
+        </Box>
+        <Paginator
+          sx={{ alignSelf: "center" }}
+          currentPage={page}
+          setPage={setPage}
+          totalPages={totalPages}
+          disabled={isFetching || isLoading}
+        />
       </Box>
     </>
   );

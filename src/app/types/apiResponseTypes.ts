@@ -46,7 +46,10 @@ export interface meResponse {
 
 export type getProductResponse = BaseResponse<ProductType>;
 
-export type getMultipleProductsResponse = BaseResponse<ProductType[]>;
+export type getMultipleProductsResponse = BaseResponse<ProductType[]> & {
+  currentPage: number;
+  totalPages: number;
+};
 
 export type getReviewResponse = BaseResponse<ReviewType>;
 

@@ -65,11 +65,12 @@ export const AddAddressButton = ({
     <Box
       sx={{
         p: 4,
-        minWidth: 300,
+        width: { xs: 300, sm: 350 },
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        boxShadow: 12,
+        borderRadius: 2,
+        boxShadow: 2,
       }}
       bgcolor="background.paper"
     >
@@ -131,9 +132,11 @@ export const AddAddressButton = ({
           </Box>
         </Box>
       ) : (
-        <IconButton onClick={onAddClick} sx={{}}>
-          {isLoading ? <LoadingComponent /> : <Add />}
-        </IconButton>
+        <Tooltip title="Add New Address">
+          <IconButton onClick={onAddClick} sx={{}}>
+            {isLoading ? <LoadingComponent /> : <Add />}
+          </IconButton>
+        </Tooltip>
       )}
     </Box>
   );

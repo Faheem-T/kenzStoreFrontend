@@ -11,17 +11,31 @@ import { LoadingComponent } from "./LoadingComponent";
 import { useMemo } from "react";
 import { Heart } from "lucide-react";
 import toast from "react-hot-toast";
+import { useAppSelector } from "../hooks";
+import { selectUser } from "../features/auth/authSlice";
+import { BaseResponse } from "../types/apiResponseTypes";
 
 interface ProductCardProps {
   product: ProductType;
 }
 export const ProductCard = ({ product }: ProductCardProps) => {
+  const user = useAppSelector(selectUser);
   const isProductDiscountActive = product.finalPrice !== product.price;
+
   const [addToWishlist, { isLoading: addingToWishlist }] =
     useAddToWishlistMutation();
   const [removeFromWishlist, { isLoading: removingFromWishlist }] =
     useRemoveFromWishlistMutation();
-  const { data: wishlistData, isLoading } = useGetWishlistQuery();
+
+  let wishlistData: BaseResponse<ProductType[]> | undefined;
+  let isLoading = true;
+  if (user) {
+    const { data, isLoading: wishlistLoading } = useGetWishlistQuery();
+    wishlistData = useMemo(() => data, [data]);
+    isLoading = useMemo(() => wishlistLoading, [wishlistLoading]);
+  } else {
+    isLoading = false;
+  }
   const wishlistProducts = useMemo(
     () => (wishlistData ? wishlistData.data : []),
     [wishlistData]

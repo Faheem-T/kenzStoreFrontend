@@ -9,6 +9,7 @@ import {
   Radio,
   RadioGroup,
   Select,
+  Stack,
   TextField,
   Typography,
 } from "@mui/material";
@@ -21,12 +22,13 @@ import {
 } from "../api/productsApi";
 import { LoadingComponent } from "../components/LoadingComponent";
 import { ProductCard } from "../components/ProductCard";
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Search } from "@mui/icons-material";
 import { useGetCategoriesQuery } from "../api/categoriesApi";
 import { Footer } from "../components/Footer";
+import { Paginator } from "../components/Pagination";
 
 const searchFormSchema = z.object({
   query: z.string().optional(),
@@ -35,6 +37,7 @@ const searchFormSchema = z.object({
 type SearchFormType = z.infer<typeof searchFormSchema>;
 
 export const SearchProductPage = () => {
+  const [page, setPage] = useState(1);
   const [getProducts, { data, isFetching, isLoading }] =
     useLazyGetProductsQuery();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -47,7 +50,7 @@ export const SearchProductPage = () => {
     const sort: "asc" | "desc" = searchParams.get("sort") as "asc" | "desc";
     const query = searchParams.get("q") || "";
     const category = searchParams.get("category") ?? "";
-    getProducts({ sortBy, sort, query, category });
+    getProducts({ sortBy, sort, query, category, page });
   }, [searchParams]);
 
   // Search submit handler
@@ -72,6 +75,8 @@ export const SearchProductPage = () => {
   if (!data) return <Box>Couldn't fetch products</Box>;
 
   const products = data.data;
+  const totalPages = data.totalPages;
+  const currentPage = data.currentPage;
   return (
     <>
       <Navbar />
@@ -234,6 +239,14 @@ export const SearchProductPage = () => {
           </Box>
         </Box>
       </Box>
+      <Stack sx={{ my: 2 }}>
+        <Paginator
+          currentPage={page}
+          setPage={setPage}
+          totalPages={totalPages}
+          disabled={isFetching || isLoading}
+        />
+      </Stack>
       <Footer />
     </>
   );

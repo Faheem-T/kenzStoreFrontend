@@ -33,6 +33,8 @@ export interface getUserOrdersResponse {
   success: boolean;
   data: GetUserOrder[];
   message?: string;
+  currentPage: number;
+  totalPages: number;
 }
 export const orderApi = api.injectEndpoints({
   endpoints: (build) => ({
@@ -88,9 +90,20 @@ export const orderApi = api.injectEndpoints({
       }),
       invalidatesTags: ["Order"],
     }),
-    getUserOrders: build.query<getUserOrdersResponse, void>({
-      query: () => "v1/orders",
-      providesTags: (result = { data: [], success: false }) => [
+    getUserOrders: build.query<
+      getUserOrdersResponse,
+      { page?: number; sort?: "asc" | "desc"; sortBy?: string; limit?: number }
+    >({
+      query: ({ limit, page, sort, sortBy }) =>
+        `v1/orders?` +
+        (sort ? `sort=${sort}` : "") +
+        (sortBy ? `&sortBy=${sortBy}` : "") +
+        (page ? `&page=${page}` : "") +
+        (limit ? `&limit=${limit}` : ""),
+
+      providesTags: (
+        result = { data: [], success: false, currentPage: 1, totalPages: 1 }
+      ) => [
         ...result.data.map(({ _id }) => ({ type: "Order", id: _id } as const)),
         { type: "Order" },
       ],
@@ -126,7 +139,10 @@ export const orderApi = api.injectEndpoints({
     // Admin routes
     adminGetAllOrders: build.query<getUserOrdersResponse, void>({
       query: () => "v1/orders/admin",
-      providesTags: (result = { data: [], success: false }, _error) => [
+      providesTags: (
+        result = { data: [], success: false, currentPage: 1, totalPages: 1 },
+        _error
+      ) => [
         ...result.data.map(({ _id }) => ({ type: "Order", id: _id } as const)),
         "Order",
       ],

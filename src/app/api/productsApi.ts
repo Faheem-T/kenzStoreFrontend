@@ -90,7 +90,9 @@ const productsApi = api.injectEndpoints({
         (sortBy ? `&sortBy=${sortBy}` : "") +
         (page ? `&page=${page}` : "") +
         (category ? `&category=${category}` : ""),
-      providesTags: (result = { data: [], success: false }) => [
+      providesTags: (
+        result = { data: [], success: false, currentPage: 1, totalPages: 1 }
+      ) => [
         ...result.data.map(
           ({ _id }) => ({ type: "Product", id: _id } as const)
         ),

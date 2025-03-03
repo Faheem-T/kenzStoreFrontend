@@ -15,6 +15,8 @@ import { SiteLogo } from "./SiteLogo";
 import { useNavigate } from "react-router";
 import { Modal, SxProps, TextField } from "@mui/material";
 import { Search } from "@mui/icons-material";
+import { selectUser } from "../features/auth/authSlice";
+import { useAppSelector } from "../hooks";
 
 // const pages = ["Products", "Pricing", "Blog"];
 const pages = [
@@ -31,24 +33,6 @@ const pages = [
     url: "/categories/webcam",
   },
 ];
-const settings = [
-  {
-    title: "Profile",
-    url: "/user/profile",
-  },
-  {
-    title: "Cart",
-    url: "/user/cart",
-  },
-  {
-    title: "Wallet",
-    url: "/user/wallet",
-  },
-  {
-    title: "Wishlist",
-    url: "/user/wishlist",
-  },
-];
 
 export const Navbar = ({ sx }: { sx?: SxProps }) => {
   const navigate = useNavigate();
@@ -59,7 +43,32 @@ export const Navbar = ({ sx }: { sx?: SxProps }) => {
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null
   );
+  const user = useAppSelector(selectUser);
 
+  const settings = React.useMemo(
+    () =>
+      user
+        ? [
+            {
+              title: "Profile",
+              url: "/user/profile",
+            },
+            {
+              title: "Cart",
+              url: "/user/cart",
+            },
+            {
+              title: "Wallet",
+              url: "/user/wallet",
+            },
+            {
+              title: "Wishlist",
+              url: "/user/wishlist",
+            },
+          ]
+        : [{ title: "Login", url: "/login" }],
+    [user]
+  );
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
   };

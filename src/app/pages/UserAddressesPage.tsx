@@ -17,18 +17,25 @@ export const UserAddressesPage = () => {
   // DONE Create Address Card component
   const addresses = data.data;
   return (
-    <Stack gap={2} sx={{ p: 4 }}>
-      <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
-        <MapPin size={40} />
-        <Typography variant="h5">Your Addresses</Typography>
+    <Stack gap={2} sx={{ p: { xs: 2, md: 4 } }}>
+      <Box
+        sx={{ display: "flex", gap: 1, alignItems: "center", flexWrap: "wrap" }}
+      >
+        <MapPin size={32} />
+        <Typography
+          variant="h5"
+          sx={{ fontSize: { xs: "1.2rem", sm: "1.5rem" } }}
+        >
+          Your Addresses
+        </Typography>
       </Box>
       <Box
         sx={{
           display: "flex",
-          // alignItems: "center",
-          justifyContent: "center",
           flexWrap: "wrap",
           gap: 2,
+          justifyContent: "center",
+          // alignItems: "center",
         }}
       >
         {addresses.map((address) => (

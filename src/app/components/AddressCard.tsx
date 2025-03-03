@@ -14,9 +14,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import toast from "react-hot-toast";
 import { ServerError } from "../types/serverErrorType";
 
-// DONE Create Address Card
-// DONE "Set as default" button
-
 export const AddressCard = ({ address }: { address: AddressType }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [deleteAddress, { isLoading: isDeleteLoading }] =
@@ -26,8 +23,6 @@ export const AddressCard = ({ address }: { address: AddressType }) => {
   const [setDefaultAddress, { isLoading: isSetDefaultLoading }] =
     useSetDefaultAddressMutation();
 
-  // NOTE: AddressFormType and addressSchema is from
-  // AddAddressButton.tsx
   const form = useForm<AddressFormType>({
     defaultValues: {
       address_line: address.address_line,
@@ -38,42 +33,30 @@ export const AddressCard = ({ address }: { address: AddressType }) => {
     },
     resolver: zodResolver(addressSchema),
   });
+
   const {
     register,
     formState: { errors },
     handleSubmit,
   } = form;
 
-  // Delete address handler
   const deleteHandler = async (addressId: string) => {
     const { data, error } = await deleteAddress(addressId);
-    if (data) {
-      toast.success("Address has been deleted");
-    }
-    if (error) {
-      if ("data" in error) {
-        const serverError = error as ServerError;
-        toast.error(serverError.data.message);
-      }
+    if (data) toast.success("Address has been deleted");
+    if (error && "data" in error) {
+      toast.error((error as ServerError).data.message);
     }
   };
 
-  // Set address as default handler
   const setDefaultHandler = async (addressId: string) => {
     if (isSetDefaultLoading) return;
     const { data, error } = await setDefaultAddress(addressId);
-    if (data) {
-      toast.success("Address has been set as default");
-    }
-    if (error) {
-      if ("data" in error) {
-        const serverError = error as ServerError;
-        toast.error(serverError.data.message);
-      }
+    if (data) toast.success("Address has been set as default");
+    if (error && "data" in error) {
+      toast.error((error as ServerError).data.message);
     }
   };
 
-  // Edit address handler
   const submitHandler = async (data: AddressFormType) => {
     const { data: updateResponse, error } = await updateAddress({
       addressId: address._id,
@@ -85,11 +68,8 @@ export const AddressCard = ({ address }: { address: AddressType }) => {
     } else {
       toast.error("Failed to update address");
     }
-    if (error) {
-      if ("data" in error) {
-        const serverError = error as ServerError;
-        toast.error(serverError.data.message);
-      }
+    if (error && "data" in error) {
+      toast.error((error as ServerError).data.message);
     }
   };
 
@@ -100,48 +80,41 @@ export const AddressCard = ({ address }: { address: AddressType }) => {
       noValidate
       onSubmit={handleSubmit(submitHandler)}
       sx={{
-        minWidth: 300,
+        width: { xs: 300, sm: 350 },
+        // maxWidth: { xs: "90%", sm: "500px" },
+        // minWidth: 300,
+        // mx: "auto",
         display: "flex",
         flexDirection: "column",
         position: "relative",
         border: 1,
-        borderColor: address.isDefault ? "accent.main" : "transparent",
-        boxShadow: 12,
+        borderColor: address.isDefault ? "primary.main" : "transparent",
+        boxShadow: 2,
+        p: 2,
+        borderRadius: 2,
       }}
     >
-      {address.isDefault ? (
-        <Typography
-          variant="caption"
-          color="textDisabled"
-          sx={{
-            position: "absolute",
-            top: 8,
-            right: 8,
-          }}
-        >
-          Default Address
-        </Typography>
-      ) : (
-        <Typography
-          variant="caption"
-          color="textDisabled"
-          sx={{
-            "&:hover": { cursor: "pointer", textDecoration: "underline" },
-            position: "absolute",
-            top: 8,
-            right: 8,
-          }}
-          onClick={() => setDefaultHandler(address._id)}
-        >
-          {isSetDefaultLoading ? "Setting as default..." : "Set as Default"}
-        </Typography>
-      )}
-      <Box sx={{ px: 4, pt: 4 }}>
-        {/* <Typography variant="h6">{address.address_line}</Typography>
-        <Typography variant="body1">{address.city}</Typography>
-        <Typography variant="body1">{address.state}</Typography>
-        <Typography variant="body1">{address.pincode}</Typography>
-        <Typography variant="body1">{address.landmark}</Typography> */}
+      <Typography
+        variant="caption"
+        color="textDisabled"
+        sx={{
+          position: "absolute",
+          top: 8,
+          right: 8,
+          "&:hover": address.isDefault
+            ? {}
+            : { cursor: "pointer", textDecoration: "underline" },
+        }}
+        onClick={() => !address.isDefault && setDefaultHandler(address._id)}
+      >
+        {address.isDefault
+          ? "Default Address"
+          : isSetDefaultLoading
+          ? "Setting as default..."
+          : "Set as Default"}
+      </Typography>
+
+      <Box sx={{ px: { xs: 2, sm: 4 }, pt: { xs: 2, sm: 4 } }}>
         <EditableField
           label="Address Line"
           value={address.address_line}
@@ -176,7 +149,8 @@ export const AddressCard = ({ address }: { address: AddressType }) => {
           errors={errors}
         />
       </Box>
-      <Box sx={{ alignSelf: "end", mr: 1, mb: 1 }}>
+
+      <Box sx={{ alignSelf: "flex-end", display: "flex", gap: 1, p: 2 }}>
         {!isEditing ? (
           <>
             <Tooltip title="Edit Address">
