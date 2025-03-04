@@ -1,4 +1,5 @@
-import { Box, CircularProgress } from "@mui/material";
+import { Box } from "@mui/material";
+import { SkewLoader } from "react-spinners";
 
 interface LoadingComponentTypes {
   fullScreen?: boolean;
@@ -17,7 +18,7 @@ const LoadingComponent = ({ fullScreen }: LoadingComponentTypes) => {
         justifyContent: "center",
       }}
     >
-      <CircularProgress size="4rem" />
+      <SkewLoader />
     </Box>
   );
 };

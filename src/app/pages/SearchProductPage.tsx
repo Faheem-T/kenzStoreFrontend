@@ -21,7 +21,6 @@ import {
   sortOptions,
   useLazyGetProductsQuery,
 } from "../api/productsApi";
-import LoadingComponent from "../components/LoadingComponent";
 import { ProductCard } from "../components/ProductCard";
 import { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -281,7 +280,16 @@ const CategoryRadioGroup = ({
   handleClear: () => void;
 }) => {
   const { data, isLoading } = useGetCategoriesQuery();
-  if (isLoading) return <LoadingComponent />;
+  if (isLoading)
+    return (
+      <Skeleton>
+        <CategoryRadioGroup
+          handleChange={handleChange}
+          value={value}
+          handleClear={handleClear}
+        />
+      </Skeleton>
+    );
   if (!data) return <Box>Couldn't fetch categories</Box>;
   const categories = data.data;
 
