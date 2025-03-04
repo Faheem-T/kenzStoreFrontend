@@ -50,7 +50,7 @@ const RegisterPage = () => {
     resolver: zodResolver(registerSchema),
   });
 
-  const { register, handleSubmit, control, formState, setError } = form;
+  const { register, handleSubmit, formState, setError } = form;
 
   const { errors } = formState;
 

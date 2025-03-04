@@ -62,7 +62,7 @@ const LoginPage = () => {
     resolver: zodResolver(loginSchema),
   });
 
-  const { register, handleSubmit, control, formState } = form;
+  const { register, handleSubmit, formState } = form;
 
   const { errors } = formState;
 

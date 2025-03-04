@@ -7,7 +7,6 @@ import { CategoryAutocomplete } from "@/app/components/adminComponents/CategoryA
 import { SpecificationsArrayField } from "@/app/components/adminComponents/SpecificationsArrayField";
 import LoadingComponent from "@/app/components/LoadingComponent";
 import { ProductSpecificationType } from "@/app/types/product";
-import { DevTool } from "@hookform/devtools";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Box,
@@ -273,7 +272,6 @@ const AdminUpdateProductPage = () => {
           </Box>
         </Stack>
       </form>
-      <DevTool control={control} />
     </Box>
   );
 };
