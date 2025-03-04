@@ -33,17 +33,17 @@ const baseQueryWithReauth: BaseQueryFn<
   string | FetchArgs,
   unknown,
   FetchBaseQueryError
-> = async (args, api, extraOptions) => {
-  let result = await baseQuery(args, api, extraOptions);
+> = async (args, apiArg, extraOptions) => {
+  let result = await baseQuery(args, apiArg, extraOptions);
 
   // If "Forbidden" (401) request the refresh route
   if (result.error?.status === 401) {
     // refresh route for "user" role
     let refreshRoute = "v1/auth/refresh";
-    if ((api.getState() as RootState).auth.isAdmin) {
+    if ((apiArg.getState() as RootState).auth.isAdmin) {
       refreshRoute = "v1/admin/auth/refresh";
     }
-    const refreshResult = await baseQuery(refreshRoute, api, extraOptions);
+    const refreshResult = await baseQuery(refreshRoute, apiArg, extraOptions);
     if (refreshResult.data) {
       const refreshData = refreshResult.data as {
         success: boolean;
@@ -51,13 +51,14 @@ const baseQueryWithReauth: BaseQueryFn<
       };
       // console.log("Refresh Result: ", refreshData);
       // store new token
-      api.dispatch(
+      apiArg.dispatch(
         tokenRefreshed({ accessToken: refreshData.data.accessToken })
       );
       // retry initial query
-      result = await baseQuery(args, api, extraOptions);
+      result = await baseQuery(args, apiArg, extraOptions);
     } else {
-      api.dispatch(loggedOut());
+      apiArg.dispatch(loggedOut());
+      apiArg.dispatch(api.util.resetApiState());
     }
   }
   return result;

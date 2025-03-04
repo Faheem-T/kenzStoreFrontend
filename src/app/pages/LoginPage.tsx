@@ -15,7 +15,6 @@ import {
 import { ArrowBack, Visibility, VisibilityOff } from "@mui/icons-material";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { DevTool } from "@hookform/devtools";
 import { z } from "zod";
 import { useLoginMutation } from "../api/authApi";
 import { useEffect, useState } from "react";
@@ -148,7 +147,6 @@ export const LoginPage = () => {
               {isLoading ? "Loading..." : "Login"}
             </Button>
           </Stack>
-          <DevTool control={control} />
         </form>
         <Typography variant="caption">
           <Box

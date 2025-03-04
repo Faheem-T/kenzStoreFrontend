@@ -125,6 +125,7 @@ export const orderApi = api.injectEndpoints({
       invalidatesTags: (_result, _error, arg) => [
         { type: "Order", _id: arg.orderId },
         "Wallet",
+        "Product",
       ],
     }),
     requestOrderReturn: build.mutation<any, { orderId: string }>({

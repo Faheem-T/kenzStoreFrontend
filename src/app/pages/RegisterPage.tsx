@@ -14,7 +14,6 @@ import {
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { DevTool } from "@hookform/devtools";
 import { z } from "zod";
 import { useRegisterMutation } from "../api/authApi";
 import { useState } from "react";
@@ -181,7 +180,6 @@ export const RegisterPage = () => {
               {isLoading ? "Loading..." : "Register"}
             </Button>
           </Stack>
-          <DevTool control={control} />
         </form>
         <Typography variant="caption">
           Already registered?{" "}
