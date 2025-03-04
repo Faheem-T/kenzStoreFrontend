@@ -20,7 +20,7 @@ const createCategorySchema = z.object({
 
 type createCategoryType = z.infer<typeof createCategorySchema>;
 
-export const AdminCreateCategoryPage = () => {
+const AdminCreateCategoryPage = () => {
   const navigate = useNavigate();
   const form = useForm<createCategoryType>({
     defaultValues: {
@@ -117,3 +117,4 @@ export const AdminCreateCategoryPage = () => {
     </>
   );
 };
+export default AdminCreateCategoryPage;

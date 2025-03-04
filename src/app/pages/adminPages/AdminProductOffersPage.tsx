@@ -1,5 +1,5 @@
 import { useGetOfferProductsQuery } from "@/app/api/offerApi";
-import { LoadingComponent } from "@/app/components/LoadingComponent";
+import LoadingComponent from "@/app/components/LoadingComponent";
 import { Box, Typography, Button } from "@mui/material";
 import { useNavigate } from "react-router";
 import {
@@ -15,7 +15,7 @@ import { cn } from "@/lib/utils";
 import { DeleteOfferButton } from "@/app/components/DeleteCategoryButton";
 import { calculateDaysToToday } from "@/app/utils/dateUtils";
 
-export const AdminProductOffersPage = () => {
+const AdminProductOffersPage = () => {
   const { data, isLoading } = useGetOfferProductsQuery();
   const navigate = useNavigate();
   if (isLoading) return <LoadingComponent fullScreen />;
@@ -110,3 +110,4 @@ export const AdminProductOffersPage = () => {
     </>
   );
 };
+export default AdminProductOffersPage;

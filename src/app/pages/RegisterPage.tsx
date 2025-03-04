@@ -36,7 +36,7 @@ const registerSchema = z.object({
 });
 
 export type registerFormValues = z.infer<typeof registerSchema>;
-export const RegisterPage = () => {
+const RegisterPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const form = useForm<registerFormValues>({
@@ -197,3 +197,4 @@ export const RegisterPage = () => {
     </>
   );
 };
+export default RegisterPage;

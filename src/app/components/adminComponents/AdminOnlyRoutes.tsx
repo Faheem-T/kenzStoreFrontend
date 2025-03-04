@@ -5,7 +5,7 @@ import toast from "react-hot-toast";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AdminSidebar } from "./AdminSidebar";
 
-export const AdminOnlyRoutes = () => {
+const AdminOnlyRoutes = () => {
   const isAdmin = useAppSelector(selectIsAdmin);
   const user = useAppSelector(selectUser);
   if (!isAdmin || !user) {
@@ -21,3 +21,4 @@ export const AdminOnlyRoutes = () => {
     </SidebarProvider>
   );
 };
+export default AdminOnlyRoutes;

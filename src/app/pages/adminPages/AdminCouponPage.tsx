@@ -2,7 +2,7 @@ import {
   useDeleteCouponMutation,
   useGetAllCouponsQuery,
 } from "@/app/api/couponApi";
-import { LoadingComponent } from "@/app/components/LoadingComponent";
+import LoadingComponent from "@/app/components/LoadingComponent";
 import { Box, Button, Typography } from "@mui/material";
 import {
   Table,
@@ -16,7 +16,7 @@ import {
 import { useNavigate } from "react-router";
 import { calculateDaysToToday } from "@/app/utils/dateUtils";
 
-export const AdminCouponPage = () => {
+const AdminCouponPage = () => {
   const { data, isLoading } = useGetAllCouponsQuery();
   const [deleteCoupon, { isLoading: isDeleting }] = useDeleteCouponMutation();
   const navigate = useNavigate();
@@ -104,3 +104,4 @@ export const AdminCouponPage = () => {
     </>
   );
 };
+export default AdminCouponPage;

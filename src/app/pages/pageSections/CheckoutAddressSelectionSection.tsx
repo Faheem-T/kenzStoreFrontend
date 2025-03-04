@@ -1,5 +1,5 @@
 import { useGetUserAddressesQuery } from "@/app/api/addressesApi";
-import { LoadingComponent } from "@/app/components/LoadingComponent";
+import LoadingComponent from "@/app/components/LoadingComponent";
 import { Box, Button, Modal, Typography } from "@mui/material";
 import React, { useState } from "react";
 import { SelectableAddressForm } from "@/app/components/SelectableAddressForm";

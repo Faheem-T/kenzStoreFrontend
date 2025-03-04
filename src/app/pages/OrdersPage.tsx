@@ -1,12 +1,12 @@
 import { Box, Typography } from "@mui/material";
 import { useGetUserOrdersQuery } from "../api/orderApi";
-import { LoadingComponent } from "../components/LoadingComponent";
+import LoadingComponent from "../components/LoadingComponent";
 import { OrderCard } from "../components/OrderCard";
 import { Package } from "lucide-react";
 import { useState } from "react";
 import { Paginator } from "../components/Pagination";
 
-export const OrdersPage = () => {
+const OrdersPage = () => {
   const [page, setPage] = useState(1);
   const { data, isLoading, isFetching } = useGetUserOrdersQuery({ page });
   if (isLoading) return <LoadingComponent fullScreen />;
@@ -67,3 +67,4 @@ export const OrdersPage = () => {
     </>
   );
 };
+export default OrdersPage;

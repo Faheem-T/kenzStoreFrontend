@@ -33,7 +33,7 @@ export type loginFormValues = {
   password: string;
 };
 
-export const AdminLoginPage = () => {
+const AdminLoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -140,3 +140,4 @@ export const AdminLoginPage = () => {
     </>
   );
 };
+export default AdminLoginPage;

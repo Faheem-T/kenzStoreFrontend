@@ -1,4 +1,11 @@
-import { Box, IconButton, Rating, Tooltip, Typography } from "@mui/material";
+import {
+  Box,
+  IconButton,
+  Rating,
+  Skeleton,
+  Tooltip,
+  Typography,
+} from "@mui/material";
 import { ProductType } from "../types/product";
 import { Link } from "react-router";
 import { CategoryChipGroup } from "./CategoryChipGroup";
@@ -7,13 +14,13 @@ import {
   useGetWishlistQuery,
   useRemoveFromWishlistMutation,
 } from "../api/wishlistApi";
-import { LoadingComponent } from "./LoadingComponent";
 import { useMemo } from "react";
 import { Heart } from "lucide-react";
 import toast from "react-hot-toast";
 import { useAppSelector } from "../hooks";
 import { selectUser } from "../features/auth/authSlice";
 import { BaseResponse } from "../types/apiResponseTypes";
+import { dummyProduct } from "../utils/dummyData";
 
 interface ProductCardProps {
   product: ProductType;
@@ -45,7 +52,13 @@ export const ProductCard = ({ product }: ProductCardProps) => {
     () => !!wishlistProducts.find((wProduct) => wProduct._id === product._id),
     [product, wishlistProducts]
   );
-  if (isLoading) return <LoadingComponent />;
+  // if (isLoading) return <LoadingComponent />;
+  if (isLoading)
+    return (
+      <Skeleton>
+        <ProductCard product={dummyProduct} />
+      </Skeleton>
+    );
   // if (!wishlistData) {
   //   return <Box>Couldn't fetch wishlist</Box>;
   // }

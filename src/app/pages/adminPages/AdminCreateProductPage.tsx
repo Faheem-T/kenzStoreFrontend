@@ -4,7 +4,7 @@ import { useState } from "react";
 import { CreateProductImagesSection } from "./adminPageSections/CreateProductImagesSection";
 import { AdminCreateProductPreviewSection } from "./adminPageSections/AdminCreateProductPreviewSection";
 
-export const AdminCreateProductPage = () => {
+const AdminCreateProductPage = () => {
   const [value, setValue] = useState(0);
 
   const nextTab = () => {
@@ -67,3 +67,4 @@ function CustomTabPanel(props: TabPanelProps) {
     </div>
   );
 }
+export default AdminCreateProductPage;

@@ -20,7 +20,7 @@ const ProfileSchema = z.object({
 
 type ProfileType = z.infer<typeof ProfileSchema>;
 
-export const UserProfilePage = () => {
+const UserProfilePage = () => {
   const user = useAppSelector(selectUser) as SafeUserType;
 
   const dispatch = useAppDispatch();
@@ -179,3 +179,4 @@ export const UserProfilePage = () => {
     </>
   );
 };
+export default UserProfilePage;

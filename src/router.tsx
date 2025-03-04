@@ -1,291 +1,247 @@
 import { createBrowserRouter } from "react-router";
-import Root from "./Root";
-import { UserRoutes } from "./app/components/UserRoutes";
-import { UnprotectedRoutes } from "./app/components/UnprotectedRoutes";
-import { RegisterPage } from "./app/pages/RegisterPage";
-import { OtpVerificationPage } from "./app/pages/OtpVerificationPage";
-import { LoginPage } from "./app/pages/LoginPage";
-import { AdminCreateCategoryPage } from "./app/pages/adminPages/AdminCreateCategoryPage";
-import { AdminUpdateCategoryPage } from "./app/pages/adminPages/AdminUpdateCategoryPage";
-import { CategoryOverviewPage } from "./app/pages/adminPages/CategoryOverviewPage";
-import { AdminCreateProductPage } from "./app/pages/adminPages/AdminCreateProductPage";
-import { AdminUpdateImagePage } from "./app/pages/adminPages/AdminUpdateImagePage";
-import { AdminUpdateProductPage } from "./app/pages/adminPages/AdminUpdateProductPage";
-import { AdminProductPage } from "./app/pages/adminPages/AdminProductPage";
-import { ProductOverviewPage } from "./app/pages/adminPages/ProductOverviewPage";
-import { AdminUsersOverviewPage } from "./app/pages/adminPages/AdminUsersOverviewPage";
-import { AdminDashboardPage } from "./app/pages/adminPages/AdminDashboardPage";
-import { AdminOnlyRoutes } from "./app/components/adminComponents/AdminOnlyRoutes";
-import { AdminLoginPage } from "./app/pages/adminPages/AdminLoginPage";
-import { ProductDetailsPage } from "./app/pages/ProductDetailsPage";
-import { LoadingComponent } from "./app/components/LoadingComponent";
-import { Homepage } from "./app/pages/Homepage";
-import { ProtectedRoutes } from "./app/components/ProtectedRoutes";
-import { UserProfilePage } from "./app/pages/UserProfilePage";
-import { UserProfileRoot } from "./app/pages/UserProfileRoot";
-import { initialAuthLoader } from "./app/utils/initialAuthLoader";
-import { UserAddressesPage } from "./app/pages/UserAddressesPage";
-import { CartPage } from "./app/pages/CartPage";
-import { CheckoutPage } from "./app/pages/CheckoutPage";
-import { OrderConfirmationPage } from "./app/pages/OrderConfirmationPage";
-import { OrdersPage } from "./app/pages/OrdersPage";
-import { AdminOrderOverviewPage } from "./app/pages/adminPages/AdminOrderOverviewPage";
-import { SearchProductPage } from "./app/pages/SearchProductPage";
-import { ForgotPasswordPage } from "./app/pages/ForgotPasswordPage";
-import { ResetPasswordPage } from "./app/pages/ResetPasswordPage";
-import { AdminProductOffersPage } from "./app/pages/adminPages/AdminProductOffersPage";
-import { AdminCreateOfferPage } from "./app/pages/adminPages/AdminCreateOfferPage";
-import { AdminCategoryOffersPage } from "./app/pages/adminPages/AdminCategoryOffersPage";
-import { AdminCouponPage } from "./app/pages/adminPages/AdminCouponPage";
-import { AdminCreateCouponPage } from "./app/pages/adminPages/AdminCreateCouponPage";
-import { WishlistPage } from "./app/pages/WishlistPage";
-import { WalletPage } from "./app/pages/WalletPage";
-import { ErrorPage } from "./app/pages/ErrorPage";
-import { PDFViewer } from "@react-pdf/renderer";
-import { InvoiceDocument } from "./app/utils/invoicePDF";
-import { CategoryProductsPage } from "./app/pages/CategoryProductsPage";
+import { lazy } from "react";
+
+import { WrapinSuspense } from "./app/utils/WrapInSuspense";
+import initialAuthLoader from "./app/utils/initialAuthLoader";
+import LoadingComponent from "./app/components/LoadingComponent";
+import ErrorPage from "./app/pages/ErrorPage";
+
+// Lazy loaded components
+const Root = lazy(() => import("./Root"));
+const UserRoutes = lazy(() => import("./app/components/UserRoutes"));
+const UnprotectedRoutes = lazy(
+  () => import("./app/components/UnprotectedRoutes")
+);
+const RegisterPage = lazy(() => import("./app/pages/RegisterPage"));
+const OtpVerificationPage = lazy(
+  () => import("./app/pages/OtpVerificationPage")
+);
+const LoginPage = lazy(() => import("./app/pages/LoginPage"));
+const ForgotPasswordPage = lazy(() => import("./app/pages/ForgotPasswordPage"));
+const ResetPasswordPage = lazy(() => import("./app/pages/ResetPasswordPage"));
+const ProtectedRoutes = lazy(() => import("./app/components/ProtectedRoutes"));
+const UserProfileRoot = lazy(() => import("./app/pages/UserProfileRoot"));
+const UserProfilePage = lazy(() => import("./app/pages/UserProfilePage"));
+const UserAddressesPage = lazy(() => import("./app/pages/UserAddressesPage"));
+const CartPage = lazy(() => import("./app/pages/CartPage"));
+const OrdersPage = lazy(() => import("./app/pages/OrdersPage"));
+const WishlistPage = lazy(() => import("./app/pages/WishlistPage"));
+const WalletPage = lazy(() => import("./app/pages/WalletPage"));
+const CheckoutPage = lazy(() => import("./app/pages/CheckoutPage"));
+const OrderConfirmationPage = lazy(
+  () => import("./app/pages/OrderConfirmationPage")
+);
+const Homepage = lazy(() => import("./app/pages/Homepage"));
+const ProductDetailsPage = lazy(() => import("./app/pages/ProductDetailsPage"));
+const SearchProductPage = lazy(() => import("./app/pages/SearchProductPage"));
+const CategoryProductsPage = lazy(
+  () => import("./app/pages/CategoryProductsPage")
+);
+
+// Admin Components
+const AdminOnlyRoutes = lazy(
+  () => import("./app/components/adminComponents/AdminOnlyRoutes")
+);
+const AdminLoginPage = lazy(
+  () => import("./app/pages/adminPages/AdminLoginPage")
+);
+const AdminDashboardPage = lazy(
+  () => import("./app/pages/adminPages/AdminDashboardPage")
+);
+const AdminUsersOverviewPage = lazy(
+  () => import("./app/pages/adminPages/AdminUsersOverviewPage")
+);
+const ProductOverviewPage = lazy(
+  () => import("./app/pages/adminPages/ProductOverviewPage")
+);
+const AdminProductPage = lazy(
+  () => import("./app/pages/adminPages/AdminProductPage")
+);
+const AdminUpdateProductPage = lazy(
+  () => import("./app/pages/adminPages/AdminUpdateProductPage")
+);
+const AdminUpdateImagePage = lazy(
+  () => import("./app/pages/adminPages/AdminUpdateImagePage")
+);
+const AdminCreateProductPage = lazy(
+  () => import("./app/pages/adminPages/AdminCreateProductPage")
+);
+const CategoryOverviewPage = lazy(
+  () => import("./app/pages/adminPages/CategoryOverviewPage")
+);
+const AdminUpdateCategoryPage = lazy(
+  () => import("./app/pages/adminPages/AdminUpdateCategoryPage")
+);
+const AdminCreateCategoryPage = lazy(
+  () => import("./app/pages/adminPages/AdminCreateCategoryPage")
+);
+const AdminOrderOverviewPage = lazy(
+  () => import("./app/pages/adminPages/AdminOrderOverviewPage")
+);
+const AdminProductOffersPage = lazy(
+  () => import("./app/pages/adminPages/AdminProductOffersPage")
+);
+const AdminCategoryOffersPage = lazy(
+  () => import("./app/pages/adminPages/AdminCategoryOffersPage")
+);
+const AdminCreateOfferPage = lazy(
+  () => import("./app/pages/adminPages/AdminCreateOfferPage")
+);
+const AdminCouponPage = lazy(
+  () => import("./app/pages/adminPages/AdminCouponPage")
+);
+const AdminCreateCouponPage = lazy(
+  () => import("./app/pages/adminPages/AdminCreateCouponPage")
+);
 
 export const router = createBrowserRouter([
   {
     path: "/",
     loader: initialAuthLoader,
     hydrateFallbackElement: <LoadingComponent fullScreen />,
-    element: <Root />,
+    element: WrapinSuspense(<Root />),
     errorElement: <ErrorPage />,
     children: [
       {
-        element: <UserRoutes />,
+        element: WrapinSuspense(<UserRoutes />),
         children: [
           {
-            element: <UnprotectedRoutes />,
+            element: WrapinSuspense(<UnprotectedRoutes />),
             children: [
-              {
-                path: "/register",
-                element: <RegisterPage />,
-              },
+              { path: "/register", element: WrapinSuspense(<RegisterPage />) },
               {
                 path: "/register/otp",
-                element: <OtpVerificationPage />,
+                element: WrapinSuspense(<OtpVerificationPage />),
               },
-              {
-                path: "/login",
-                element: <LoginPage />,
-              },
+              { path: "/login", element: WrapinSuspense(<LoginPage />) },
               {
                 path: "/forgot-password",
-                element: <ForgotPasswordPage />,
+                element: WrapinSuspense(<ForgotPasswordPage />),
               },
               {
                 path: "/reset-password",
-                element: <ResetPasswordPage />,
+                element: WrapinSuspense(<ResetPasswordPage />),
               },
             ],
           },
           {
-            element: <ProtectedRoutes />,
+            element: WrapinSuspense(<ProtectedRoutes />),
             children: [
               {
                 path: "/user",
-                element: <UserProfileRoot />,
+                element: WrapinSuspense(<UserProfileRoot />),
                 children: [
                   {
                     path: "profile",
-                    element: <UserProfilePage />,
+                    element: WrapinSuspense(<UserProfilePage />),
                   },
                   {
                     path: "addresses",
-                    element: <UserAddressesPage />,
+                    element: WrapinSuspense(<UserAddressesPage />),
                   },
-                  {
-                    path: "cart",
-                    element: <CartPage />,
-                  },
-                  {
-                    path: "orders",
-                    element: <OrdersPage />,
-                  },
+                  { path: "cart", element: WrapinSuspense(<CartPage />) },
+                  { path: "orders", element: WrapinSuspense(<OrdersPage />) },
                   {
                     path: "wishlist",
-                    element: <WishlistPage />,
+                    element: WrapinSuspense(<WishlistPage />),
                   },
-                  {
-                    path: "wallet",
-                    element: <WalletPage />,
-                  },
+                  { path: "wallet", element: WrapinSuspense(<WalletPage />) },
                 ],
               },
-              {
-                path: "/checkout",
-                element: <CheckoutPage />,
-              },
+              { path: "/checkout", element: WrapinSuspense(<CheckoutPage />) },
               {
                 path: "/order-confirmation",
-                element: <OrderConfirmationPage />,
+                element: WrapinSuspense(<OrderConfirmationPage />),
               },
             ],
           },
-          {
-            path: "/",
-            // index: true,
-            element: <Homepage />,
-          },
-          {
-            path: "/test",
-            element: (
-              <PDFViewer height="800px" width="100%">
-                <InvoiceDocument
-                  order={{
-                    address: {
-                      address_line: "Dafnah",
-                      city: "Al Khor",
-                      state: "Qatar",
-                      pincode: 773555,
-                    },
-                    _id: "67b40d0f6180b02724a23e08",
-                    userId: "6785d7239dbfaa808380aa32",
-                    items: [
-                      {
-                        productId: {
-                          _id: "6776c13a8b6c48fdcb191814",
-                          name: "Logitech C505 HD Webcam",
-                          description:
-                            "HD 720p webcam with long-range microphone, supporting clear conversations up to 3 meters away",
-                          images: [
-                            "https://res.cloudinary.com/dlicxnblg/image/upload/v1737720148/z4vfghqsz80r5t3stumn.png",
-                            "https://res.cloudinary.com/dlicxnblg/image/upload/v1736698909/siv9ioyvcxduhk6dticg.webp",
-                            "https://res.cloudinary.com/dlicxnblg/image/upload/v1735835309/t8eohjybmwehxkgxfdyz.png",
-                          ],
-                          effectiveDiscount: null,
-                        },
-                        price: 49.99,
-                        quantity: 1,
-                        _id: "67b40abfc7fa5ae46f60974c",
-                      },
-                    ],
-                    coupon: "679e1712534d52f3196dc27b",
-                    discountType: "percentage",
-                    discountValue: 44,
-                    status: "completed",
-                    paymentMethod: "wallet",
-                    paymentOrder: null,
-                    paymentStatus: "paid",
-                    createdAt: "2025-02-18T04:31:11.720Z",
-                    updatedAt: "2025-02-18T04:31:23.572Z",
-                    completedAt: "2025-02-18T04:31:23.571Z",
-                    originalPrice: 49.99,
-                    totalPrice: 27.99,
-                  }}
-                />
-              </PDFViewer>
-            ),
-          },
+          { path: "/", element: WrapinSuspense(<Homepage />) },
           {
             path: "/products/:id",
-            element: <ProductDetailsPage />,
+            element: WrapinSuspense(<ProductDetailsPage />),
           },
+          { path: "/search", element: WrapinSuspense(<SearchProductPage />) },
           {
-            // path: "/search?sort=:sort&sortBy=:sortBy",
-            path: "/search",
-            element: <SearchProductPage />,
-          },
-          {
-            path: "categories/:slug",
-            element: <CategoryProductsPage />,
+            path: "/categories/:slug",
+            element: WrapinSuspense(<CategoryProductsPage />),
           },
         ],
       },
 
       // Admin Related Routes
-      {
-        path: "/admin/login",
-        element: <AdminLoginPage />,
-      },
+      { path: "/admin/login", element: WrapinSuspense(<AdminLoginPage />) },
       {
         path: "/admin",
-        element: <AdminOnlyRoutes />,
+        element: WrapinSuspense(<AdminOnlyRoutes />),
         children: [
           {
             path: "dashboard",
-            element: <AdminDashboardPage />,
+            element: WrapinSuspense(<AdminDashboardPage />),
           },
-          // User Paths
           {
             path: "users",
-            element: <AdminUsersOverviewPage />,
+            element: WrapinSuspense(<AdminUsersOverviewPage />),
           },
-          // Product Paths
           {
             path: "products",
-            element: <ProductOverviewPage />,
+            element: WrapinSuspense(<ProductOverviewPage />),
           },
           {
             path: "products/:productId",
-            element: <AdminProductPage />,
+            element: WrapinSuspense(<AdminProductPage />),
           },
           {
             path: "products/:productId/update",
-            element: <AdminUpdateProductPage />,
+            element: WrapinSuspense(<AdminUpdateProductPage />),
           },
           {
             path: "products/:productId/update/images",
-            element: <AdminUpdateImagePage />,
+            element: WrapinSuspense(<AdminUpdateImagePage />),
           },
           {
             path: "products/create",
-            element: <AdminCreateProductPage />,
+            element: WrapinSuspense(<AdminCreateProductPage />),
           },
-          // Category paths
           {
             path: "categories",
-            element: <CategoryOverviewPage />,
-          },
-          {
-            path: "categories/:categoryId",
-            element: <div>TODO</div>, // TODO: add category details page
+            element: WrapinSuspense(<CategoryOverviewPage />),
           },
           {
             path: "categories/:categoryId/update",
-            element: <AdminUpdateCategoryPage />,
+            element: WrapinSuspense(<AdminUpdateCategoryPage />),
           },
           {
             path: "categories/create",
-            element: <AdminCreateCategoryPage />,
+            element: WrapinSuspense(<AdminCreateCategoryPage />),
           },
-          // Order paths
           {
             path: "orders",
-            element: <AdminOrderOverviewPage />,
+            element: WrapinSuspense(<AdminOrderOverviewPage />),
           },
-          // Offer paths
           {
             path: "offers",
-            element: <AdminProductOffersPage />,
+            element: WrapinSuspense(<AdminProductOffersPage />),
           },
           {
             path: "offers/products",
-            element: <AdminProductOffersPage />,
+            element: WrapinSuspense(<AdminProductOffersPage />),
           },
           {
             path: "offers/categories",
-            element: <AdminCategoryOffersPage />,
+            element: WrapinSuspense(<AdminCategoryOffersPage />),
           },
           {
             path: "offers/products/create",
-            element: <AdminCreateOfferPage type="product" />,
+            element: WrapinSuspense(<AdminCreateOfferPage type="product" />),
           },
           {
             path: "offers/categories/create",
-            element: <AdminCreateOfferPage type="category" />,
+            element: WrapinSuspense(<AdminCreateOfferPage type="category" />),
           },
-
-          // Coupon Paths
-          {
-            path: "coupons",
-            element: <AdminCouponPage />,
-          },
+          { path: "coupons", element: WrapinSuspense(<AdminCouponPage />) },
           {
             path: "coupons/create",
-            element: <AdminCreateCouponPage />,
+            element: WrapinSuspense(<AdminCreateCouponPage />),
           },
         ],
       },

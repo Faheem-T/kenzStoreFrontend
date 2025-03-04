@@ -7,7 +7,7 @@ import {
   Typography,
 } from "@mui/material";
 import { useLazyGetCategoryProductsQuery } from "../api/categoriesApi";
-import { LoadingComponent } from "../components/LoadingComponent";
+import LoadingComponent from "../components/LoadingComponent";
 import { useParams, useSearchParams } from "react-router";
 import { ProductCard } from "../components/ProductCard";
 import { Navbar } from "../components/Navbar";
@@ -23,7 +23,7 @@ const searchFormSchema = z.object({
 });
 
 type SearchFormType = z.infer<typeof searchFormSchema>;
-export const CategoryProductsPage = () => {
+const CategoryProductsPage = () => {
   const categorySlug = useParams().slug;
   const [searchParams, setSearchParams] = useSearchParams();
   if (!categorySlug) throw new Error("Slug is required");
@@ -249,3 +249,4 @@ export const CategoryProductsPage = () => {
     </>
   );
 };
+export default CategoryProductsPage;

@@ -5,7 +5,7 @@ import {
   useAdminGetAllOrdersQuery,
   useAdminRejectOrderReturnMutation,
 } from "@/app/api/orderApi";
-import { LoadingComponent } from "@/app/components/LoadingComponent";
+import LoadingComponent from "@/app/components/LoadingComponent";
 import { Paginator } from "@/app/components/Pagination";
 import { GetUserOrder, OrderStatus, orderStatuses } from "@/app/types/order";
 import {
@@ -33,7 +33,7 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 
 dayjs.extend(relativeTime);
-export const AdminOrderOverviewPage = () => {
+const AdminOrderOverviewPage = () => {
   const [page, setPage] = useState(1);
   const { data, isLoading, isFetching } = useAdminGetAllOrdersQuery({ page });
   if (isLoading) return <LoadingComponent fullScreen />;
@@ -205,3 +205,4 @@ export const ReturnRequestButtons = ({
     </Box>
   );
 };
+export default AdminOrderOverviewPage;

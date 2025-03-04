@@ -2,7 +2,7 @@ import { Box, Typography } from "@mui/material";
 import { Link, useLocation } from "react-router";
 import { Navbar } from "../components/Navbar";
 
-export const OrderConfirmationPage = () => {
+const OrderConfirmationPage = () => {
   const { orderId, error = false } = useLocation().state as {
     orderId: string;
     error?: boolean;
@@ -47,3 +47,4 @@ export const OrderConfirmationPage = () => {
     </>
   );
 };
+export default OrderConfirmationPage;

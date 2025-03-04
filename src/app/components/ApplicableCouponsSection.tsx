@@ -3,7 +3,7 @@ import {
   useApplyCouponToCartMutation,
   useGetApplicableCouponsQuery,
 } from "../api/couponApi";
-import { LoadingComponent } from "./LoadingComponent";
+import LoadingComponent from "./LoadingComponent";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";

@@ -21,7 +21,7 @@ const formSchema = z.object({
 
 type FormType = z.infer<typeof formSchema>;
 
-export const ForgotPasswordPage = () => {
+const ForgotPasswordPage = () => {
   const navigate = useNavigate();
   const {
     register,
@@ -87,3 +87,4 @@ export const ForgotPasswordPage = () => {
     </>
   );
 };
+export default ForgotPasswordPage;

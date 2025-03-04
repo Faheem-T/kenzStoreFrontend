@@ -1,5 +1,5 @@
 import { useGetProductsQuery } from "@/app/api/productsApi";
-import { LoadingComponent } from "@/app/components/LoadingComponent";
+import LoadingComponent from "@/app/components/LoadingComponent";
 import { ProductCard } from "@/app/components/ProductCard";
 import { Box, Stack, Typography } from "@mui/material";
 

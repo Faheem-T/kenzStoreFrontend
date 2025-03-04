@@ -18,7 +18,7 @@ const OtpSchema = z.object({
 
 type OtpFormType = z.infer<typeof OtpSchema>;
 
-export const OtpVerificationPage = () => {
+const OtpVerificationPage = () => {
   const navigate = useNavigate();
   const [resendTimer, setResendTimer] = useState<number>(0);
   const timerId = useRef<NodeJS.Timeout>();
@@ -168,3 +168,4 @@ export const OtpVerificationPage = () => {
     </Box>
   );
 };
+export default OtpVerificationPage;

@@ -2,7 +2,7 @@ import {
   useBlockUserMutation,
   useGetUsersQuery,
 } from "@/app/api/userManagementApi";
-import { LoadingComponent } from "@/app/components/LoadingComponent";
+import LoadingComponent from "@/app/components/LoadingComponent";
 import {
   Table,
   TableHeader,
@@ -16,7 +16,7 @@ import { Check } from "@mui/icons-material";
 import { Box, Switch, Typography } from "@mui/material";
 import toast from "react-hot-toast";
 
-export const AdminUsersOverviewPage = () => {
+const AdminUsersOverviewPage = () => {
   const { data, isLoading } = useGetUsersQuery();
   const [createBlockUserMutation, { isLoading: isBlocking }] =
     useBlockUserMutation();
@@ -83,3 +83,4 @@ export const AdminUsersOverviewPage = () => {
     </>
   );
 };
+export default AdminUsersOverviewPage;

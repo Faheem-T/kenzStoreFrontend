@@ -9,7 +9,7 @@ import {
 import { useParams } from "react-router";
 import { AddToCartButton } from "../components/AddToCartButton";
 import { useGetProductQuery } from "../api/productsApi";
-import { LoadingComponent } from "../components/LoadingComponent";
+import LoadingComponent from "../components/LoadingComponent";
 import { ImageViewComponent } from "../components/ImageViewComponent";
 import { CategoryBreadCrumb } from "../components/CategoryBreadcrumb";
 import { ReviewSection } from "./pageSections/ReviewSection";
@@ -21,7 +21,7 @@ import { StockDisplay } from "../components/ProductStockDisplay";
 import { DiscountedPriceDisplay } from "../components/ProductDiscountedPriceDisplay";
 import { Footer } from "../components/Footer";
 
-export const ProductDetailsPage = () => {
+const ProductDetailsPage = () => {
   const productId = useParams().id?.trim();
 
   if (!productId) return <Box>Product not found!!</Box>;
@@ -116,3 +116,4 @@ export const ProductDetailsPage = () => {
     </>
   );
 };
+export default ProductDetailsPage;

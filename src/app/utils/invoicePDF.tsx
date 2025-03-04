@@ -128,7 +128,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export const InvoiceDocument = ({ order }: { order: GetUserOrder }) => {
+const InvoiceDocument = ({ order }: { order: GetUserOrder }) => {
   const {
     address,
     coupon,
@@ -222,3 +222,4 @@ export const InvoiceDocument = ({ order }: { order: GetUserOrder }) => {
     </Document>
   );
 };
+export default InvoiceDocument;

@@ -1,13 +1,13 @@
 import { useGetProductQuery } from "@/app/api/productsApi";
 import { ProductDetailsSection } from "@/app/pages/adminPages/adminPageSections/ProductDetailsSection";
 import { ImageViewComponent } from "@/app/components/ImageViewComponent";
-import { LoadingComponent } from "@/app/components/LoadingComponent";
+import LoadingComponent from "@/app/components/LoadingComponent";
 import { ReviewSection } from "@/app/pages/pageSections/ReviewSection";
 import { Box, Button, Divider, Stack, Typography } from "@mui/material";
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router";
 
-export const AdminProductPage = () => {
+const AdminProductPage = () => {
   const productId = useParams().productId;
   const navigate = useNavigate();
   const [loadReviews, setLoadReviews] = useState(false);
@@ -77,3 +77,4 @@ export const AdminProductPage = () => {
     </>
   );
 };
+export default AdminProductPage;

@@ -3,7 +3,7 @@ import { useGetHeroProductsQuery } from "../../api/productsApi";
 import { useState } from "react";
 import { HeroProductComponent } from "../../components/HeroProductComponent";
 import { ChevronRight, ChevronLeft } from "@mui/icons-material";
-import { LoadingComponent } from "../../components/LoadingComponent";
+import LoadingComponent from "../../components/LoadingComponent";
 
 export const HeroSection = () => {
   const { data, isLoading } = useGetHeroProductsQuery();

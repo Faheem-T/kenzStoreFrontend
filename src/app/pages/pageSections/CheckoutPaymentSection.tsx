@@ -1,5 +1,5 @@
 import { useGetCartQuery } from "@/app/api/cartApi";
-import { LoadingComponent } from "@/app/components/LoadingComponent";
+import LoadingComponent from "@/app/components/LoadingComponent";
 import { PaymentMethod } from "@/app/types/order";
 import {
   Box,

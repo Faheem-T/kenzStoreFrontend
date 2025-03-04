@@ -8,7 +8,7 @@ import {
 } from "@mui/material";
 import { useAddToCartMutation, useGetMinimalCartQuery } from "../api/cartApi";
 import { useEffect, useRef, useState } from "react";
-import { LoadingComponent } from "./LoadingComponent";
+import LoadingComponent from "./LoadingComponent";
 import { Add, Delete, Remove } from "@mui/icons-material";
 import toast from "react-hot-toast";
 import { ServerError } from "../types/serverErrorType";

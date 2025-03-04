@@ -10,12 +10,12 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { useGetWalletQuery } from "../api/walletApi";
-import { LoadingComponent } from "../components/LoadingComponent";
+import LoadingComponent from "../components/LoadingComponent";
 import dayjs from "dayjs";
 import { useState } from "react";
 import { Paginator } from "../components/Pagination";
 
-export const WalletPage = () => {
+const WalletPage = () => {
   const [page, setPage] = useState(1);
   const { data, isLoading, isFetching } = useGetWalletQuery({ page });
   dayjs.extend(relativeTime);
@@ -91,3 +91,4 @@ export const WalletPage = () => {
     </Box>
   );
 };
+export default WalletPage;

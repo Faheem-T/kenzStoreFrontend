@@ -1,12 +1,12 @@
 import { useGetUserAddressesQuery } from "../api/addressesApi";
-import { LoadingComponent } from "../components/LoadingComponent";
+import LoadingComponent from "../components/LoadingComponent";
 import { Box, Stack, Typography } from "@mui/material";
 import { AddressCard } from "../components/AddressCard";
 import { AddAddressButton } from "../components/AddAddressButton";
 import { useState } from "react";
 import { MapPin } from "lucide-react";
 
-export const UserAddressesPage = () => {
+const UserAddressesPage = () => {
   const [isAdding, setIsAdding] = useState(false);
   const { data, isLoading } = useGetUserAddressesQuery();
 
@@ -50,3 +50,4 @@ export const UserAddressesPage = () => {
     </Stack>
   );
 };
+export default UserAddressesPage;

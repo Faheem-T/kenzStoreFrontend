@@ -6,7 +6,7 @@ import {
 } from "../api/orderApi";
 import toast from "react-hot-toast";
 import { RetryPaymentButton } from "./RetryPaymentButton";
-import { InvoiceDocument } from "../utils/invoicePDF";
+import InvoiceDocument from "../utils/invoicePDF";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 
 export const OrderCard = ({ order }: { order: GetUserOrder }) => {

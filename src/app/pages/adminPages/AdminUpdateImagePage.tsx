@@ -4,14 +4,14 @@ import {
 } from "@/app/api/productsApi";
 import { AddImageFilesInputButton } from "@/app/components/AddImageFileInputButton";
 import { ImageCardComponent } from "@/app/components/ImageCardComponent";
-import { LoadingComponent } from "@/app/components/LoadingComponent";
+import LoadingComponent from "@/app/components/LoadingComponent";
 import { uploadToCloudinary } from "@/app/uploadToCloudinary";
 import { Box, Button, Stack, Typography } from "@mui/material";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { useNavigate, useParams } from "react-router";
 
-export const AdminUpdateImagePage = () => {
+const AdminUpdateImagePage = () => {
   const productId = useParams().productId;
   const navigate = useNavigate();
 
@@ -154,3 +154,4 @@ export const AdminUpdateImagePage = () => {
     </Stack>
   );
 };
+export default AdminUpdateImagePage;

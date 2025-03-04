@@ -30,7 +30,7 @@ const couponSchema = z.object({
 
 type CouponForm = z.infer<typeof couponSchema>;
 
-export const AdminCreateCouponPage = () => {
+const AdminCreateCouponPage = () => {
   const [createCoupon, { isLoading }] = useCreateCouponMutation();
   const navigate = useNavigate();
   const form = useForm<CouponForm>({
@@ -145,3 +145,4 @@ export const AdminCreateCouponPage = () => {
     </>
   );
 };
+export default AdminCreateCouponPage;

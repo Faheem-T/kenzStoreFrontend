@@ -1,6 +1,6 @@
 import { Box, Typography } from "@mui/material";
 import { useGetProductQuery } from "../api/productsApi";
-import { LoadingComponent } from "./LoadingComponent";
+import LoadingComponent from "./LoadingComponent";
 import { Link } from "react-router";
 
 export const AdminProductCard = ({

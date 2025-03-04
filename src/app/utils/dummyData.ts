@@ -1,0 +1,83 @@
+import { ProductType } from "../types/product";
+
+export const dummyProduct: ProductType = {
+  _id: "6776c13a8b6c48fdcb191814",
+  name: "Logitech C505 HD Webcam",
+  description:
+    "HD 720p webcam with long-range microphone, supporting clear conversations up to 3 meters away",
+  price: 49.99,
+  brand: "Logitech",
+  listed: true,
+  isHero: true,
+  images: [
+    "https://res.cloudinary.com/dlicxnblg/image/upload/v1737720148/z4vfghqsz80r5t3stumn.png",
+    "https://res.cloudinary.com/dlicxnblg/image/upload/v1736698909/siv9ioyvcxduhk6dticg.webp",
+    "https://res.cloudinary.com/dlicxnblg/image/upload/v1735835309/t8eohjybmwehxkgxfdyz.png",
+  ],
+  specifications: [
+    {
+      name: "Microphone Range",
+      value: "Up to 3 meters",
+      category: "feature",
+      isHighlight: false,
+    },
+    {
+      name: "USB Cable Length",
+      value: "2 meters",
+      category: "physical",
+      isHighlight: false,
+    },
+    {
+      name: "Video Resolution",
+      value: "HD 720p",
+      category: "technical",
+      isHighlight: false,
+    },
+    {
+      name: "Connectivity",
+      value: "USB-A",
+      category: "technical",
+      isHighlight: false,
+    },
+  ],
+  stock: 19,
+  discountEndDate: "2025-02-28T00:00:00.000Z",
+  discountStartDate: "2025-02-18T05:46:19.791Z",
+  discountType: "percentage",
+  discountValue: 5,
+  updatedAt: new Date("2025-03-04T09:07:33.649Z"),
+  ratingsCount: 1,
+  createdAt: new Date("2024-12-31T18:30:00.000Z"),
+  category: {
+    _id: "6778e36fc3bef1730ead38dd",
+    name: "Webcam",
+    parentCategory: "677b67d192c55f6e9897902e",
+    image:
+      "https://res.cloudinary.com/dlicxnblg/image/upload/v1740464721/w3l6blzstpeepewqhnll.png",
+    isActive: false,
+    createdAt: new Date("2025-01-04T07:29:51.551Z"),
+    updatedAt: new Date("2025-03-01T07:44:47.695Z"),
+    slug: "webcam",
+    description:
+      "Upgrade your video calls, streaming, and meetings with HD and 4K webcams featuring autofocus, noise reduction, and built-in microphones for clear video and audio.",
+    isDeleted: false,
+    discountEndDate: "2025-02-13T04:38:47.668Z",
+    discountName: "30% off on all webcams",
+    discountStartDate: "2025-01-28T04:35:08.710Z",
+    discountType: "percentage",
+    discountValue: 30,
+    isDiscountActive: true,
+  },
+  avgRating: 2.5,
+  discountName: "A great offer!",
+  effectiveDiscount: {
+    name: "30% off on all webcams",
+    type: "percentage",
+    value: 30,
+    startDate: "2025-01-28T04:35:08.710Z",
+    endDate: "2025-02-13T04:38:47.668Z",
+    discountApplied: 0,
+  },
+  finalPrice: 49.99,
+  isDeleted: false,
+} as any;

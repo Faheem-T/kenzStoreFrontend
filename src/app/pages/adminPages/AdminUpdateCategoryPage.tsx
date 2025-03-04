@@ -11,7 +11,7 @@ import {
   useGetCategoryQuery,
   useUpdateCategoryMutation,
 } from "@/app/api/categoriesApi";
-import { LoadingComponent } from "@/app/components/LoadingComponent";
+import LoadingComponent from "@/app/components/LoadingComponent";
 import { useNavigate } from "react-router";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -36,7 +36,7 @@ const updateCategorySchema = z.object({
 
 type updateCategoryFormType = z.infer<typeof updateCategorySchema>;
 
-export const AdminUpdateCategoryPage = () => {
+const AdminUpdateCategoryPage = () => {
   const categoryId = useParams().categoryId;
   const { data, isLoading } = useGetCategoryQuery(categoryId || "");
   const navigate = useNavigate();
@@ -188,3 +188,4 @@ export const AdminUpdateCategoryPage = () => {
     </>
   );
 };
+export default AdminUpdateCategoryPage;

@@ -1,10 +1,10 @@
 import { Box, Typography } from "@mui/material";
 import { useGetWishlistQuery } from "../api/wishlistApi";
-import { LoadingComponent } from "../components/LoadingComponent";
+import LoadingComponent from "../components/LoadingComponent";
 import { ProductCard } from "../components/ProductCard";
 import { Heart } from "lucide-react";
 
-export const WishlistPage = () => {
+const WishlistPage = () => {
   const { data, isLoading } = useGetWishlistQuery();
   if (isLoading) return <LoadingComponent fullScreen />;
   if (!data) return <Box>Couldn't Fetch Wishlist</Box>;
@@ -54,3 +54,4 @@ export const WishlistPage = () => {
     </>
   );
 };
+export default WishlistPage;

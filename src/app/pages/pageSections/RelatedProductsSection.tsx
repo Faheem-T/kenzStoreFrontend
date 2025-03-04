@@ -1,6 +1,6 @@
 import { Box, Typography } from "@mui/material";
 import { useGetRelatedProductsQuery } from "../../api/productsApi";
-import { LoadingComponent } from "../../components/LoadingComponent";
+import LoadingComponent from "../../components/LoadingComponent";
 import { ProductCard } from "../../components/ProductCard";
 
 interface RelatedProductsSectionProps {

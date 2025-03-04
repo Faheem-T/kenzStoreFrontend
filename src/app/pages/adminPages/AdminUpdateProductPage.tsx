@@ -5,7 +5,7 @@ import {
 } from "@/app/api/productsApi";
 import { CategoryAutocomplete } from "@/app/components/adminComponents/CategoryAutocomplete";
 import { SpecificationsArrayField } from "@/app/components/adminComponents/SpecificationsArrayField";
-import { LoadingComponent } from "@/app/components/LoadingComponent";
+import LoadingComponent from "@/app/components/LoadingComponent";
 import { ProductSpecificationType } from "@/app/types/product";
 import { DevTool } from "@hookform/devtools";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -56,7 +56,7 @@ const updateProductSchema = z.object({
 
 type UpdateProductFormValues = z.infer<typeof updateProductSchema>;
 
-export const AdminUpdateProductPage = () => {
+const AdminUpdateProductPage = () => {
   const { productId } = useParams();
   const navigate = useNavigate();
   // let categories: { _id: string; name: string }[] = [];
@@ -277,3 +277,4 @@ export const AdminUpdateProductPage = () => {
     </Box>
   );
 };
+export default AdminUpdateProductPage;

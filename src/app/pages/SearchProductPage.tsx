@@ -9,6 +9,7 @@ import {
   Radio,
   RadioGroup,
   Select,
+  Skeleton,
   Stack,
   TextField,
   Typography,
@@ -20,7 +21,7 @@ import {
   sortOptions,
   useLazyGetProductsQuery,
 } from "../api/productsApi";
-import { LoadingComponent } from "../components/LoadingComponent";
+import LoadingComponent from "../components/LoadingComponent";
 import { ProductCard } from "../components/ProductCard";
 import { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -29,6 +30,7 @@ import { Search } from "@mui/icons-material";
 import { useGetCategoriesQuery } from "../api/categoriesApi";
 import { Footer } from "../components/Footer";
 import { Paginator } from "../components/Pagination";
+import { dummyProduct } from "../utils/dummyData";
 
 const searchFormSchema = z.object({
   query: z.string().optional(),
@@ -36,7 +38,7 @@ const searchFormSchema = z.object({
 
 type SearchFormType = z.infer<typeof searchFormSchema>;
 
-export const SearchProductPage = () => {
+const SearchProductPage = () => {
   const [page, setPage] = useState(1);
   const [getProducts, { data, isFetching, isLoading }] =
     useLazyGetProductsQuery();
@@ -71,11 +73,67 @@ export const SearchProductPage = () => {
     [searchParams]
   );
 
-  if (isLoading) return <LoadingComponent fullScreen />;
-  if (!data) return <Box>Couldn't fetch products</Box>;
+  // if (isLoading) return <LoadingComponent fullScreen />;
+  // if (!data) return <Box>Couldn't fetch products</Box>;
 
-  const products = data.data;
-  const totalPages = data.totalPages;
+  // const products = data.data;
+  // const totalPages = data.totalPages;
+  const ProductGrid = () => (
+    <Box
+      sx={{
+        display: "flex",
+        flexWrap: "wrap",
+        gap: 2,
+        justifyContent: { xs: "center", sm: "flex-start" },
+        flexGrow: 1,
+        px: { xs: 4, md: 1 },
+      }}
+    >
+      {isFetching || isLoading ? (
+        // <Box sx={{ width: "100%", height: "30vh" }}>
+        //   <LoadingComponent />
+        // </Box>
+        <>
+          <Skeleton>
+            <ProductCard product={dummyProduct} />
+          </Skeleton>
+          <Skeleton>
+            <ProductCard product={dummyProduct} />
+          </Skeleton>
+          <Skeleton>
+            <ProductCard product={dummyProduct} />
+          </Skeleton>
+          <Skeleton>
+            <ProductCard product={dummyProduct} />
+          </Skeleton>
+        </>
+      ) : data && data.data.length > 0 ? (
+        data.data.map((product) => (
+          <Box
+            key={product._id}
+            sx={{
+              width: {
+                xs: "100%",
+                sm: "calc(50% - 8px)",
+                md: "calc(33.333% - 10.667px)",
+                lg: "calc(25% - 12px)",
+              },
+            }}
+          >
+            <ProductCard product={product} />
+          </Box>
+        ))
+      ) : (
+        <Box sx={{ width: "100%", textAlign: "center", py: 4 }}>
+          <Typography variant="h6">No products found</Typography>
+          <Typography color="text.secondary">
+            Try adjusting your search or filters
+          </Typography>
+        </Box>
+      )}
+    </Box>
+  );
+
   return (
     <>
       <Navbar />
@@ -195,58 +253,20 @@ export const SearchProductPage = () => {
               }}
             />
           </Box>
-
-          {/* Products Grid */}
-          <Box
-            sx={{
-              display: "flex",
-              flexWrap: "wrap",
-              gap: 2,
-              justifyContent: { xs: "center", sm: "flex-start" },
-              flexGrow: 1,
-              px: { xs: 4, md: 1 },
-            }}
-          >
-            {isFetching ? (
-              <Box sx={{ width: "100%", height: "30vh" }}>
-                <LoadingComponent />
-              </Box>
-            ) : products.length > 0 ? (
-              products.map((product) => (
-                <Box
-                  key={product._id}
-                  sx={{
-                    width: {
-                      xs: "100%",
-                      sm: "calc(50% - 8px)",
-                      md: "calc(33.333% - 10.667px)",
-                      lg: "calc(25% - 12px)",
-                    },
-                  }}
-                >
-                  <ProductCard product={product} />
-                </Box>
-              ))
-            ) : (
-              <Box sx={{ width: "100%", textAlign: "center", py: 4 }}>
-                <Typography variant="h6">No products found</Typography>
-                <Typography color="text.secondary">
-                  Try adjusting your search or filters
-                </Typography>
-              </Box>
-            )}
-          </Box>
+          <ProductGrid />
         </Box>
       </Box>
-      <Stack sx={{ my: 2 }}>
-        <Paginator
-          currentPage={page}
-          setPage={setPage}
-          totalPages={totalPages}
-          disabled={isFetching || isLoading}
-        />
-      </Stack>
-      <Footer />
+      {data && (
+        <Stack sx={{ my: 2 }}>
+          <Paginator
+            currentPage={page}
+            setPage={setPage}
+            totalPages={data.totalPages}
+            disabled={isFetching || isLoading}
+          />
+        </Stack>
+      )}
+      <Footer sx={{ mt: "auto" }} />
     </>
   );
 };
@@ -348,3 +368,4 @@ const CategoryRadioGroup = ({
     </FormControl>
   );
 };
+export default SearchProductPage;

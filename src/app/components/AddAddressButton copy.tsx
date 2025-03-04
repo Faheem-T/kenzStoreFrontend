@@ -4,7 +4,7 @@ import {
   useUpdateAddressMutation,
 } from "../api/addressesApi";
 import { Add, CancelOutlined, Save } from "@mui/icons-material";
-import { LoadingComponent } from "./LoadingComponent";
+import LoadingComponent from "./LoadingComponent";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";

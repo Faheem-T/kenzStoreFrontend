@@ -1,7 +1,7 @@
 import { Box, Button, Divider, Stack, Typography } from "@mui/material";
 import { ShoppingCart } from "lucide-react";
 import { useClearCartMutation, useGetCartQuery } from "../api/cartApi";
-import { LoadingComponent } from "../components/LoadingComponent";
+import LoadingComponent from "../components/LoadingComponent";
 import { CartItemCard } from "../components/CartItemCard";
 import { PopulatedCartType } from "../types/cart";
 import { Link, useNavigate } from "react-router";
@@ -15,7 +15,7 @@ import { useDeleteCouponFromCartMutation } from "../api/couponApi";
 // DONE Create Cart Summary component
 // DONE Create "Checkout" button
 // DONE Create "Clear Cart" button
-export const CartPage = () => {
+const CartPage = () => {
   const { data, isLoading } = useGetCartQuery();
   //   const [addToCart, { isLoading: isAddToCartLoading }] = useAddToCartMutation();
 
@@ -210,3 +210,4 @@ const ClearCartButton = () => {
     </Typography>
   );
 };
+export default CartPage;

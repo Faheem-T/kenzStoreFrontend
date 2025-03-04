@@ -1,5 +1,5 @@
 import { useGetCategoriesQuery } from "@/app/api/categoriesApi";
-import { LoadingComponent } from "@/app/components/LoadingComponent";
+import LoadingComponent from "@/app/components/LoadingComponent";
 import { Box, Typography, Button } from "@mui/material";
 import {
   Table,
@@ -14,7 +14,7 @@ import { useNavigate } from "react-router";
 import { cn } from "@/lib/utils";
 import { DeleteCategoryButton } from "@/app/components/adminComponents/DeleteCategoryButton";
 
-export const CategoryOverviewPage = () => {
+const CategoryOverviewPage = () => {
   const { data, isLoading } = useGetCategoriesQuery();
   const navigate = useNavigate();
 
@@ -77,3 +77,4 @@ export const CategoryOverviewPage = () => {
     </>
   );
 };
+export default CategoryOverviewPage;

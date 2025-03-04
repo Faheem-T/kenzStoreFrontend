@@ -4,7 +4,7 @@ import { CategoryHeroComponent } from "../components/CategoryHeroComponent";
 import { Navbar } from "../components/Navbar";
 import { BrowseHeroComponent } from "../components/BrowseHeroComponent";
 
-export const Homepage = () => {
+const Homepage = () => {
   return (
     <>
       <Stack sx={{ width: "100%", "& > *": { px: 12 } }}>
@@ -32,3 +32,5 @@ export const Homepage = () => {
     </>
   );
 };
+
+export default Homepage;

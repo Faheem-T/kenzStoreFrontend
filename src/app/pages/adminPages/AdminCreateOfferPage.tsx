@@ -43,11 +43,7 @@ const createCategoryOfferSchema = baseCreateOfferSchema.extend({
 
 // type createOfferForm = z.infer<typeof baseCreateOfferSchema>;
 
-export const AdminCreateOfferPage = ({
-  type,
-}: {
-  type: "product" | "category";
-}) => {
+const AdminCreateOfferPage = ({ type }: { type: "product" | "category" }) => {
   const navigate = useNavigate();
   const offerSchema =
     type === "product" ? createProductOfferSchema : createCategoryOfferSchema;
@@ -266,3 +262,4 @@ export const AdminCreateOfferPage = ({
     </>
   );
 };
+export default AdminCreateOfferPage;

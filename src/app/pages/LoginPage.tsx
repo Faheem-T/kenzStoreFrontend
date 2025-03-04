@@ -41,7 +41,7 @@ export type loginFormValues = {
 };
 
 // TODO Route to otp verification if error is `not verified
-export const LoginPage = () => {
+const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -176,3 +176,4 @@ export const LoginPage = () => {
     </>
   );
 };
+export default LoginPage;

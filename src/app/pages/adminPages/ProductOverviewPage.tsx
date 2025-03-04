@@ -1,5 +1,5 @@
 import { useGetProductsQuery } from "@/app/api/productsApi";
-import { LoadingComponent } from "@/app/components/LoadingComponent";
+import LoadingComponent from "@/app/components/LoadingComponent";
 import { Box, Button, Typography } from "@mui/material";
 import { useState } from "react";
 import {
@@ -17,7 +17,7 @@ import { cn } from "@/lib/utils";
 import { DeleteProductButton } from "@/app/components/adminComponents/DeleteProductButton";
 import { Paginator } from "@/app/components/Pagination";
 
-export const ProductOverviewPage = () => {
+const ProductOverviewPage = () => {
   // TODO add pagination
   const [page, setPage] = useState(1);
   const navigate = useNavigate();
@@ -111,3 +111,4 @@ export const ProductOverviewPage = () => {
     </>
   );
 };
+export default ProductOverviewPage;

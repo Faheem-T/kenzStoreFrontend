@@ -7,7 +7,7 @@ import {
   usePlaceOrderMutation,
 } from "../api/orderApi";
 import { useGetCartQuery } from "../api/cartApi";
-import { LoadingComponent } from "../components/LoadingComponent";
+import LoadingComponent from "../components/LoadingComponent";
 import { PaymentMethod } from "../types/order";
 import { CheckoutPaymentSection } from "./pageSections/CheckoutPaymentSection";
 import toast from "react-hot-toast";
@@ -21,7 +21,7 @@ const isOrderError = (error: unknown): error is PlaceOrderResponse => {
   return typeof error === "object" && error !== null && "errors" in error;
 };
 
-export const CheckoutPage = () => {
+const CheckoutPage = () => {
   const navigate = useNavigate();
   const [addressId, setAddressId] = useState<string>("");
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>("cod");
@@ -153,3 +153,4 @@ export const CheckoutPage = () => {
     </>
   );
 };
+export default CheckoutPage;

@@ -30,7 +30,7 @@ type resetPasswordType = z.infer<typeof resetPasswordSchema>;
 // TODO make a global password schema
 // const password = z.string().trim().nonempty("Password is required");
 
-export const ResetPasswordPage = () => {
+const ResetPasswordPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const [searchParams, _] = useSearchParams();
@@ -157,3 +157,4 @@ export const ResetPasswordPage = () => {
     </>
   );
 };
+export default ResetPasswordPage;

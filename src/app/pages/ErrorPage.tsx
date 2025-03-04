@@ -2,7 +2,7 @@ import { Box, Typography } from "@mui/material";
 import { Navbar } from "../components/Navbar";
 import { Link } from "react-router";
 
-export const ErrorPage = () => {
+const ErrorPage = () => {
   return (
     <>
       <Navbar />
@@ -23,3 +23,4 @@ export const ErrorPage = () => {
     </>
   );
 };
+export default ErrorPage;

@@ -1,4 +1,4 @@
-import { PopulatedCategoryType } from "./category";
+import { CategoryType, PopulatedCategoryType } from "./category";
 
 // SHARED TYPE: Sync with backend
 export interface ProductType {
@@ -47,7 +47,7 @@ export interface ProductType {
 }
 
 export interface ProductWithoutCategory extends Omit<ProductType, "category"> {
-  category: string; // ObjectId
+  category: CategoryType;
 }
 
 // SHARED TYPE: Sync with backend

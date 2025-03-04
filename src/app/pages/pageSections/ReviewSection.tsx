@@ -1,6 +1,6 @@
 import { Box, Rating, Typography } from "@mui/material";
 import { useGetProductReviewsQuery } from "../../api/reviewsApi";
-import { LoadingComponent } from "../../components/LoadingComponent";
+import LoadingComponent from "../../components/LoadingComponent";
 import { ReviewCard } from "../../components/ReviewCard";
 
 interface ReviewSectionProps {

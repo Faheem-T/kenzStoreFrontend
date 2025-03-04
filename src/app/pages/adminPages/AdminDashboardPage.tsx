@@ -15,7 +15,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { AdminProductCard } from "@/app/components/AdminProductCard";
-import { LoadingComponent } from "@/app/components/LoadingComponent";
+import LoadingComponent from "@/app/components/LoadingComponent";
 import {
   Box,
   Button,
@@ -34,7 +34,7 @@ import { PDFDownloadLink, PDFViewer } from "@react-pdf/renderer";
 import { SalesReportPDF } from "@/app/utils/SalesReportPDF";
 import { SalesReportCSV } from "@/app/utils/SalesReportCSV";
 
-export const AdminDashboardPage = () => {
+const AdminDashboardPage = () => {
   const [sTimeframe, setSTimeframe] = useState<Timeframe>("day");
   const [dates, setDates] = useState<{
     startDate: undefined | Date;
@@ -475,3 +475,4 @@ const ReportDownloadButton = ({
     </>
   );
 };
+export default AdminDashboardPage;
