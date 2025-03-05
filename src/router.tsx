@@ -7,7 +7,7 @@ import LoadingComponent from "./app/components/LoadingComponent";
 import ErrorPage from "./app/pages/ErrorPage";
 
 // Lazy loaded components
-const Root = lazy(() => import("./Root"));
+import Root from "./Root";
 const UserRoutes = lazy(() => import("./app/components/UserRoutes"));
 const UnprotectedRoutes = lazy(
   () => import("./app/components/UnprotectedRoutes")
@@ -33,7 +33,10 @@ const OrderConfirmationPage = lazy(
 );
 const Homepage = lazy(() => import("./app/pages/Homepage"));
 const ProductDetailsPage = lazy(() => import("./app/pages/ProductDetailsPage"));
-const SearchProductPage = lazy(() => import("./app/pages/SearchProductPage"));
+// const SearchProductPage = lazy(
+//   () => import("./app/pages/SearchProductPage")
+// );
+import SearchProductPage from "./app/pages/SearchProductPage";
 const CategoryProductsPage = lazy(
   () => import("./app/pages/CategoryProductsPage")
 );
@@ -99,7 +102,7 @@ export const router = createBrowserRouter([
     path: "/",
     loader: initialAuthLoader,
     hydrateFallbackElement: <LoadingComponent fullScreen />,
-    element: WrapinSuspense(<Root />),
+    element: <Root />,
     errorElement: <ErrorPage />,
     children: [
       {
@@ -160,7 +163,8 @@ export const router = createBrowserRouter([
             path: "/products/:id",
             element: WrapinSuspense(<ProductDetailsPage />),
           },
-          { path: "/search", element: WrapinSuspense(<SearchProductPage />) },
+          // { path: "/search", element: WrapinSuspense(<SearchProductPage />) },
+          { path: "/search", element: <SearchProductPage /> },
           {
             path: "/categories/:slug",
             element: WrapinSuspense(<CategoryProductsPage />),

@@ -30,6 +30,7 @@ import { useGetCategoriesQuery } from "../api/categoriesApi";
 import { Footer } from "../components/Footer";
 import { Paginator } from "../components/Pagination";
 import { dummyProduct } from "../utils/dummyData";
+import LoadingComponent from "../components/LoadingComponent";
 
 const searchFormSchema = z.object({
   query: z.string().optional(),
@@ -72,11 +73,11 @@ const SearchProductPage = () => {
     [searchParams]
   );
 
-  // if (isLoading) return <LoadingComponent fullScreen />;
-  // if (!data) return <Box>Couldn't fetch products</Box>;
+  if (isLoading) return <LoadingComponent fullScreen />;
+  if (!data) return <Box>Couldn't fetch products</Box>;
 
-  // const products = data.data;
-  // const totalPages = data.totalPages;
+  const products = data.data;
+  const totalPages = data.totalPages;
   const ProductGrid = () => (
     <Box
       sx={{
@@ -88,7 +89,7 @@ const SearchProductPage = () => {
         px: { xs: 4, md: 1 },
       }}
     >
-      {isFetching || isLoading ? (
+      {isFetching ? (
         // <Box sx={{ width: "100%", height: "30vh" }}>
         //   <LoadingComponent />
         // </Box>
@@ -106,8 +107,8 @@ const SearchProductPage = () => {
             <ProductCard product={dummyProduct} />
           </Skeleton>
         </>
-      ) : data && data.data.length > 0 ? (
-        data.data.map((product) => (
+      ) : products.length > 0 ? (
+        products.map((product) => (
           <Box
             key={product._id}
             sx={{
@@ -255,16 +256,14 @@ const SearchProductPage = () => {
           <ProductGrid />
         </Box>
       </Box>
-      {data && (
-        <Stack sx={{ my: 2 }}>
-          <Paginator
-            currentPage={page}
-            setPage={setPage}
-            totalPages={data.totalPages}
-            disabled={isFetching || isLoading}
-          />
-        </Stack>
-      )}
+      <Stack sx={{ my: 2 }}>
+        <Paginator
+          currentPage={page}
+          setPage={setPage}
+          totalPages={totalPages}
+          disabled={isFetching || isLoading}
+        />
+      </Stack>
       <Footer sx={{ mt: "auto" }} />
     </>
   );
@@ -282,13 +281,14 @@ const CategoryRadioGroup = ({
   const { data, isLoading } = useGetCategoriesQuery();
   if (isLoading)
     return (
-      <Skeleton>
-        <CategoryRadioGroup
-          handleChange={handleChange}
-          value={value}
-          handleClear={handleClear}
-        />
-      </Skeleton>
+      <LoadingComponent />
+      // <Skeleton>
+      //   <CategoryRadioGroup
+      //     handleChange={handleChange}
+      //     value={value}
+      //     handleClear={handleClear}
+      //   />
+      // </Skeleton>
     );
   if (!data) return <Box>Couldn't fetch categories</Box>;
   const categories = data.data;
