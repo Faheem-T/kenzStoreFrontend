@@ -32,7 +32,7 @@ export const GoogleLoginButton = () => {
       const array = new Uint32Array(1);
       crypto.getRandomValues(array);
       const g_csrf_token = "" + array[0];
-      document.cookie = `g_csrf_token=${g_csrf_token};secure`;
+      document.cookie = `g_csrf_token=${g_csrf_token};secure;SameSite=strict`;
       const { data, error } = await createGoogleLogin({
         credential: payload.credential,
         g_csrf_token,
