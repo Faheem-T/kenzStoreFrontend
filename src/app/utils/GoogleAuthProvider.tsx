@@ -10,8 +10,8 @@ if (!CLIENT_ID) {
   throw new Error("VITE_GOOGLE_CLIENT_ID not found. set it in your .env");
 }
 
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
-if (!BACKEND_URL) {
+const ROOT_DOMAIN = import.meta.env.VITE_ROOT_DOMAIN;
+if (!ROOT_DOMAIN) {
   throw new Error("VITE_BACKEND_URL is not defined. Set it in your .env");
 }
 
@@ -37,7 +37,9 @@ export const GoogleLoginButton = () => {
       const array = new Uint32Array(1);
       crypto.getRandomValues(array);
       const g_csrf_token = "" + array[0];
-      document.cookie = `g_csrf_token=${g_csrf_token};secure;path='/';domain='${BACKEND_URL}'`;
+      const expires = new Date();
+      expires.setDate(expires.getDate() + 2);
+      document.cookie = `g_csrf_token=${g_csrf_token};path=/;expires=${expires};domain=${ROOT_DOMAIN};secure`;
       const { data, error } = await createGoogleLogin({
         credential: payload.credential,
         g_csrf_token,
