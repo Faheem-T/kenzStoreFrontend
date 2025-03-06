@@ -19,12 +19,14 @@ import { useRegisterMutation } from "../api/authApi";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { Link, useNavigate } from "react-router";
+import { GoogleLoginButton } from "../utils/GoogleAuthProvider";
+import { Navbar } from "../components/Navbar";
 
 // SHARED
 const registerSchema = z.object({
-  firstName: z
+  name: z
     .string()
-    .nonempty("First name is required")
+    .nonempty("Name is required")
     .min(3, "Name cannot be less than 3 characters"),
   email: z
     .string()
@@ -41,7 +43,7 @@ const RegisterPage = () => {
   const navigate = useNavigate();
   const form = useForm<registerFormValues>({
     defaultValues: {
-      firstName: "",
+      name: "",
       email: "",
       password: "",
       confirmPassword: "",
@@ -74,7 +76,7 @@ const RegisterPage = () => {
       error.data.issues.forEach(
         (issue: {
           message: string;
-          field: "firstName" | "password" | "confirmPassword" | "email";
+          field: "name" | "password" | "confirmPassword" | "email";
         }) => {
           setError(issue.field, { message: issue.message, type: "value" });
         }
@@ -84,6 +86,7 @@ const RegisterPage = () => {
 
   return (
     <>
+      <Navbar />
       <Box
         sx={{
           height: "100vh",
@@ -101,10 +104,10 @@ const RegisterPage = () => {
           <Stack spacing={2} paddingY={0} paddingX={8}>
             <TextField
               variant="standard"
-              label="First Name"
-              {...register("firstName")}
-              error={!!errors.firstName}
-              helperText={errors.firstName?.message}
+              label="Name"
+              {...register("name")}
+              error={!!errors.name}
+              helperText={errors.name?.message}
             />
             <TextField
               variant="standard"
@@ -193,6 +196,7 @@ const RegisterPage = () => {
             <Link to="/login">LOGIN</Link>
           </Box>
         </Typography>
+        <GoogleLoginButton />
       </Box>
     </>
   );

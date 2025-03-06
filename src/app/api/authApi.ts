@@ -75,6 +75,16 @@ export const authApi = api.injectEndpoints({
         body: { newPassword, token },
       }),
     }),
+    googleLogin: builder.mutation<
+      loginResponse,
+      { credential: string; g_csrf_token: string }
+    >({
+      query: ({ credential, g_csrf_token }) => ({
+        url: "v1/auth/google-login",
+        method: "POST",
+        body: { credential, g_csrf_token },
+      }),
+    }),
   }),
 });
 
@@ -88,4 +98,5 @@ export const {
   useLogoutMutation,
   useForgotPasswordMutation,
   useResetPasswordMutation,
+  useGoogleLoginMutation,
 } = authApi;

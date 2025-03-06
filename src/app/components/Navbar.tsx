@@ -17,6 +17,7 @@ import { Modal, SxProps, TextField } from "@mui/material";
 import { Search } from "@mui/icons-material";
 import { selectUser } from "../features/auth/authSlice";
 import { useAppSelector } from "../hooks";
+import { SafeUserType } from "../types/user";
 
 // const pages = ["Products", "Pricing", "Blog"];
 const pages = [
@@ -43,7 +44,7 @@ export const Navbar = ({ sx }: { sx?: SxProps }) => {
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null
   );
-  const user = useAppSelector(selectUser);
+  const user = useAppSelector(selectUser) as SafeUserType;
 
   const settings = React.useMemo(
     () =>
@@ -186,7 +187,7 @@ export const Navbar = ({ sx }: { sx?: SxProps }) => {
             />
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar />
+                <Avatar src={user?.picture ?? ""} />
               </IconButton>
             </Tooltip>
             <Menu

@@ -78,5 +78,5 @@ export type getUserResponse = BaseResponse<SafeUserType>;
 export type blockUserResponse = baseResponseWithMessageAndData<SafeUserType>;
 
 export type updateUserProfileResponse = BaseResponse<
-  Pick<SafeUserType, "firstName" | "lastName" | "email">
+  Pick<SafeUserType, "name" | "email">
 >;

@@ -47,8 +47,7 @@ const AdminUsersOverviewPage = () => {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>First Name</TableHead>
-              <TableHead>Last Name</TableHead>
+              <TableHead>Name</TableHead>
               <TableHead>Email</TableHead>
               <TableHead>Verified</TableHead>
               <TableHead>Blocked</TableHead>
@@ -62,8 +61,7 @@ const AdminUsersOverviewPage = () => {
                   "border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted"
                 )}
               >
-                <TableCell>{user.firstName}</TableCell>
-                <TableCell>{user.lastName}</TableCell>
+                <TableCell>{user.name}</TableCell>
                 <TableCell>{user.email}</TableCell>
                 <TableCell>{user.isVerified ? <Check /> : null}</TableCell>
                 <TableCell>

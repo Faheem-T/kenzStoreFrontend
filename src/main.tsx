@@ -8,34 +8,31 @@ import { CssBaseline } from "@mui/material";
 import { Provider } from "react-redux";
 import { store } from "./app/store.ts";
 import { Toaster } from "react-hot-toast";
-import { GoogleAuthProvider } from "./app/utils/GoogleAuthProvider.tsx";
 import { router } from "./router.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <GoogleAuthProvider>
-      <Provider store={store}>
-        <ThemeProvider theme={theme}>
-          <CssBaseline />
-          <Toaster
-            position="bottom-left"
-            toastOptions={{
-              className: "",
-              style: {
-                border: "",
-                padding: "8px",
-                color: theme.palette.text.primary,
-                backgroundColor: theme.palette.background.paper,
-                fontFamily: theme.typography.fontFamily,
-                textTransform: "none",
-                fontWeight: "500",
-                fontSize: "12px",
-              },
-            }}
-          />
-          <RouterProvider router={router} />
-        </ThemeProvider>
-      </Provider>
-    </GoogleAuthProvider>
+    <Provider store={store}>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <Toaster
+          position="bottom-left"
+          toastOptions={{
+            className: "",
+            style: {
+              border: "",
+              padding: "8px",
+              color: theme.palette.text.primary,
+              backgroundColor: theme.palette.background.paper,
+              fontFamily: theme.typography.fontFamily,
+              textTransform: "none",
+              fontWeight: "500",
+              fontSize: "12px",
+            },
+          }}
+        />
+        <RouterProvider router={router} />
+      </ThemeProvider>
+    </Provider>
   </StrictMode>
 );

@@ -20,7 +20,7 @@ export type SalesReportBody = BaseResponse<{
     | "completedAt"
     | "totalPrice"
     | "originalPrice"
-  > & { userId: { _id: string; firstName: string } })[];
+  > & { userId: { _id: string; name: string } })[];
   totalSalesCount: number;
   totalSaleAmount: number;
   orderCountByTimeframe: { _id: string; count: number }[];

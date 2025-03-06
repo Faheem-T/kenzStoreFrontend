@@ -39,7 +39,7 @@ export const SalesReportCSV = ({ body }: { body: SalesReportBody["data"] }) => {
       completedAt,
     } = order;
     return [
-      userId?.firstName ?? "",
+      userId?.name ?? "",
       totalPrice,
       originalPrice,
       `-${

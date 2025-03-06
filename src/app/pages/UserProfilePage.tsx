@@ -12,7 +12,7 @@ import { EditableField } from "../components/EditableField";
 import { User } from "lucide-react";
 
 const ProfileSchema = z.object({
-  firstName: z.string().nonempty("First name is required"),
+  name: z.string().nonempty("Name is required"),
   lastName: z.string().optional(),
   email: z.string().email("Please enter a valid email"),
   //   DOB: z.date().optional(),
@@ -33,8 +33,7 @@ const UserProfilePage = () => {
 
   const form = useForm<ProfileType>({
     defaultValues: {
-      firstName: user.firstName,
-      lastName: user.lastName,
+      name: user.name,
       email: user.email,
       //   DOB: user.DOB,
     },
@@ -57,8 +56,8 @@ const UserProfilePage = () => {
       toast.error("Failed to update profile");
       return;
     }
-    const { email, firstName, lastName } = updateResponse.data;
-    dispatch(profileUpdated({ email, firstName, lastName }));
+    const { email, name } = updateResponse.data;
+    dispatch(profileUpdated({ email, name }));
     if (!error) {
       toast.success("Profile updated successfully");
       setIsEditing(false);
@@ -130,17 +129,9 @@ const UserProfilePage = () => {
             </Box>
           </Box>
           <EditableField
-            label="First Name"
-            value={user.firstName}
-            name="firstName"
-            errors={errors}
-            register={register}
-            isEditing={isEditing}
-          />
-          <EditableField
-            label="Last Name"
-            value={user.lastName || ""}
-            name="lastName"
+            label="Name"
+            value={user.name}
+            name="name"
             errors={errors}
             register={register}
             isEditing={isEditing}
@@ -153,11 +144,6 @@ const UserProfilePage = () => {
             register={register}
             isEditing={isEditing}
           />
-          {/* <ProfileField
-            label="Date of Birth"
-            value={user.DOB?.toDateString() ?? ""}
-            name="DOB"
-          /> */}
         </Box>
         <Box sx={{ boxShadow: 2, bgcolor: "background.paper", p: 2 }}>
           <Typography>Your Referral Code</Typography>

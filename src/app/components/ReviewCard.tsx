@@ -18,7 +18,7 @@ export const ReviewCard = ({ review }: ReviewCardProps) => {
       })}
     >
       <Typography color="textDisabled">
-        {review.userId?.firstName ?? "Unknown user"}
+        {review.userId?.name ?? "Unknown user"}
       </Typography>
       <Rating value={review.rating} precision={0.5} readOnly />
       <Typography variant="body1" sx={{ margin: 2 }}>

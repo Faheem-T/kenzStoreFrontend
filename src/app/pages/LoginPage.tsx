@@ -22,8 +22,8 @@ import { Link, useNavigate } from "react-router";
 import toast from "react-hot-toast";
 import { selectUser, userLoggedIn } from "../features/auth/authSlice";
 import { useAppDispatch, useAppSelector } from "../hooks";
-import { GoogleLogin } from "@react-oauth/google";
 import { Navbar } from "../components/Navbar";
+import { GoogleLoginButton } from "../utils/GoogleAuthProvider";
 
 const loginSchema = z.object({
   email: z
@@ -34,7 +34,6 @@ const loginSchema = z.object({
 });
 
 export type loginFormValues = {
-  firstName: string;
   password: string;
   confirmPassword: string;
   email: string;
@@ -171,8 +170,8 @@ const LoginPage = () => {
             <Link to="/register">Register</Link>
           </Box>
         </Typography>
+        <GoogleLoginButton />
       </Box>
-      <GoogleLogin onSuccess={console.log} onError={console.log} />
     </>
   );
 };

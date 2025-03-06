@@ -15,5 +15,5 @@ export interface ReviewType {
 
 // SHARED TYPE: Sync with backend
 export interface UserPopulatedReviewType extends Omit<ReviewType, "userId"> {
-  userId: Pick<UserType, "firstName"> | undefined;
+  userId: Pick<UserType, "name"> | undefined;
 }

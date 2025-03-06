@@ -20,7 +20,7 @@ export const NavbarUserIcon = () => {
     <DropdownMenu open={open} onOpenChange={setOpen}>
       <DropdownMenuTrigger>
         <Box sx={{ display: "flex", alignItems: "center" }}>
-          <Typography color="white">{user.firstName}</Typography>
+          <Typography color="white">{user.name}</Typography>
           {open ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
         </Box>
       </DropdownMenuTrigger>
