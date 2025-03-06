@@ -8,10 +8,13 @@ import ErrorPage from "./app/pages/ErrorPage";
 
 // Lazy loaded components
 import Root from "./Root";
-const UserRoutes = lazy(() => import("./app/components/UserRoutes"));
-const UnprotectedRoutes = lazy(
-  () => import("./app/components/UnprotectedRoutes")
-);
+// const UserRoutes = lazy(() => import("./app/components/UserRoutes"));
+import UserRoutes from "./app/components/UserRoutes";
+// const UnprotectedRoutes = lazy(
+//   () => import("./app/components/UnprotectedRoutes")
+// );
+import UnprotectedRoutes from "./app/components/UnprotectedRoutes";
+
 const RegisterPage = lazy(() => import("./app/pages/RegisterPage"));
 const OtpVerificationPage = lazy(
   () => import("./app/pages/OtpVerificationPage")
@@ -19,7 +22,8 @@ const OtpVerificationPage = lazy(
 const LoginPage = lazy(() => import("./app/pages/LoginPage"));
 const ForgotPasswordPage = lazy(() => import("./app/pages/ForgotPasswordPage"));
 const ResetPasswordPage = lazy(() => import("./app/pages/ResetPasswordPage"));
-const ProtectedRoutes = lazy(() => import("./app/components/ProtectedRoutes"));
+// const ProtectedRoutes = lazy(() => import("./app/components/ProtectedRoutes"));
+import ProtectedRoutes from "./app/components/ProtectedRoutes";
 const UserProfileRoot = lazy(() => import("./app/pages/UserProfileRoot"));
 const UserProfilePage = lazy(() => import("./app/pages/UserProfilePage"));
 const UserAddressesPage = lazy(() => import("./app/pages/UserAddressesPage"));
@@ -31,7 +35,8 @@ const CheckoutPage = lazy(() => import("./app/pages/CheckoutPage"));
 const OrderConfirmationPage = lazy(
   () => import("./app/pages/OrderConfirmationPage")
 );
-const Homepage = lazy(() => import("./app/pages/Homepage"));
+// const Homepage = lazy(() => import("./app/pages/Homepage"));
+import Homepage from "./app/pages/Homepage";
 const ProductDetailsPage = lazy(() => import("./app/pages/ProductDetailsPage"));
 // const SearchProductPage = lazy(
 //   () => import("./app/pages/SearchProductPage")
@@ -42,9 +47,10 @@ const CategoryProductsPage = lazy(
 );
 
 // Admin Components
-const AdminOnlyRoutes = lazy(
-  () => import("./app/components/adminComponents/AdminOnlyRoutes")
-);
+// const AdminOnlyRoutes = lazy(
+//   () => import("./app/components/adminComponents/AdminOnlyRoutes")
+// );
+import AdminOnlyRoutes from "./app/components/adminComponents/AdminOnlyRoutes";
 const AdminLoginPage = lazy(
   () => import("./app/pages/adminPages/AdminLoginPage")
 );
@@ -106,10 +112,10 @@ export const router = createBrowserRouter([
     errorElement: <ErrorPage />,
     children: [
       {
-        element: WrapinSuspense(<UserRoutes />),
+        element: <UserRoutes />,
         children: [
           {
-            element: WrapinSuspense(<UnprotectedRoutes />),
+            element: <UnprotectedRoutes />,
             children: [
               { path: "/register", element: WrapinSuspense(<RegisterPage />) },
               {
@@ -128,7 +134,7 @@ export const router = createBrowserRouter([
             ],
           },
           {
-            element: WrapinSuspense(<ProtectedRoutes />),
+            element: <ProtectedRoutes />,
             children: [
               {
                 path: "/user",
@@ -158,7 +164,7 @@ export const router = createBrowserRouter([
               },
             ],
           },
-          { path: "/", element: WrapinSuspense(<Homepage />) },
+          { path: "/", element: <Homepage /> },
           {
             path: "/products/:id",
             element: WrapinSuspense(<ProductDetailsPage />),
@@ -176,7 +182,7 @@ export const router = createBrowserRouter([
       { path: "/admin/login", element: WrapinSuspense(<AdminLoginPage />) },
       {
         path: "/admin",
-        element: WrapinSuspense(<AdminOnlyRoutes />),
+        element: <AdminOnlyRoutes />,
         children: [
           {
             path: "dashboard",
