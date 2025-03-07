@@ -1,4 +1,12 @@
-import { Box, Button, Divider, Stack, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Divider,
+  Stack,
+  Typography,
+  useTheme,
+  useMediaQuery,
+} from "@mui/material";
 import { GetUserOrder, OrderStatus, PaymentStatus } from "../types/order";
 import {
   useCancelOrderMutation,
@@ -10,6 +18,10 @@ import InvoiceDocument from "../utils/invoicePDF";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 
 export const OrderCard = ({ order }: { order: GetUserOrder }) => {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  // const isTablet = useMediaQuery(theme.breakpoints.down("md"));
+
   const OrderTotal = () => (
     <Box>
       <Typography variant="caption" color="textDisabled">
@@ -23,7 +35,12 @@ export const OrderCard = ({ order }: { order: GetUserOrder }) => {
 
   const OrderPriceBreakup = () => (
     <Box
-      sx={{ display: "flex", flexDirection: "column", alignItems: "flex-end" }}
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: { xs: "flex-start", sm: "flex-end" },
+        width: "100%",
+      }}
     >
       <Typography variant="caption">
         Order Amount:{" "}
@@ -53,107 +70,186 @@ export const OrderCard = ({ order }: { order: GetUserOrder }) => {
       <Box
         sx={{
           backgroundColor: "background.paper",
-          p: 4,
+          p: { xs: 2, sm: 3, md: 4 },
           gap: 2,
           display: "flex",
           flexDirection: "column",
+          borderRadius: 1,
+          boxShadow: 1,
         }}
       >
+        {/* Order Info Cards */}
         <Box
           sx={{
             display: "flex",
-            gap: 2,
-            "& > *": {
-              py: 1,
-              px: 3,
-              backgroundColor: "background.default",
-              boxShadow: 1,
-              borderRadius: 1,
-            },
+            flexDirection: { xs: "column", md: "row" },
+            gap: { xs: 1, sm: 2 },
+            flexWrap: "wrap",
           }}
         >
-          <OrderTotal />
-          <Box>
-            <Typography variant="caption" color="textDisabled">
-              Ordered On:
-            </Typography>
-            <Typography sx={{ fontWeight: "bold" }}>
-              {new Date(order.createdAt).toDateString()}
-            </Typography>
-          </Box>
-          {order.cancelledAt && (
-            <Box>
-              <Typography variant="caption" color="textDisabled">
-                Cancelled On:
-              </Typography>
-              <Typography sx={{ fontWeight: "bold" }}>
-                {new Date(order.cancelledAt).toDateString()}
-              </Typography>
-            </Box>
-          )}
-          <Box>
-            <Typography variant="caption" color="textDisabled">
-              Payment Method:
-            </Typography>
-            <Typography
-              sx={{ textTransform: "capitalize", fontWeight: "bold" }}
-            >
-              {order.paymentMethod}
-            </Typography>
-          </Box>
+          {/* Basic Info Cards */}
           <Box
             sx={{
-              ml: "auto",
+              display: "flex",
+              flexDirection: { xs: "column", sm: "row" },
+              gap: { xs: 1, sm: 2 },
+              width: "100%",
+              "& > *": {
+                py: 1,
+                px: { xs: 2, sm: 3 },
+                backgroundColor: "background.default",
+                boxShadow: 1,
+                borderRadius: 1,
+                flex: { sm: 1 },
+              },
             }}
           >
-            <Typography variant="caption" color="textDisabled">
-              Payment Status:
-            </Typography>
-            <Typography
-              color={statusColor(order.paymentStatus)}
-              sx={{ textTransform: "capitalize", fontWeight: "bold" }}
-            >
-              {order.paymentStatus}
-            </Typography>
-            {order.paymentStatus === "incomplete" &&
-              order.paymentMethod === "online" &&
-              order.status !== "cancelled" &&
-              order.status !== "completed" && (
-                <RetryPaymentButton orderId={order._id} />
-              )}
+            <OrderTotal />
+            <Box>
+              <Typography variant="caption" color="textDisabled">
+                Ordered On:
+              </Typography>
+              <Typography sx={{ fontWeight: "bold" }}>
+                {new Date(order.createdAt).toDateString()}
+              </Typography>
+            </Box>
+            {order.cancelledAt && (
+              <Box>
+                <Typography variant="caption" color="textDisabled">
+                  Cancelled On:
+                </Typography>
+                <Typography sx={{ fontWeight: "bold" }}>
+                  {new Date(order.cancelledAt).toDateString()}
+                </Typography>
+              </Box>
+            )}
           </Box>
-          <Box>
-            <Typography variant="caption" color="textDisabled">
-              Order Status:
-            </Typography>
-            <Typography
-              color={statusColor(order.status)}
-              sx={{ textTransform: "capitalize", fontWeight: "bold" }}
-            >
-              {order.status}
-            </Typography>
+
+          {/* Payment & Status Cards */}
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: { xs: "column", sm: "row" },
+              gap: { xs: 1, sm: 2 },
+              width: "100%",
+              "& > *": {
+                py: 1,
+                px: { xs: 2, sm: 3 },
+                backgroundColor: "background.default",
+                boxShadow: 1,
+                borderRadius: 1,
+                flex: { sm: 1 },
+              },
+            }}
+          >
+            <Box>
+              <Typography variant="caption" color="textDisabled">
+                Payment Method:
+              </Typography>
+              <Typography
+                sx={{ textTransform: "capitalize", fontWeight: "bold" }}
+              >
+                {order.paymentMethod}
+              </Typography>
+            </Box>
+            <Box>
+              <Typography variant="caption" color="textDisabled">
+                Payment Status:
+              </Typography>
+              <Typography
+                color={statusColor(order.paymentStatus)}
+                sx={{ textTransform: "capitalize", fontWeight: "bold" }}
+              >
+                {order.paymentStatus}
+              </Typography>
+              {order.paymentStatus === "incomplete" &&
+                order.paymentMethod === "online" &&
+                order.status !== "cancelled" &&
+                order.status !== "completed" && (
+                  <RetryPaymentButton orderId={order._id} />
+                )}
+            </Box>
+            <Box>
+              <Typography variant="caption" color="textDisabled">
+                Order Status:
+              </Typography>
+              <Typography
+                color={statusColor(order.status)}
+                sx={{ textTransform: "capitalize", fontWeight: "bold" }}
+              >
+                {order.status}
+              </Typography>
+            </Box>
           </Box>
         </Box>
+
         <Divider />
-        <Box sx={{ display: "flex", gap: 2 }}>
-          <Stack gap={4}>
+
+        {/* Order Items */}
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: { xs: "column", md: "row" },
+            gap: 2,
+          }}
+        >
+          <Stack gap={4} sx={{ width: "100%" }}>
             {order.items.map((item) => (
               <Box
                 key={item._id}
-                sx={{ display: "flex", alignItems: "center", gap: 3 }}
+                sx={{
+                  display: "flex",
+                  flexDirection: { xs: "column", sm: "row" },
+                  alignItems: { xs: "flex-start", sm: "center" },
+                  gap: 3,
+                }}
               >
-                <Box sx={{ flex: 0.3 }}>
-                  <img src={item.productId.images[0]} width="100%" />
+                <Box
+                  sx={{
+                    flex: { xs: "unset", sm: 0.3 },
+                    width: { xs: "100%", sm: "auto" },
+                    maxWidth: { xs: "200px", sm: "none" },
+                  }}
+                >
+                  <img
+                    src={item.productId.images[0]}
+                    alt={item.productId.name}
+                    style={{
+                      width: "100%",
+                      borderRadius: "4px",
+                      objectFit: "contain",
+                    }}
+                  />
                 </Box>
-                <Box sx={{ flex: 1 }}>
-                  <Typography>{item.productId.name}</Typography>
-                  <Typography>Quantity: {item.quantity}</Typography>
-                  <Typography fontWeight="bold">₹ {item.price} /-</Typography>
+                <Box sx={{ flex: 1, mt: { xs: 1, sm: 0 } }}>
+                  <Typography variant={isMobile ? "body2" : "body1"}>
+                    {item.productId.name}
+                  </Typography>
+                  <Typography variant={isMobile ? "body2" : "body1"}>
+                    Quantity: {item.quantity}
+                  </Typography>
+                  <Typography
+                    fontWeight="bold"
+                    variant={isMobile ? "body2" : "body1"}
+                  >
+                    ₹ {item.price} /-
+                  </Typography>
                 </Box>
               </Box>
             ))}
           </Stack>
-          <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
+
+          {/* Action Buttons */}
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              gap: 1,
+              width: { xs: "100%", md: "auto" },
+              minWidth: { md: "150px" },
+              mt: { xs: 2, md: 0 },
+            }}
+          >
             {order.status === "pending" && (
               <CancelOrderButton orderId={order._id} />
             )}
@@ -161,7 +257,7 @@ export const OrderCard = ({ order }: { order: GetUserOrder }) => {
               <ReturnOrderButton orderId={order._id} />
             )}
             {order.status === "completed" && order.paymentStatus === "paid" && (
-              <Box sx={{ mt: "auto" }}>
+              <Box sx={{ mt: { xs: 2, md: "auto" } }}>
                 <PDFDownloadLink
                   document={<InvoiceDocument order={order} />}
                   fileName={`invoice ${order._id}.pdf`}
@@ -175,6 +271,7 @@ export const OrderCard = ({ order }: { order: GetUserOrder }) => {
             )}
           </Box>
         </Box>
+
         <Divider />
         <OrderPriceBreakup />
       </Box>
@@ -215,7 +312,12 @@ const CancelOrderButton = ({ orderId }: { orderId: string }) => {
     }
   };
   return (
-    <Button onClick={handleCancleClick} disabled={isLoading} variant="outlined">
+    <Button
+      onClick={handleCancleClick}
+      disabled={isLoading}
+      variant="outlined"
+      fullWidth
+    >
       {isLoading ? "Canceling..." : "Cancel Order"}
     </Button>
   );
@@ -238,6 +340,7 @@ const ReturnOrderButton = ({ orderId }: { orderId: string }) => {
         onClick={handleReturnClick}
         disabled={isLoading}
         variant="outlined"
+        fullWidth
       >
         {isLoading ? "Requesting return..." : "Return Order"}
       </Button>
