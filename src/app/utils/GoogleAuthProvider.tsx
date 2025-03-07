@@ -39,7 +39,11 @@ export const GoogleLoginButton = () => {
       const g_csrf_token = "" + array[0];
       const expires = new Date();
       expires.setDate(expires.getDate() + 2);
-      document.cookie = `g_csrf_token=${g_csrf_token};path=/;expires=${expires};domain=${ROOT_DOMAIN};secure`;
+      document.cookie =
+        `g_csrf_token=${g_csrf_token};expires=${expires};path=/` +
+        (import.meta.env.MODE === "production"
+          ? `;domain=${ROOT_DOMAIN};secure`
+          : "");
       const { data, error } = await createGoogleLogin({
         credential: payload.credential,
         g_csrf_token,
