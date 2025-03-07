@@ -1,6 +1,6 @@
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import { api } from "../api";
-import { GetUserOrder, OrderStatus } from "../types/order";
+import { GetUserOrder, OrderDetailsType, OrderStatus } from "../types/order";
 import {
   BaseResponse,
   baseResponseWithMessage,
@@ -137,6 +137,9 @@ export const orderApi = api.injectEndpoints({
         { type: "Order", _id: arg.orderId },
       ],
     }),
+    getOrder: build.query<BaseResponse<OrderDetailsType>, { orderId: string }>({
+      query: ({ orderId }) => ({ url: `v1/orders/${orderId}` }),
+    }),
     // Admin routes
     adminGetAllOrders: build.query<
       getUserOrdersResponse,
@@ -203,6 +206,7 @@ export const {
   useGetUserOrdersQuery,
   useCancelOrderMutation,
   useRequestOrderReturnMutation,
+  useGetOrderQuery,
   useAdminGetAllOrdersQuery,
   useAdminChangeOrderStatusMutation,
   useAdminApproveOrderReturnMutation,

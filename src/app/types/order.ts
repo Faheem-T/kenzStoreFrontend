@@ -1,4 +1,5 @@
 import { AddressType } from "./address";
+import { CouponType } from "./coupon";
 import { ItemType, ProductPopulatedItem } from "./item";
 import { ProductType } from "./product";
 
@@ -71,3 +72,11 @@ export type GetUserOrder = ProductPopulatedOrderType<
     "name" | "description" | "images" | "_id" | "effectiveDiscount"
   >
 >;
+
+// SHARED
+export type OrderDetailsType = Omit<GetUserOrder, "coupon"> & {
+  coupon: Pick<
+    CouponType,
+    "_id" | "name" | "code" | "discountType" | "discountValue"
+  >;
+};

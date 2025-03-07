@@ -29,6 +29,7 @@ const UserProfilePage = lazy(() => import("./app/pages/UserProfilePage"));
 const UserAddressesPage = lazy(() => import("./app/pages/UserAddressesPage"));
 const CartPage = lazy(() => import("./app/pages/CartPage"));
 const OrdersPage = lazy(() => import("./app/pages/OrdersPage"));
+const OrderDetailsPage = lazy(() => import("./app/pages/OrderDetailsPage"));
 const WishlistPage = lazy(() => import("./app/pages/WishlistPage"));
 const WalletPage = lazy(() => import("./app/pages/WalletPage"));
 const CheckoutPage = lazy(() => import("./app/pages/CheckoutPage"));
@@ -151,6 +152,10 @@ export const router = createBrowserRouter([
                   { path: "cart", element: WrapinSuspense(<CartPage />) },
                   { path: "orders", element: WrapinSuspense(<OrdersPage />) },
                   {
+                    path: "orders/:orderId",
+                    element: WrapinSuspense(<OrderDetailsPage />),
+                  },
+                  {
                     path: "wishlist",
                     element: WrapinSuspense(<WishlistPage />),
                   },
@@ -228,6 +233,11 @@ export const router = createBrowserRouter([
             path: "orders",
             element: WrapinSuspense(<AdminOrderOverviewPage />),
           },
+          {
+            path: "orders/:orderId",
+            element: WrapinSuspense(<OrderDetailsPage isAdmin />),
+          },
+
           {
             path: "offers",
             element: WrapinSuspense(<AdminProductOffersPage />),

@@ -16,11 +16,17 @@ import toast from "react-hot-toast";
 import { RetryPaymentButton } from "./RetryPaymentButton";
 import InvoiceDocument from "../utils/invoicePDF";
 import { PDFDownloadLink } from "@react-pdf/renderer";
+import { useNavigate } from "react-router";
 
 export const OrderCard = ({ order }: { order: GetUserOrder }) => {
+  const navigate = useNavigate();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   // const isTablet = useMediaQuery(theme.breakpoints.down("md"));
+
+  const handleClick = () => {
+    navigate(order._id);
+  };
 
   const OrderTotal = () => (
     <Box>
@@ -45,21 +51,22 @@ export const OrderCard = ({ order }: { order: GetUserOrder }) => {
       <Typography variant="caption">
         Order Amount:{" "}
         <Typography variant="caption" fontWeight={700} component="span">
-          {order.originalPrice} ₹
+          ₹ {order.originalPrice}
         </Typography>
       </Typography>
       <Typography variant="caption">
         Coupon Discount:{" "}
         <Typography variant="caption" fontWeight={700} component="span">
-          {(order.totalPrice - order.originalPrice).toFixed(2)} ₹ (
+          ₹ {(order.totalPrice - order.originalPrice).toFixed(2)} (
+          {order.discountType !== "percentage" && "₹"}
           {-order.discountValue}
-          {order.discountType === "percentage" ? "%" : "₹"})
+          {order.discountType === "percentage" && "%"})
         </Typography>
       </Typography>
       <Typography variant="caption">
         Final Price:{" "}
         <Typography variant="caption" fontWeight={700} component="span">
-          {order.totalPrice} ₹
+          ₹ {order.totalPrice}
         </Typography>
       </Typography>
     </Box>
@@ -76,7 +83,9 @@ export const OrderCard = ({ order }: { order: GetUserOrder }) => {
           flexDirection: "column",
           borderRadius: 1,
           boxShadow: 1,
+          "&:hover": { cursor: "pointer" },
         }}
+        onClick={handleClick}
       >
         {/* Order Info Cards */}
         <Box

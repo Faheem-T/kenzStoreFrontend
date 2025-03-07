@@ -31,6 +31,7 @@ import {
 import dayjs from "dayjs";
 import { useState } from "react";
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router";
 
 dayjs.extend(relativeTime);
 const AdminOrderOverviewPage = () => {
@@ -83,7 +84,12 @@ const AdminOrderOverviewPage = () => {
 
 const OrderRow = ({ order }: { order: GetUserOrder }) => {
   //   const [status, setStatus] = useState<OrderStatus>(order.status);
+  const navigate = useNavigate();
   const [changeStatus, { isLoading }] = useAdminChangeOrderStatusMutation();
+
+  const handleRowClick = () => {
+    navigate(order._id);
+  };
 
   const handleStatusChange = async (e: SelectChangeEvent) => {
     const newStatus = e.target.value as OrderStatus;
@@ -107,7 +113,10 @@ const OrderRow = ({ order }: { order: GetUserOrder }) => {
   const updatedAtFromNow = dayjs(order.updatedAt).fromNow();
 
   return (
-    <TableRow className={cn(isLoading ? "opacity-80 bg-white" : "")}>
+    <TableRow
+      className={cn(isLoading ? "opacity-80 bg-white" : "", "cursor-pointer")}
+      onClick={handleRowClick}
+    >
       <Tooltip title={updatedAt}>
         <TableCell>{updatedAtFromNow}</TableCell>
       </Tooltip>
