@@ -1,4 +1,13 @@
-import { Box, Button, Divider, Stack, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Divider,
+  Stack,
+  Typography,
+  Container,
+  useTheme,
+  useMediaQuery,
+} from "@mui/material";
 import { ShoppingCart } from "lucide-react";
 import { useClearCartMutation, useGetCartQuery } from "../api/cartApi";
 import LoadingComponent from "../components/LoadingComponent";
@@ -10,116 +19,165 @@ import { ServerError } from "../types/serverErrorType";
 import { ApplicableCoupons } from "../components/ApplicableCouponsSection";
 import { useDeleteCouponFromCartMutation } from "../api/couponApi";
 
-// DONE Create Cart Item component
-// DONE "Cart Empty"
-// DONE Create Cart Summary component
-// DONE Create "Checkout" button
-// DONE Create "Clear Cart" button
 const CartPage = () => {
   const { data, isLoading } = useGetCartQuery();
-  //   const [addToCart, { isLoading: isAddToCartLoading }] = useAddToCartMutation();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   if (isLoading) return <LoadingComponent fullScreen />;
+
   let cart;
   if (!data) cart = { items: [] };
   else {
     cart = data.data;
   }
+
   return (
-    <Box sx={{ p: 4, width: "100vw" }}>
-      <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
-        <ShoppingCart size={40} />
-        <Typography variant="h5">Your Cart</Typography>
-      </Box>
-      {cart?.items.length ? <ClearCartButton /> : null}
-      <Box sx={{ display: "flex", minWidth: 500 }}>
-        {cart?.items.length ? (
-          <>
-            <Stack
-              gap={2}
-              sx={{
-                p: 4,
-                flex: 2,
-                backgroundColor: "background.paper",
-                m: 2,
-                height: "fit-content",
-              }}
-              divider={<Divider />}
-            >
-              {cart.items.map((item) => (
-                <CartItemCard item={item} key={item.productId._id} />
-              ))}
-              {/* TODO make a compound component out of `CartSummary` and display the `cartTotal` here */}
-            </Stack>
-            <Box sx={{ display: "flex", flexDirection: "column" }}>
-              <CartSummary cart={cart as PopulatedCartType} />
-              <ApplicableCoupons />
+    <Container maxWidth="xl" disableGutters={isMobile}>
+      <Box
+        sx={{
+          p: { xs: 2, sm: 3, md: 4 },
+          width: "100%",
+        }}
+      >
+        {/* Cart Header */}
+        <Box
+          sx={{
+            display: "flex",
+            gap: 1,
+            alignItems: "center",
+            mb: { xs: 2, sm: 3 },
+          }}
+        >
+          <ShoppingCart size={isMobile ? 28 : 40} />
+          <Typography variant={isMobile ? "h6" : "h5"}>Your Cart</Typography>
+          {cart?.items.length ? (
+            <Box sx={{ ml: "auto" }}>
+              <ClearCartButton />
             </Box>
-          </>
-        ) : (
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "center",
-              flex: 2,
-              height: "90vh",
-              width: "100%",
-            }}
-          >
-            <Typography variant="h3" color="textDisabled">
-              Your cart is empty
-            </Typography>
-            <Typography
-              variant="h4"
+          ) : null}
+        </Box>
+
+        {/* Cart Content */}
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: { xs: "column", md: "row" },
+            minWidth: { xs: "unset", md: 500 },
+          }}
+        >
+          {cart?.items.length ? (
+            <>
+              {/* Cart Items Section */}
+              <Stack
+                gap={2}
+                sx={{
+                  p: { xs: 2, sm: 3, md: 4 },
+                  flex: 2,
+                  backgroundColor: "background.paper",
+                  m: { xs: 0, sm: 1, md: 2 },
+                  mb: { xs: 2, md: 2 },
+                  height: "fit-content",
+                  borderRadius: 1,
+                  boxShadow: 1,
+                }}
+                divider={<Divider />}
+              >
+                {cart.items.map((item) => (
+                  <CartItemCard item={item} key={item.productId._id} />
+                ))}
+              </Stack>
+
+              {/* Cart Summary Section */}
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  width: { xs: "100%", md: "auto" },
+                }}
+              >
+                <CartSummary cart={cart as PopulatedCartType} />
+                <ApplicableCoupons />
+              </Box>
+            </>
+          ) : (
+            /* Empty Cart Message */
+            <Box
               sx={{
-                "&:hover": {
-                  cursor: "pointer",
-                  textDecoration: "underline",
-                },
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                flex: 2,
+                height: { xs: "60vh", sm: "70vh", md: "90vh" },
+                width: "100%",
               }}
             >
-              <Link to="/">Continue Shopping</Link>
-            </Typography>
-          </Box>
-        )}
+              <Typography
+                variant={isMobile ? "h4" : "h3"}
+                color="textDisabled"
+                align="center"
+              >
+                Your cart is empty
+              </Typography>
+              <Typography
+                variant={isMobile ? "h5" : "h4"}
+                align="center"
+                sx={{
+                  "&:hover": {
+                    cursor: "pointer",
+                    textDecoration: "underline",
+                  },
+                  mt: 2,
+                }}
+              >
+                <Link to="/">Continue Shopping</Link>
+              </Typography>
+            </Box>
+          )}
+        </Box>
       </Box>
-    </Box>
+    </Container>
   );
 };
 
 const CartSummary = ({ cart }: { cart: PopulatedCartType }) => {
-  // const totalItemsCount = cart.items.reduce((acc, item) => acc + item.quantity, 0);
   const [deleteCoupon, { isLoading }] = useDeleteCouponFromCartMutation();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
   let totalItemsCount = 0;
   let totalItemPrice = 0;
+
   for (let i = 0; i < cart.items.length; i++) {
     totalItemsCount += cart.items[i].quantity;
     totalItemPrice += cart.items[i].price * cart.items[i].quantity;
   }
+
   const couponDiscountAmount = totalItemPrice - cart.cartTotal;
   const navigate = useNavigate();
 
   const handleCheckoutClick = () => {
     navigate("/checkout");
   };
-  console.log(cart);
 
   return (
     <>
       <Stack
         gap={1}
         sx={{
-          p: 4,
+          p: { xs: 2, sm: 3, md: 4 },
           backgroundColor: "background.paper",
           height: "fit-content",
-          minWidth: 250,
-          flex: 0.5,
-          m: 2,
+          minWidth: { xs: "unset", md: 250 },
+          width: { xs: "100%", md: "auto" },
+          flex: { xs: "unset", md: 0.5 },
+          m: { xs: 0, sm: 1, md: 2 },
+          borderRadius: 1,
+          boxShadow: 1,
         }}
       >
-        <Typography variant="h6">
+        <Typography variant={isMobile ? "subtitle1" : "h6"}>
           Cart Summary{" "}
           <Typography variant="caption" color="textDisabled" noWrap>
             {`(${totalItemsCount} Item` +
@@ -127,8 +185,8 @@ const CartSummary = ({ cart }: { cart: PopulatedCartType }) => {
               ")"}
           </Typography>
         </Typography>
-        {/* Coupon section */}
-        {/* TODO: implement coupon deletion */}
+
+        {/* Coupon Section */}
         {cart.coupon && (
           <>
             <Typography variant="body2">
@@ -165,13 +223,20 @@ const CartSummary = ({ cart }: { cart: PopulatedCartType }) => {
             </Typography>
           </>
         )}
-        <Typography variant="body1">
+
+        {/* Total Price & Checkout Button */}
+        <Typography variant="body1" sx={{ mt: 1 }}>
           Total Price:{" "}
           <Box component="span" sx={{ fontWeight: "bold" }}>
             ₹ {cart.cartTotal}
           </Box>
         </Typography>
-        <Button variant="contained" onClick={handleCheckoutClick}>
+        <Button
+          variant="contained"
+          onClick={handleCheckoutClick}
+          size={isMobile ? "medium" : "large"}
+          sx={{ mt: 1 }}
+        >
           Checkout
         </Button>
       </Stack>
@@ -194,6 +259,7 @@ const ClearCartButton = () => {
       }
     }
   };
+
   return (
     <Typography
       variant="caption"
@@ -203,6 +269,7 @@ const ClearCartButton = () => {
           cursor: "pointer",
           textDecoration: "underline",
         },
+        display: "inline-block",
       }}
       onClick={handleClearCartClick}
     >
@@ -210,4 +277,5 @@ const ClearCartButton = () => {
     </Typography>
   );
 };
+
 export default CartPage;
