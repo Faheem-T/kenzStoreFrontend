@@ -18,9 +18,10 @@ import { z } from "zod";
 import { useRegisterMutation } from "../api/authApi";
 import { useState } from "react";
 import toast from "react-hot-toast";
-import { Link, useNavigate } from "react-router";
+import { Link } from "react-router";
 import { GoogleLoginButton } from "../utils/GoogleAuthProvider";
 import { Navbar } from "../components/Navbar";
+import OtpVerificationPage from "./OtpVerificationPage";
 
 // SHARED
 const registerSchema = z.object({
@@ -40,7 +41,7 @@ const registerSchema = z.object({
 export type registerFormValues = z.infer<typeof registerSchema>;
 const RegisterPage = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const navigate = useNavigate();
+  const [sentEmail, setSentEmail] = useState<null | string>(null);
   const form = useForm<registerFormValues>({
     defaultValues: {
       name: "",
@@ -70,7 +71,8 @@ const RegisterPage = () => {
     try {
       const { message } = await createRegisterMutation(data).unwrap();
       toast(message);
-      navigate("otp");
+      // navigate("otp");
+      setSentEmail(data.email);
     } catch (error: any) {
       console.log(error);
       error.data.issues.forEach(
@@ -83,6 +85,7 @@ const RegisterPage = () => {
       );
     }
   };
+  if (sentEmail) return <OtpVerificationPage email={sentEmail} />;
 
   return (
     <>

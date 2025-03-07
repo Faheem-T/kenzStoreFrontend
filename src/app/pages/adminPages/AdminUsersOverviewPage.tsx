@@ -1,6 +1,7 @@
 import {
   useBlockUserMutation,
   useGetUsersQuery,
+  usePurgeUserMutation,
 } from "@/app/api/userManagementApi";
 import LoadingComponent from "@/app/components/LoadingComponent";
 import {
@@ -13,13 +14,14 @@ import {
 } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 import { Check } from "@mui/icons-material";
-import { Box, Switch, Typography } from "@mui/material";
+import { Box, Button, Switch, Typography } from "@mui/material";
 import toast from "react-hot-toast";
 
 const AdminUsersOverviewPage = () => {
   const { data, isLoading } = useGetUsersQuery();
   const [createBlockUserMutation, { isLoading: isBlocking }] =
     useBlockUserMutation();
+  const [purgeUser, { isLoading: isPurging }] = usePurgeUserMutation();
 
   if (isLoading) return <LoadingComponent fullScreen />;
   if (!data) return <Box>Users not found!</Box>;
@@ -30,6 +32,11 @@ const AdminUsersOverviewPage = () => {
     const { data, error } = await createBlockUserMutation(userId);
     if (data?.success) toast.success(data.message);
     else toast.error((error as any)?.data?.message);
+  };
+
+  const handlePurgeUser = async (userId: string) => {
+    await purgeUser(userId);
+    toast.success("User has been purged successfully");
   };
 
   return (
@@ -72,6 +79,14 @@ const AdminUsersOverviewPage = () => {
                       onChange={() => handleBlockUserToggle(user._id)}
                     />
                   }
+                </TableCell>
+                <TableCell>
+                  <Button
+                    onClick={() => handlePurgeUser(user._id)}
+                    disabled={isPurging}
+                  >
+                    Purge User
+                  </Button>
                 </TableCell>
               </TableRow>
             ))}

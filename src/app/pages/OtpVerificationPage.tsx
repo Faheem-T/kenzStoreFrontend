@@ -9,16 +9,11 @@ import { useEffect, useRef, useState } from "react";
 
 const OtpSchema = z.object({
   otp: z.string().trim().nonempty("Please enter your OTP"),
-  email: z
-    .string()
-    .trim()
-    .nonempty("Email is required")
-    .email("Please enter a valid email"),
 });
 
 type OtpFormType = z.infer<typeof OtpSchema>;
 
-const OtpVerificationPage = () => {
+const OtpVerificationPage = ({ email }: { email: string }) => {
   const navigate = useNavigate();
   const [resendTimer, setResendTimer] = useState<number>(0);
   const timerId = useRef<NodeJS.Timeout>();
@@ -27,8 +22,6 @@ const OtpVerificationPage = () => {
     register,
     handleSubmit,
     formState: { errors },
-    getValues,
-    setError,
   } = form;
 
   const [createVerifyOtpMutation, { isLoading }] = useVerifyOtpMutation();
@@ -55,16 +48,6 @@ const OtpVerificationPage = () => {
   }, []);
 
   const handleResendOtp = async () => {
-    const email = getValues("email");
-    // validate email
-    if (!email) return setError("email", { message: "Email is required" });
-    const result = z
-      .string()
-      .email("Please enter a valid email")
-      .safeParse(email);
-    if (result.error?.message)
-      return setError("email", { message: result.error.message });
-
     // resend otp requset
     try {
       const { success, message } = await createResendOtpMutation({
@@ -83,8 +66,12 @@ const OtpVerificationPage = () => {
   };
 
   const submitHandler = async (data: OtpFormType) => {
+    console.log(email);
     try {
-      const { success, message } = await createVerifyOtpMutation(data).unwrap();
+      const { success, message } = await createVerifyOtpMutation({
+        ...data,
+        email,
+      }).unwrap();
       if (success) {
         toast.success(message);
         navigate("/login");
@@ -112,7 +99,7 @@ const OtpVerificationPage = () => {
         An OTP has been sent to your mail
       </Typography>
       <Typography variant="body1">
-        Please enter your email and the OTP to proceed.
+        Please enter the OTP that has been sent to your mail
       </Typography>
       <Stack
         gap={1}
@@ -120,14 +107,6 @@ const OtpVerificationPage = () => {
         noValidate
         onSubmit={handleSubmit(submitHandler)}
       >
-        <TextField
-          {...register("email")}
-          type="email"
-          label="Email"
-          variant="standard"
-          error={!!errors?.email}
-          helperText={errors?.email?.message}
-        />
         <TextField
           slotProps={{
             htmlInput: {

@@ -16,9 +16,6 @@ import UserRoutes from "./app/components/UserRoutes";
 import UnprotectedRoutes from "./app/components/UnprotectedRoutes";
 
 const RegisterPage = lazy(() => import("./app/pages/RegisterPage"));
-const OtpVerificationPage = lazy(
-  () => import("./app/pages/OtpVerificationPage")
-);
 const LoginPage = lazy(() => import("./app/pages/LoginPage"));
 const ForgotPasswordPage = lazy(() => import("./app/pages/ForgotPasswordPage"));
 const ResetPasswordPage = lazy(() => import("./app/pages/ResetPasswordPage"));
@@ -119,10 +116,6 @@ export const router = createBrowserRouter([
             element: <UnprotectedRoutes />,
             children: [
               { path: "/register", element: WrapinSuspense(<RegisterPage />) },
-              {
-                path: "/register/otp",
-                element: WrapinSuspense(<OtpVerificationPage />),
-              },
               { path: "/login", element: WrapinSuspense(<LoginPage />) },
               {
                 path: "/forgot-password",
