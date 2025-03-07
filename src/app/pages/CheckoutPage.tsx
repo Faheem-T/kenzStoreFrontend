@@ -1,4 +1,11 @@
-import { Box, Button, Divider, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Divider,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 import { CheckoutAddressSelectionSection } from "./pageSections/CheckoutAddressSelectionSection";
 import { useState } from "react";
 import {
@@ -23,6 +30,9 @@ const isOrderError = (error: unknown): error is PlaceOrderResponse => {
 
 const CheckoutPage = () => {
   const navigate = useNavigate();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+
   const [addressId, setAddressId] = useState<string>("");
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>("cod");
   const [errors, setErrors] = useState<CartValidationErrorType[]>([]);
@@ -44,7 +54,7 @@ const CheckoutPage = () => {
       if (data) {
         if (data.data?.razorpayOrder) {
           const { amount, currency, id } = data.data.razorpayOrder;
-          console.log("OrdorID", data.data.orderId);
+          console.log("OrderID", data.data.orderId);
           await displayRazorpay({
             amount,
             currency,
@@ -75,7 +85,7 @@ const CheckoutPage = () => {
       ) {
         toast.error(error.message);
       } else {
-        toast.error("An unexpected error occured");
+        toast.error("An unexpected error occurred");
       }
 
       console.log(error);
@@ -91,66 +101,149 @@ const CheckoutPage = () => {
   return (
     <>
       <Navbar />
-      <Box sx={{ py: 4, px: 16 }}>
-        <Typography variant="h4" textAlign="center" sx={{ mb: 4 }}>
+      <Box
+        sx={{
+          py: { xs: 2, sm: 3, md: 4 },
+          px: { xs: 2, sm: 4, md: 6, lg: 16 },
+          maxWidth: "1400px",
+          mx: "auto",
+        }}
+      >
+        <Typography
+          variant={isMobile ? "h5" : "h4"}
+          textAlign="center"
+          sx={{ mb: { xs: 2, sm: 3, md: 4 } }}
+        >
           Checkout
         </Typography>
-        <Box sx={{ display: "flex", gap: 2 }}>
-          <Box
-            sx={{ flex: 1, display: "flex", flexDirection: "column", gap: 2 }}
-          >
+
+        {/* Mobile Layout: Stacked */}
+        {isMobile ? (
+          <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
+            {/* Quick Order Summary for Mobile */}
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                gap: 2,
+                backgroundColor: "background.paper",
+                p: 2,
+                borderRadius: 1,
+                boxShadow: 1,
+              }}
+            >
+              <OrderSummary cart={cart}>
+                <OrderSummary.Total />
+              </OrderSummary>
+            </Box>
+
             {/* Address selection */}
             <CheckoutAddressSelectionSection
               addressId={addressId}
               setAddressId={setAddressId}
             />
+
             {/* Payment type selection */}
             <CheckoutPaymentSection
               paymentMethod={paymentMethod}
               setPaymentMethod={setPaymentMethod}
             />
-            {/* Order Summary */}
+
+            {/* Detailed Order Summary */}
             <OrderSummary cart={cart}>
               <OrderSummary.Items errors={errors} />
               <Box sx={{ p: 2, backgroundColor: "background.paper" }}>
                 <OrderSummary.Total />
               </Box>
             </OrderSummary>
+
             {/* Place Order Button */}
             <Button
               onClick={handleOrderPlacement}
               disabled={isOrderButtonDisabled}
               variant="contained"
+              size="large"
+              fullWidth
+              sx={{ py: 1.5 }}
             >
               Place Order
             </Button>
           </Box>
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              gap: 2,
-              backgroundColor: "background.paper",
-              p: 2,
-              height: "fit-content",
-              flex: 0.4,
-            }}
-          >
-            <Button
-              variant="contained"
-              onClick={handleOrderPlacement}
-              disabled={isOrderButtonDisabled}
+        ) : (
+          /* Desktop Layout: Side by Side */
+          <Box sx={{ display: "flex", gap: { sm: 2, md: 4 } }}>
+            {/* Left Column - Main Checkout Flow */}
+            <Box
+              sx={{ flex: 1, display: "flex", flexDirection: "column", gap: 2 }}
             >
-              Place Order
-            </Button>
-            <Divider />
-            <OrderSummary cart={cart}>
-              <OrderSummary.Total />
-            </OrderSummary>
+              {/* Address selection */}
+              <CheckoutAddressSelectionSection
+                addressId={addressId}
+                setAddressId={setAddressId}
+              />
+
+              {/* Payment type selection */}
+              <CheckoutPaymentSection
+                paymentMethod={paymentMethod}
+                setPaymentMethod={setPaymentMethod}
+              />
+
+              {/* Order Summary */}
+              <OrderSummary cart={cart}>
+                <OrderSummary.Items errors={errors} />
+                <Box sx={{ p: 2, backgroundColor: "background.paper" }}>
+                  <OrderSummary.Total />
+                </Box>
+              </OrderSummary>
+
+              {/* Place Order Button - Hidden on Desktop */}
+              <Box sx={{ display: { md: "none" } }}>
+                <Button
+                  onClick={handleOrderPlacement}
+                  disabled={isOrderButtonDisabled}
+                  variant="contained"
+                  fullWidth
+                >
+                  Place Order
+                </Button>
+              </Box>
+            </Box>
+
+            {/* Right Column - Order Summary */}
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                gap: 2,
+                backgroundColor: "background.paper",
+                p: 2,
+                height: "fit-content",
+                flex: { sm: 0.5, md: 0.4 },
+                borderRadius: 1,
+                boxShadow: 1,
+                position: "sticky",
+                top: 24,
+              }}
+            >
+              <Button
+                variant="contained"
+                onClick={handleOrderPlacement}
+                disabled={isOrderButtonDisabled}
+                size="large"
+                sx={{ py: 1.5 }}
+              >
+                Place Order
+              </Button>
+              <Divider />
+              <OrderSummary cart={cart}>
+                <OrderSummary.Total />
+              </OrderSummary>
+            </Box>
           </Box>
-        </Box>
+        )}
       </Box>
     </>
   );
 };
+
 export default CheckoutPage;
