@@ -153,8 +153,11 @@ const CartSummary = ({ cart }: { cart: PopulatedCartType }) => {
     totalItemsCount += cart.items[i].quantity;
     totalItemPrice += cart.items[i].price * cart.items[i].quantity;
   }
+  totalItemPrice = Math.floor(totalItemPrice * 100) / 100;
 
-  const couponDiscountAmount = totalItemPrice - cart.cartTotal;
+  const couponDiscountAmount =
+    Math.floor((totalItemPrice - cart.cartTotal) * 100) / 100;
+
   const navigate = useNavigate();
 
   const handleCheckoutClick = () => {
