@@ -100,12 +100,11 @@ const OrderRow = ({ order }: { order: GetUserOrder }) => {
       console.log(error);
     }
   };
+  const createdAt = dayjs(order.createdAt).format("D MMM YYYY HH:MM A");
+  const updatedAt = dayjs(order.updatedAt).format("D MMM YYYY HH:MM A");
 
-  const createdAt = new Date(order.createdAt).toDateString();
-  const updatedAt = new Date(order.updatedAt).toDateString();
-
-  const createdAtFromNow = dayjs(createdAt).fromNow();
-  const updatedAtFromNow = dayjs(updatedAt).fromNow();
+  const createdAtFromNow = dayjs(order.createdAt).fromNow();
+  const updatedAtFromNow = dayjs(order.updatedAt).fromNow();
 
   return (
     <TableRow className={cn(isLoading ? "opacity-80 bg-white" : "")}>
