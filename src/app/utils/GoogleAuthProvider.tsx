@@ -47,6 +47,7 @@ export const GoogleLoginButton = () => {
       if (data) {
         const { accessToken, user } = data.data;
         dispatch(userLoggedIn({ accessToken, user }));
+        toast.success("Logged in successfully");
       }
 
       if (error) {
