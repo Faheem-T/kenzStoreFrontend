@@ -8,9 +8,35 @@ interface ImageViewComponentProps {
 
 export const ImageViewComponent = ({ images }: ImageViewComponentProps) => {
   const [imageIndex, setImageIndex] = useState(0);
+  const [zoomInfo, setZoomInfo] = useState({
+    visible: false,
+    src: "",
+    x: 0,
+    y: 0,
+  });
+
+  const handleMouseHover = (
+    e: React.MouseEvent<HTMLImageElement, MouseEvent>
+  ) => {
+    const imgRect: DOMRect = (e.target as any).getBoundingClientRect();
+    const [x, y] = [e.clientX - imgRect.left, e.clientY - imgRect.top];
+    setZoomInfo((prev) => ({ ...prev, x, y }));
+  };
 
   const productImages = images.map((link, i) => (
-    <img src={link} key={i} width="80%" />
+    <Box
+      component="img"
+      src={link}
+      key={i}
+      width="80%"
+      onMouseMove={(e) => {
+        handleMouseHover(e);
+      }}
+      onMouseEnter={() =>
+        setZoomInfo((prev) => ({ ...prev, visible: true, src: link }))
+      }
+      onMouseLeave={() => setZoomInfo((prev) => ({ ...prev, visible: false }))}
+    />
   ));
 
   const handleNextClick = () => {
@@ -57,6 +83,19 @@ export const ImageViewComponent = ({ images }: ImageViewComponentProps) => {
       >
         {productImages[imageIndex]}
         <Box sx={{ width: "20%", display: "flex" }}>{imagePreview}</Box>
+        <Box
+          sx={{
+            width: "300px",
+            position: "absolute",
+            display: zoomInfo.visible ? "" : "none",
+            right: { xs: "25%", md: "-100%" },
+            bottom: { xs: "-50%", md: "0" },
+            border: 1,
+            height: "300px",
+            backgroundImage: `url(${zoomInfo.src})`,
+            backgroundPosition: `-${zoomInfo.x}px -${zoomInfo.y}px`,
+          }}
+        />
         {/* Previous and next buttons */}
         <IconButton
           onClick={handlePrevClick}
