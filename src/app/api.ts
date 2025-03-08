@@ -57,8 +57,17 @@ const baseQueryWithReauth: BaseQueryFn<
       // retry initial query
       result = await baseQuery(args, apiArg, extraOptions);
     } else {
-      apiArg.dispatch(loggedOut());
-      apiArg.dispatch(api.util.resetApiState());
+      const logoutResult = await baseQuery(
+        { url: "v1/auth/logout", method: "POST" },
+        apiArg,
+        extraOptions
+      );
+      if (logoutResult.data) {
+        apiArg.dispatch(loggedOut());
+      } else {
+        throw new Error("Something has gone terribly wrong bro");
+      }
+      // apiArg.dispatch(api.util.resetApiState());
     }
   }
   return result;

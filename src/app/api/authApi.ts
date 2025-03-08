@@ -50,10 +50,7 @@ export const authApi = api.injectEndpoints({
         url: "v1/auth/logout",
         method: "POST",
       }),
-      //   onQueryStarted: async (_, { dispatch }) => {
-      //     dispatch(loggedOut());
-      //   },
-      invalidatesTags: ["Auth"],
+      invalidatesTags: ["Auth", "Addresses", "Cart", "Wallet", "Wishlist"],
     }),
     forgotPassword: builder.mutation<
       baseResponseWithMessage,
